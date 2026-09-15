@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nutri">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Nutri — Suivi macros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface2:#F3F2EE; --text:#181917; --text-dim:#8B8A83;
+  --accent:#2E4A34; --accent-soft:#E7ECE4; --protein:#9C6B32; --protein-soft:#F2E9DA;
+  --danger:#AE4B3E; --danger-soft:#F5E7E4; --line:#E5E3DC; --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; -webkit-font-smoothing:antialiased;}
+body{padding-bottom:82px; min-height:100vh;}
+h1,h2,h3{font-family:'Fraunces',serif; font-weight:500; margin:0; letter-spacing:-0.01em;}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums;}
+.wrap{max-width:560px; margin:0 auto; padding:0 18px;}
+a{color:inherit;}
+svg{width:1em; height:1em; display:block; flex-shrink:0;}
+button{font-family:inherit; cursor:pointer;}
+input,select,textarea{font-family:inherit;}
+
+/* header */
+.topbar{padding:22px 0 14px;}
+.topbar .date{color:var(--text-dim); font-size:13px; margin-bottom:2px;}
+.topbar h1{font-size:26px;}
+
+/* dashboard */
+.metric-row{display:flex; gap:12px; margin:18px 0;}
+.metric{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 16px 14px;}
+.metric .label{color:var(--text-dim); font-size:12px; text-transform:none; margin-bottom:8px;}
+.metric .value{font-size:22px; font-weight:600;}
+.metric .value .sub{font-size:13px; color:var(--text-dim); font-weight:400;}
+.bar-track{height:5px; background:var(--surface2); border-radius:3px; margin-top:10px; overflow:hidden; position:relative;}
+.bar-fill{height:100%; border-radius:3px; transition:width .3s ease;}
+.bar-fill.kcal{background:var(--accent);}
+.bar-fill.prot{background:var(--protein);}
+.bar-fill.over{background:var(--danger);}
+
+.section-title{display:flex; align-items:center; justify-content:space-between; margin:28px 0 12px;}
+.section-title h2{font-size:16px; font-weight:500;}
+.section-title .hint{font-size:12px; color:var(--text-dim);}
+
+.weekbars{display:flex; gap:6px; align-items:flex-end; height:64px; margin:8px 0 4px;}
+.weekbars .col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; height:100%;}
+.weekbars .stick{width:100%; max-width:22px; border-radius:2px 2px 1px 1px; background:var(--surface2); position:relative;}
+.weekbars .stick .fill{position:absolute; bottom:0; left:0; right:0; border-radius:2px 2px 1px 1px; background:var(--accent);}
+.weekbars .day{font-size:10px; color:var(--text-dim);}
+
+.entry{display:flex; align-items:center; gap:12px; padding:13px 0; border-bottom:1px solid var(--line);}
+.entry:last-child{border-bottom:none;}
+.entry .dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+.entry .dot.recipe{background:var(--accent);}
+.entry .dot.ingredient{background:var(--protein);}
+.entry .dot.supplement{background:#7C6A93;}
+.entry .dot.custom{background:var(--text-dim);}
+.entry .info{flex:1; min-width:0;}
+.entry .info .name{font-size:14.5px; font-weight:500;}
+.entry .info .qty{font-size:12px; color:var(--text-dim); margin-top:1px;}
+.entry .macros{text-align:right; font-size:12.5px; color:var(--text-dim); flex-shrink:0;}
+.entry .macros .kc{color:var(--text); font-weight:600;}
+.entry .del{color:var(--text-dim); background:none; border:none; padding:4px 0 4px 10px; font-size:18px; line-height:1;}
+.empty{color:var(--text-dim); font-size:13.5px; padding:20px 0; text-align:center;}
+
+.fab-row{display:flex; gap:10px; margin-top:14px;}
+.btn{border:1px solid var(--line); background:var(--surface); color:var(--text); border-radius:2px; padding:13px 16px; font-size:14.5px; font-weight:500; text-align:center; flex:1;}
+.btn.primary{background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600;}
+.btn.ghost{background:none; border-color:transparent;}
+.btn.danger{color:var(--danger); border-color:var(--line);}
+.btn.small{padding:9px 12px; font-size:13px; flex:none;}
+.btn.full{width:100%;}
+
+/* tab bar */
+.tabbar{position:fixed; bottom:0; left:0; right:0; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); border-top:1px solid var(--line); display:flex; padding:8px 10px calc(8px + env(safe-area-inset-bottom));}
+.tabbar button{flex:1; background:none; border:none; color:var(--text-dim); font-size:11px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px 0;}
+.tabbar button.active{color:var(--accent);}
+.tabbar svg{width:21px; height:21px;}
+
+/* recipe library */
+.searchbar{display:flex; gap:8px; margin:16px 0 6px;}
+.searchbar input{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:11px 14px; color:var(--text); font-size:14.5px;}
+.searchbar input::placeholder{color:var(--text-dim);}
+.chiprow{display:flex; gap:7px; overflow-x:auto; padding:12px 0 4px; scrollbar-width:none;}
+.chiprow::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0; background:none; border:1px solid var(--line); color:var(--text-dim); padding:7px 13px; border-radius:100px; font-size:13px; white-space:nowrap;}
+.chip.active{background:var(--accent-soft); border-color:var(--accent); color:var(--accent);}
+
+.recipe-card{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid var(--line); gap:10px;}
+.recipe-card .name{font-size:15px; font-weight:500;}
+.recipe-card .tag{font-size:11.5px; color:var(--text-dim); margin-top:3px;}
+.recipe-card .m{text-align:right; font-size:12px; color:var(--text-dim); flex-shrink:0;}
+.recipe-card .m .kc{font-size:14.5px; color:var(--accent); font-weight:600; display:block;}
+
+/* detail / editor sheets */
+.sheet-header{display:flex; align-items:center; justify-content:space-between; padding:18px 0 6px;}
+.sheet-header .back{color:var(--text-dim); font-size:14px; background:none; border:none; padding:6px 0;}
+.field{margin:16px 0;}
+.field label{display:block; font-size:12.5px; color:var(--text-dim); margin-bottom:7px;}
+.field input, .field select{width:100%; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:12px 14px; color:var(--text); font-size:15px;}
+.ing-row{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line);}
+.ing-row .n{flex:1; font-size:14.5px;}
+.ing-row .g{width:64px; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:8px 8px; color:var(--text); font-size:14px; text-align:center;}
+.ing-row .u{font-size:12px; color:var(--text-dim); width:16px;}
+.ing-row .rm{color:var(--text-dim); background:none; border:none; font-size:17px; padding:4px 2px;}
+.macro-preview{display:flex; gap:10px; background:var(--surface2); border-radius:2px; padding:16px; margin:14px 0;}
+.macro-preview .m{flex:1; text-align:center;}
+.macro-preview .m .v{font-size:17px; font-weight:600;}
+.macro-preview .m .l{font-size:10.5px; color:var(--text-dim); margin-top:2px;}
+.autocomplete{position:relative;}
+.ac-list{position:absolute; top:calc(100% + 4px); left:0; right:0; background:#fff; border:1px solid var(--line); border-radius:2px; max-height:230px; overflow-y:auto; z-index:20; box-shadow:0 8px 24px rgba(0,0,0,.06);}
+.ac-item{padding:11px 14px; font-size:14px; border-bottom:1px solid var(--line);}
+.ac-item:last-child{border-bottom:none;}
+.ac-item .k{color:var(--text-dim); font-size:11.5px;}
+
+.modal-backdrop{position:fixed; inset:0; background:rgba(20,20,18,.4); z-index:40; display:flex; align-items:flex-end;}
+.modal{background:#fff; width:100%; max-height:88vh; overflow-y:auto; border-radius:16px 16px 0 0; padding:4px 18px 24px; border-top:1px solid var(--line);}
+.modal-handle{width:36px; height:4px; background:var(--line); border-radius:3px; margin:10px auto 4px;}
+
+.settings-row{display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid var(--line);}
+.settings-row .l{font-size:14.5px;}
+.settings-row .l .s{display:block; font-size:12px; color:var(--text-dim); margin-top:2px;}
+.settings-row input[type=number]{width:84px; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:9px 10px; color:var(--text); text-align:right; font-size:15px;}
+
+.stepper{display:flex; align-items:center; gap:10px;}
+.stepper button{width:32px; height:32px; border-radius:50%; background:var(--surface2); border:1px solid var(--line); color:var(--text); font-size:16px; display:flex; align-items:center; justify-content:center;}
+.stepper .v{min-width:44px; text-align:center; font-size:15px; font-weight:600;}
+
+.toast{position:fixed; bottom:92px; left:50%; transform:translateX(-50%); background:var(--text); color:#fff; padding:11px 18px; border-radius:100px; font-size:13.5px; z-index:60; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(-4px);}
+
+.time-badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--text-dim);}
+.time-badge svg{width:12px; height:12px;}
+.person-pills{display:flex; gap:8px; margin:10px 0;}
+.person-pill{flex:1; border:1px solid var(--line); border-radius:100px; padding:9px 10px; text-align:center; font-size:13.5px; color:var(--text-dim); background:none;}
+.person-pill.active{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600;}
+.person-switch{display:flex; gap:6px; margin-bottom:4px;}
+.person-switch button{flex:1; padding:8px 10px; border-radius:100px; border:1px solid var(--line); background:none; color:var(--text-dim); font-size:13px;}
+.person-switch button.active{background:var(--text); color:#fff; border-color:var(--text);}
+.roulette-wheel{text-align:center; padding:30px 10px; font-family:'Fraunces',serif; font-size:22px; min-height:100px; display:flex; align-items:center; justify-content:center;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+/* ============================= DATA: INGREDIENTS ============================= */
+/* k=kcal p=protéines c=glucides f=lipides, tous /100g ou /100ml sauf mention */
+const INGREDIENTS = [
+{id:'poulet-cru', n:'Blanc de poulet cru', k:120,p:22,c:0,f:3},
+{id:'poulet-cuisse-cru', n:'Cuisse de poulet crue (avec peau)', k:195,p:17,c:0,f:14},
+{id:'poulet-roti', n:'Poulet rôti (avec peau)', k:239,p:27,c:0,f:14},
+{id:'poulet-cuit', n:'Blanc de poulet cuit', k:165,p:31,c:0,f:3.6},
+{id:'dinde-cru', n:'Blanc de dinde cru', k:104,p:24,c:0,f:1},
+{id:'dinde-cuit', n:'Escalope de dinde cuite', k:150,p:30,c:0,f:3},
+{id:'boeuf-hache5', n:'Steak haché 5% cru', k:130,p:21,c:0,f:5},
+{id:'boeuf-hache15', n:'Steak haché 15% cru', k:215,p:19,c:0,f:15},
+{id:'boeuf-fauxfilet', n:'Faux-filet de bœuf cru', k:150,p:21,c:0,f:7},
+{id:'porc-filet', n:'Filet de porc cru', k:143,p:21,c:0,f:6},
+{id:'jambonblanc', n:'Jambon blanc', k:105,p:20,c:1,f:3},
+{id:'lardons', n:'Lardons', k:250,p:15,c:0,f:21},
+{id:'saumon-cru', n:'Saumon cru', k:208,p:20,c:0,f:14},
+{id:'cabillaud-cru', n:'Cabillaud cru', k:82,p:18,c:0,f:1},
+{id:'thon-boite', n:'Thon au naturel (boîte, égoutté)', k:116,p:26,c:0,f:1},
+{id:'thon-cru', n:'Thon cru', k:130,p:24,c:0,f:3},
+{id:'crevettes-cuites', n:'Crevettes cuites', k:99,p:21,c:0.5,f:1},
+{id:'oeuf', n:'Œuf entier', k:145,p:12.5,c:1,f:10},
+{id:'blanc-oeuf', n:'Blanc d\u2019œuf', k:48,p:11,c:0.7,f:0.2},
+{id:'tofu', n:'Tofu ferme', k:145,p:15,c:2,f:9},
+{id:'lentilles-cuites', n:'Lentilles cuites', k:116,p:9,c:20,f:0.4},
+{id:'poischiches-cuits', n:'Pois chiches cuits', k:164,p:9,c:27,f:2.6},
+{id:'haricotsrouges-cuits', n:'Haricots rouges cuits', k:127,p:9,c:23,f:0.5},
+{id:'fromageblanc0', n:'Fromage blanc 0%', k:45,p:8,c:4,f:0.2},
+{id:'skyr', n:'Skyr nature', k:63,p:11,c:4,f:0.2},
+{id:'yaourtgrec', n:'Yaourt grec nature', k:97,p:9,c:4,f:5},
+{id:'cottage', n:'Cottage cheese', k:98,p:11,c:3,f:4.3},
+{id:'emmental', n:'Emmental râpé', k:380,p:29,c:0,f:30},
+{id:'mozzarella', n:'Mozzarella', k:280,p:22,c:2,f:20},
+{id:'parmesan', n:'Parmesan râpé', k:400,p:35,c:4,f:28},
+{id:'jambondinde', n:'Jambon de dinde', k:100,p:18,c:2,f:2},
+{id:'riz-basmati-cru', n:'Riz basmati cru', k:350,p:8,c:77,f:1},
+{id:'riz-basmati-cuit', n:'Riz basmati cuit', k:120,p:2.8,c:26,f:0.3},
+{id:'riz-blanc-cru', n:'Riz blanc cru', k:355,p:7,c:79,f:0.6},
+{id:'riz-blanc-cuit', n:'Riz blanc cuit', k:130,p:2.4,c:28.6,f:0.2},
+{id:'riz-complet-cru', n:'Riz complet cru', k:350,p:7.5,c:74,f:2.5},
+{id:'riz-complet-cuit', n:'Riz complet cuit', k:123,p:2.7,c:26,f:1},
+{id:'pates-crues', n:'Pâtes crues', k:350,p:12,c:71,f:1.5},
+{id:'pates-cuites', n:'Pâtes cuites', k:158,p:5.8,c:31,f:0.9},
+{id:'quinoa-cru', n:'Quinoa cru', k:368,p:14,c:64,f:6},
+{id:'quinoa-cuit', n:'Quinoa cuit', k:120,p:4.4,c:21,f:1.9},
+{id:'pdt-crue', n:'Pomme de terre crue', k:77,p:2,c:17,f:0.1},
+{id:'pdt-cuite', n:'Pomme de terre cuite', k:87,p:2,c:20,f:0.1},
+{id:'pdt-sautee-canard', n:'Pommes de terre sautées (graisse de canard)', k:200,p:2.5,c:22,f:12},
+{id:'patatedouce-crue', n:'Patate douce crue', k:86,p:1.6,c:20,f:0.1},
+{id:'patatedouce-cuite', n:'Patate douce cuite', k:90,p:2,c:21,f:0.1},
+{id:'pain-complet', n:'Pain complet', k:250,p:9,c:41,f:3.5},
+{id:'pain-blanc', n:'Pain blanc / baguette', k:270,p:9,c:55,f:1},
+{id:'pain-mie-complet', n:'Pain de mie complet', k:240,p:9,c:40,f:4},
+{id:'avoine', n:'Flocons d\u2019avoine', k:375,p:13,c:60,f:7},
+{id:'semoule-cuite', n:'Semoule cuite', k:112,p:3.8,c:23,f:0.2},
+{id:'granola', n:'Granola / muesli', k:450,p:10,c:60,f:18},
+{id:'brocoli', n:'Brocoli', k:34,p:2.8,c:4,f:0.4},
+{id:'courgette', n:'Courgette', k:17,p:1.2,c:3,f:0.2},
+{id:'poivron', n:'Poivron', k:31,p:1,c:6,f:0.3},
+{id:'tomate', n:'Tomate', k:18,p:0.9,c:3.5,f:0.2},
+{id:'carotte', n:'Carotte', k:41,p:0.9,c:9.6,f:0.2},
+{id:'oignon', n:'Oignon', k:40,p:1.1,c:9,f:0.1},
+{id:'epinards', n:'Épinards', k:23,p:2.9,c:3.6,f:0.4},
+{id:'salade', n:'Salade verte', k:15,p:1.4,c:2.9,f:0.2},
+{id:'champignons', n:'Champignons de Paris', k:22,p:3,c:3.3,f:0.3},
+{id:'haricotsverts', n:'Haricots verts cuits', k:31,p:1.8,c:7,f:0.2},
+{id:'aubergine', n:'Aubergine', k:25,p:1,c:6,f:0.2},
+{id:'concombre', n:'Concombre', k:12,p:0.7,c:2,f:0.1},
+{id:'choufleur', n:'Chou-fleur', k:25,p:2,c:5,f:0.3},
+{id:'petitspois', n:'Petits pois cuits', k:81,p:5.4,c:14,f:0.4},
+{id:'avocat', n:'Avocat', k:160,p:2,c:9,f:15},
+{id:'ratatouille', n:'Ratatouille', k:62,p:1.5,c:6,f:3.5},
+{id:'carottes-creme', n:'Carottes à la crème', k:95,p:1.5,c:9,f:5.5},
+{id:'gratin-dauphinois', n:'Gratin dauphinois', k:175,p:3.5,c:16,f:11},
+{id:'banane', n:'Banane', k:89,p:1.1,c:23,f:0.3},
+{id:'pomme', n:'Pomme', k:52,p:0.3,c:14,f:0.2},
+{id:'orange', n:'Orange', k:47,p:0.9,c:12,f:0.1},
+{id:'fraises', n:'Fraises', k:32,p:0.7,c:7.7,f:0.3},
+{id:'myrtilles', n:'Myrtilles', k:57,p:0.7,c:14,f:0.3},
+{id:'raisin', n:'Raisin', k:69,p:0.7,c:18,f:0.2},
+{id:'kiwi', n:'Kiwi', k:61,p:1.1,c:15,f:0.5},
+{id:'ananas', n:'Ananas', k:50,p:0.5,c:13,f:0.1},
+{id:'huile-olive', n:'Huile d\u2019olive', k:900,p:0,c:0,f:100},
+{id:'huile-sesame', n:'Huile de sésame', k:900,p:0,c:0,f:100},
+{id:'huile-coco', n:'Huile de coco', k:900,p:0,c:0,f:100},
+{id:'graisse-canard', n:'Graisse de canard', k:900,p:0,c:0,f:100},
+{id:'beurre', n:'Beurre', k:750,p:0.6,c:0.5,f:82},
+{id:'beurrecacahuete', n:'Beurre de cacahuète', k:590,p:25,c:15,f:50},
+{id:'amandes', n:'Amandes', k:580,p:21,c:20,f:50},
+{id:'noix', n:'Noix', k:650,p:15,c:14,f:65},
+{id:'cajou', n:'Noix de cajou', k:570,p:18,c:30,f:44},
+{id:'lait-demi', n:'Lait demi-écrémé', k:46,p:3.3,c:4.8,f:1.6},
+{id:'lait-entier', n:'Lait entier', k:64,p:3.2,c:4.8,f:3.6},
+{id:'lait-amande', n:'Lait d\u2019amande', k:24,p:0.5,c:3,f:1.1},
+{id:'lait-coco', n:'Lait de coco (conserve/cuisine)', k:200,p:2,c:3,f:20},
+{id:'lait-coco-leger', n:'Lait de coco Kara bio', k:178,p:1.5,c:3,f:18},
+{id:'saucesoja', n:'Sauce soja', k:70,p:8,c:6,f:0.1},
+{id:'ketchup', n:'Ketchup', k:100,p:1.2,c:24,f:0.2},
+{id:'moutarde', n:'Moutarde', k:75,p:4,c:5,f:4},
+{id:'mayonnaise', n:'Mayonnaise', k:680,p:1,c:1,f:75},
+{id:'vinaigrebalsa', n:'Vinaigre balsamique', k:88,p:0.5,c:17,f:0},
+{id:'miel', n:'Miel', k:304,p:0.3,c:82,f:0},
+{id:'siroperable', n:'Sirop d\u2019érable', k:260,p:0,c:67,f:0},
+{id:'ail', n:'Ail', k:149,p:6.4,c:33,f:0.5},
+{id:'gingembre', n:'Gingembre frais', k:80,p:1.8,c:18,f:0.8},
+{id:'citron', n:'Citron', k:29,p:1.1,c:9,f:0.3},
+{id:'farine', n:'Farine de blé', k:364,p:10,c:76,f:1},
+{id:'chocolatnoir', n:'Chocolat noir 70%', k:598,p:7.8,c:46,f:43},
+{id:'cacao', n:'Cacao en poudre non sucré', k:228,p:20,c:12,f:14},
+{id:'cremeepaisse', n:'Crème fraîche épaisse', k:300,p:2.2,c:3,f:30},
+{id:'cremelegere', n:'Crème fraîche légère', k:155,p:3,c:4,f:15},
+{id:'compote', n:'Compote de pommes sans sucre', k:55,p:0.3,c:13,f:0.1},
+{id:'confiture', n:'Confiture', k:250,p:0.3,c:62,f:0.1},
+{id:'nutella', n:'Pâte à tartiner chocolat-noisette', k:539,p:6,c:57,f:31},
+{id:'painchoco', n:'Pain au chocolat (boulangerie)', k:420,p:7,c:45,f:23},
+{id:'painchocoamande', n:'Pain au chocolat aux amandes', k:470,p:8,c:45,f:28},
+{id:'cocazero', n:'Coca Zéro', k:0.4,p:0,c:0,f:0},
+{id:'houmous', n:'Houmous', k:250,p:8,c:14,f:18},
+{id:'coulistomate', n:'Coulis / sauce tomate', k:35,p:1.5,c:6,f:0.3},
+{id:'vinaigrette', n:'Vinaigrette (huile+vinaigre)', k:400,p:0,c:2,f:43},
+{id:'feta', n:'Feta', k:270,p:14,c:4,f:22},
+{id:'olives', n:'Olives noires', k:115,p:1,c:6,f:11},
+{id:'saumonfume', n:'Saumon fumé', k:117,p:18,c:0,f:4},
+{id:'fromagefrais', n:'Fromage frais à tartiner (type Philadelphia)', k:245,p:5.5,c:4,f:23},
+{id:'tortilla', n:'Tortilla de blé', k:310,p:8,c:52,f:7},
+{id:'lentillescorail-cuites', n:'Lentilles corail cuites', k:100,p:7.5,c:17,f:0.4},
+{id:'pain-burger', n:'Pain à burger', k:280,p:9,c:50,f:5},
+{id:'concentretomate', n:'Concentré de tomate', k:82,p:4.3,c:15,f:0.5},
+{id:'champignons-cuits', n:'Champignons de Paris cuits', k:29,p:3.6,c:2.3,f:0.6},
+];
+
+/* ============================= DATA: SUPPLÉMENTS ============================= */
+const SUPPLEMENTS_BASE = [
+{id:'whey-hsn', n:'Whey HSN — 1 dose (~30 g)', brand:'HSN', k:125,p:25,c:2,f:1.5},
+{id:'whey-isolat-hsn', n:'Whey Isolate HSN — 1 dose (~30 g)', brand:'HSN', k:112,p:25,c:1,f:0.5},
+{id:'whey-generique', n:'Whey générique — 1 dose (~30 g)', brand:'Autre', k:120,p:24,c:3,f:1.5},
+{id:'creatine-hsn', n:'Créatine monohydrate HSN — 1 dose (~3,5 g)', brand:'HSN', k:0,p:0,c:0,f:0},
+];
+
+/* ============================= DATA: RECETTES ============================= */
+/* cat: petit-dej | dejeuner | collation | dessert  — ing: [{id, g}] (g = grammes ou ml) */
+const RECIPES = [
+// --- PETIT-DÉJEUNER ---
+{id:'r-omelette-fromage', n:'Omelette 3 œufs, fromage', cat:'petit-dej', ing:[{id:'oeuf',g:165},{id:'emmental',g:25}], steps:'Battre les œufs, verser dans une poêle chaude légèrement huilée. Ajouter le fromage râpé aux 3/4 de la cuisson, replier en deux.', t:12},
+{id:'r-porridge-whey', n:'Porridge avoine, whey, banane', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'lait-demi',g:200},{id:'banane',g:60},{id:'whey-hsn',g:1}], steps:'Faire chauffer l\u2019avoine avec le lait 4-5 min en remuant jusqu\u2019à absorption. Hors du feu, incorporer la whey et la banane écrasée ou coupée.', t:7},
+{id:'r-pancakes-proteines', n:'Pancakes protéinés (avoine, œuf, banane)', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'oeuf',g:110},{id:'banane',g:100}], steps:'Mixer tous les ingrédients ensemble jusqu\u2019à obtenir une pâte lisse. Cuire par petites louches 2 min de chaque côté dans une poêle légèrement huilée.', t:12},
+{id:'r-yaourt-fruits-miel', n:'Yaourt grec, fruits rouges, miel', cat:'petit-dej', ing:[{id:'yaourtgrec',g:200},{id:'fraises',g:100},{id:'miel',g:15}], steps:'Couper les fraises, mélanger avec le yaourt et filer de miel par-dessus.', t:7},
+{id:'r-skyr-granola', n:'Skyr, granola, myrtilles', cat:'petit-dej', ing:[{id:'skyr',g:200},{id:'granola',g:40},{id:'myrtilles',g:60}], steps:'Verser le skyr dans un bol, parsemer de granola et de myrtilles juste avant de servir pour garder le croquant.', t:7},
+{id:'r-oeufs-brouilles-avocat', n:'Œufs brouillés, pain complet, avocat', cat:'petit-dej', ing:[{id:'oeuf',g:150},{id:'pain-complet',g:60},{id:'avocat',g:60},{id:'beurre',g:5}], steps:'Cuire les œufs battus à feu doux dans le beurre en remuant sans arrêt pour une texture crémeuse. Servir sur le pain grillé avec l\u2019avocat écrasé.', t:12},
+{id:'r-toast-avocat-oeuf', n:'Toast avocat, œuf poché', cat:'petit-dej', ing:[{id:'pain-complet',g:70},{id:'avocat',g:80},{id:'oeuf',g:55}], steps:'Pocher l\u2019œuf 3 min dans l\u2019eau frémissante vinaigrée. Tartiner le pain grillé d\u2019avocat écrasé et déposer l\u2019œuf dessus.', t:12},
+{id:'r-smoothie-proteine', n:'Smoothie banane, whey, beurre de cacahuète', cat:'petit-dej', ing:[{id:'banane',g:120},{id:'lait-demi',g:250},{id:'beurrecacahuete',g:15}], steps:'Mixer tous les ingrédients ensemble jusqu\u2019à texture lisse.', t:5},
+{id:'r-bowl-fromageblanc', n:'Bowl fromage blanc, fruits rouges, amandes', cat:'petit-dej', ing:[{id:'fromageblanc0',g:200},{id:'fraises',g:80},{id:'amandes',g:15}], steps:'Verser le fromage blanc dans un bol, ajouter les fraises coupées et les amandes concassées.', t:7},
+{id:'r-tartine-jambon-fromage', n:'Pain complet, jambon, fromage', cat:'petit-dej', ing:[{id:'pain-complet',g:80},{id:'jambonblanc',g:60},{id:'emmental',g:30}], steps:'Assembler simplement, ou passer 2 min sous le grill pour faire fondre le fromage.', t:7},
+{id:'r-porridge-choco', n:'Porridge cacao, lait, banane', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'lait-demi',g:200},{id:'cacao',g:10},{id:'banane',g:80}], steps:'Faire chauffer l\u2019avoine, le lait et le cacao 4-5 min en remuant. Servir avec la banane coupée par-dessus.', t:7},
+{id:'r-oeufs-toast-simple', n:'2 œufs au plat, pain complet', cat:'petit-dej', ing:[{id:'oeuf',g:110},{id:'pain-complet',g:60},{id:'beurre',g:8}], steps:'Cuire les œufs au plat dans le beurre 2-3 min selon la cuisson souhaitée du jaune.', t:12},
+{id:'r-oeufs-saumonfume', n:'Œufs brouillés, saumon fumé, pain complet', cat:'petit-dej', ing:[{id:'oeuf',g:110},{id:'saumonfume',g:60},{id:'pain-complet',g:50}], steps:'Cuire les œufs brouillés à feu doux. Servir avec le saumon fumé et le pain grillé à côté.', t:12},
+{id:'r-overnight-oats', n:'Overnight oats (avoine, yaourt, fruits)', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'yaourtgrec',g:150},{id:'lait-demi',g:100},{id:'myrtilles',g:60}], steps:'Mélanger tous les ingrédients sauf les fruits dans un pot, couvrir et laisser au frigo toute la nuit. Ajouter les fruits le matin.', t:8},
+{id:'r-croque-proteine', n:'Croque-monsieur protéiné (dinde, fromage)', cat:'petit-dej', ing:[{id:'pain-mie-complet',g:70},{id:'jambondinde',g:60},{id:'emmental',g:30}], steps:'Assembler le sandwich et cuire 3-4 min de chaque côté à la poêle ou au grille-pain jusqu\u2019à ce que le fromage fonde.', t:12},
+{id:'r-pain-perdu-proteine', n:'Pain perdu protéiné', cat:'petit-dej', ing:[{id:'pain-mie-complet',g:70},{id:'oeuf',g:110},{id:'lait-demi',g:60},{id:'miel',g:10}], steps:'Battre l\u2019œuf avec le lait, y tremper les tranches de pain, cuire 2 min de chaque côté à la poêle. Napper de miel.', t:12},
+{id:'r-smoothiebowl', n:'Smoothie bowl yaourt, fruits, granola', cat:'petit-dej', ing:[{id:'yaourtgrec',g:180},{id:'banane',g:100},{id:'myrtilles',g:60},{id:'granola',g:30}], steps:'Mixer le yaourt avec la moitié de la banane et des myrtilles. Verser dans un bol, garnir avec le reste des fruits et le granola.', t:5},
+{id:'r-wrap-petitdej', n:'Wrap œuf, fromage', cat:'petit-dej', ing:[{id:'tortilla',g:60},{id:'oeuf',g:110},{id:'emmental',g:25}], steps:'Cuire l\u2019œuf brouillé, le déposer avec le fromage sur la tortilla tiédie, rouler serré.', t:12},
+{id:'r-fromagefrais-saumon', n:'Tartine fromage frais, saumon fumé', cat:'petit-dej', ing:[{id:'pain-complet',g:60},{id:'fromagefrais',g:40},{id:'saumonfume',g:50}], steps:'Tartiner le pain de fromage frais, déposer le saumon fumé par-dessus.', t:7},
+
+// --- POULET / DINDE ---
+{id:'r-poulet-riz-brocoli', n:'Poulet, riz, brocoli', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'riz-basmati-cuit',g:200},{id:'brocoli',g:150},{id:'huile-olive',g:8}], steps:'Cuire le riz. Faire dorer le poulet coupé en morceaux dans l\u2019huile 8-10 min. Cuire le brocoli à la vapeur 5-6 min. Assembler.', t:15},
+{id:'r-poulet-curry-coco', n:'Poulet, riz, curry lait de coco', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'riz-basmati-cuit',g:200},{id:'lait-coco',g:100},{id:'oignon',g:60}], steps:'Faire revenir l\u2019oignon émincé, ajouter le poulet en morceaux et saisir 5 min. Verser le lait de coco, mijoter 10-15 min à couvert. Servir sur le riz.', t:30},
+{id:'r-poulet-quinoa-legumes', n:'Poulet, quinoa, légumes rôtis', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'quinoa-cuit',g:180},{id:'courgette',g:100},{id:'poivron',g:80},{id:'huile-olive',g:8}], steps:'Rôtir les légumes coupés au four 20 min avec l\u2019huile (200°C). Poêler le poulet 8-10 min à part. Servir sur le quinoa.', t:30},
+{id:'r-salade-poulet-avocat', n:'Salade poulet, avocat, tomate', cat:'dejeuner', ing:[{id:'poulet-cuit',g:150},{id:'avocat',g:70},{id:'tomate',g:100},{id:'salade',g:60},{id:'huile-olive',g:8}], steps:'Couper tous les ingrédients, mélanger dans un saladier avec un filet d\u2019huile.', t:10},
+{id:'r-wrap-poulet', n:'Wrap poulet, crudités', cat:'dejeuner', ing:[{id:'poulet-cuit',g:130},{id:'pain-blanc',g:70},{id:'salade',g:30},{id:'tomate',g:50},{id:'mayonnaise',g:12}], steps:'Garnir la tortilla ou le pain avec les ingrédients, rouler ou refermer.', t:15},
+{id:'r-poulet-patatedouce', n:'Poulet rôti, patate douce', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:180},{id:'patatedouce-cuite',g:220},{id:'haricotsverts',g:100}], steps:'Rôtir la cuisse de poulet au four 30-35 min à 200°C. Cuire la patate douce et les haricots verts à la vapeur en parallèle.', t:40},
+{id:'r-poulet-pates-tomate', n:'Poulet, pâtes, sauce tomate', cat:'dejeuner', ing:[{id:'poulet-cru',g:140},{id:'pates-cuites',g:220},{id:'coulistomate',g:100},{id:'parmesan',g:15}], steps:'Poêler le poulet coupé en dés 8 min, ajouter le coulis et mijoter 5 min. Mélanger avec les pâtes cuites, parsemer de parmesan.', t:25},
+{id:'r-dinde-riz-legumes', n:'Dinde, riz, légumes sautés', cat:'dejeuner', ing:[{id:'dinde-cru',g:150},{id:'riz-basmati-cuit',g:200},{id:'poivron',g:80},{id:'courgette',g:80},{id:'huile-sesame',g:6}], steps:'Faire sauter la dinde en lamelles et les légumes dans l\u2019huile de sésame à feu vif 8-10 min. Servir sur le riz.', t:20},
+{id:'r-poulet-sesame-soja', n:'Poulet sauté, riz, sésame et sauce soja', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'riz-basmati-cuit',g:200},{id:'huile-sesame',g:8},{id:'saucesoja',g:20},{id:'oignon',g:50}], steps:'Faire revenir l\u2019oignon puis le poulet en morceaux dans l\u2019huile de sésame 8-10 min. Déglacer à la sauce soja en fin de cuisson. Servir sur le riz.', t:20},
+{id:'r-poulet-fajitas', n:'Poulet fajitas, poivrons, tortilla', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'pain-blanc',g:80},{id:'poivron',g:120},{id:'oignon',g:60},{id:'huile-olive',g:8}], steps:'Faire sauter le poulet en lanières avec le poivron et l\u2019oignon dans l\u2019huile 10 min à feu vif. Garnir les tortillas chaudes.', t:20},
+{id:'r-cuisse-poulet-pdt', n:'Cuisse de poulet rôtie, pommes de terre', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'pdt-cuite',g:250},{id:'haricotsverts',g:100}], steps:'Rôtir la cuisse au four 35 min à 200°C. Réchauffer les pommes de terre et cuire les haricots verts à la vapeur.', t:40},
+{id:'r-poulet-riz-cantonais', n:'Riz cantonais poulet, œuf, petits pois', cat:'dejeuner', ing:[{id:'poulet-cuit',g:120},{id:'riz-basmati-cuit',g:220},{id:'oeuf',g:55},{id:'petitspois',g:60},{id:'saucesoja',g:15}], steps:'Faire cuire l\u2019œuf brouillé à part et réserver. Sauter le riz avec le poulet et les petits pois 5 min, ajouter l\u2019œuf et la sauce soja.', t:20},
+{id:'r-poulet-houmous', n:'Poulet grillé, houmous, quinoa', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'houmous',g:60},{id:'quinoa-cuit',g:150},{id:'concombre',g:80}], steps:'Griller le poulet à la poêle 8-10 min. Servir sur le quinoa avec le houmous et le concombre en dés.', t:20},
+{id:'r-formule-poulet-ratatouille', n:'Formule poulet + ratatouille (Rôtisserie)', cat:'dejeuner', ing:[{id:'poulet-roti',g:200},{id:'ratatouille',g:300}], steps:'Plat tout prêt (rôtisserie) \u2014 réchauffer si besoin et servir.', t:5},
+{id:'r-demi-poulet-fermier', n:'1/2 poulet fermier rôti', cat:'dejeuner', ing:[{id:'poulet-roti',g:375}], steps:'Plat tout prêt (rôtisserie) \u2014 réchauffer si besoin.', t:5},
+{id:'r-dinde-patates-douces', n:'Escalope de dinde, purée patate douce', cat:'dejeuner', ing:[{id:'dinde-cru',g:160},{id:'patatedouce-cuite',g:220},{id:'epinards',g:100}], steps:'Poêler l\u2019escalope 5-6 min de chaque côté. Écraser la patate douce cuite en purée, faire tomber les épinards 2 min à la poêle.', t:20},
+{id:'r-poulet-tikka', n:'Poulet tikka masala, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'coulistomate',g:120},{id:'lait-coco',g:80},{id:'riz-basmati-cuit',g:200}], steps:'Saisir le poulet en morceaux 5 min. Ajouter le coulis de tomate et le lait de coco, mijoter 12-15 min à couvert. Servir sur le riz.', t:30},
+{id:'r-poulet-basquaise', n:'Poulet basquaise, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'poivron',g:120},{id:'tomate',g:100},{id:'riz-basmati-cuit',g:180}], steps:'Faire dorer le poulet, ajouter poivrons et tomate coupés, mijoter à couvert 20 min. Servir sur le riz.', t:30},
+{id:'r-salade-cesar', n:'Salade César poulet', cat:'dejeuner', ing:[{id:'poulet-cuit',g:150},{id:'salade',g:80},{id:'parmesan',g:20},{id:'mayonnaise',g:15},{id:'pain-complet',g:30}], steps:'Couper le poulet et le pain grillé en morceaux, mélanger avec la salade, le parmesan et la sauce.', t:10},
+{id:'r-bowl-mediterraneen', n:'Bowl méditerranéen (poulet, feta, olives)', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'quinoa-cuit',g:150},{id:'feta',g:40},{id:'olives',g:20},{id:'concombre',g:80}], steps:'Griller le poulet à la poêle 8-10 min. Dresser sur le quinoa avec la feta émiettée, les olives et le concombre.', t:20},
+{id:'r-sandwich-poulet-avocat', n:'Sandwich poulet, avocat', cat:'dejeuner', ing:[{id:'poulet-cuit',g:130},{id:'pain-complet',g:80},{id:'avocat',g:60},{id:'salade',g:20}], steps:'Garnir le pain avec le poulet effiloché, l\u2019avocat écrasé et la salade.', t:15},
+{id:'r-chili-dinde', n:'Chili de dinde, haricots rouges', cat:'dejeuner', ing:[{id:'dinde-cru',g:150},{id:'haricotsrouges-cuits',g:180},{id:'coulistomate',g:120}], steps:'Faire revenir la dinde hachée ou en dés 5 min, ajouter haricots rouges et coulis, mijoter 15 min.', t:30},
+{id:'r-dinde-champignons-creme', n:'Escalope de dinde, champignons, crème légère', cat:'dejeuner', ing:[{id:'dinde-cru',g:160},{id:'champignons-cuits',g:150},{id:'cremelegere',g:40},{id:'riz-basmati-cuit',g:180}], steps:'Poêler l\u2019escalope 5-6 min de chaque côté et réserver. Faire revenir les champignons, ajouter la crème, remettre la dinde 2 min. Servir sur le riz.', t:20},
+
+// --- VIANDE ROUGE ---
+{id:'r-steak-riz-haricots', n:'Steak haché, riz, haricots verts', cat:'dejeuner', ing:[{id:'boeuf-hache5',g:150},{id:'riz-basmati-cuit',g:200},{id:'haricotsverts',g:120}], steps:'Poêler le steak haché 3-4 min de chaque côté selon la cuisson voulue. Servir avec le riz et les haricots verts réchauffés.', t:20},
+{id:'r-chili-con-carne', n:'Chili con carne, riz', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:150},{id:'haricotsrouges-cuits',g:150},{id:'coulistomate',g:100},{id:'riz-basmati-cuit',g:150}], steps:'Faire revenir le bœuf haché 5 min, ajouter haricots rouges et coulis de tomate, mijoter 15 min. Servir sur le riz.', t:30},
+{id:'r-steak-patatedouce', n:'Steak, patate douce, salade', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:170},{id:'patatedouce-cuite',g:200},{id:'salade',g:50}], steps:'Saisir le steak 2-3 min de chaque côté à feu vif, laisser reposer 3 min. Servir avec la patate douce et la salade.', t:20},
+{id:'r-boeuf-legumes-sautes', n:'Bœuf sauté, légumes, riz', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:150},{id:'poivron',g:100},{id:'oignon',g:60},{id:'riz-basmati-cuit',g:180},{id:'huile-sesame',g:6}], steps:'Couper le bœuf en fines lamelles, faire sauter à feu vif avec les légumes dans l\u2019huile de sésame 5-6 min. Servir sur le riz.', t:20},
+{id:'r-bolognaise', n:'Bolognaise, pâtes complètes', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:150},{id:'coulistomate',g:150},{id:'pates-cuites',g:220},{id:'parmesan',g:15}], steps:'Faire revenir le bœuf haché, ajouter le coulis de tomate, mijoter 15-20 min. Mélanger avec les pâtes, parsemer de parmesan.', t:30},
+{id:'r-porc-pommesdeterre', n:'Filet de porc, pommes de terre, légumes', cat:'dejeuner', ing:[{id:'porc-filet',g:160},{id:'pdt-cuite',g:220},{id:'carotte',g:100}], steps:'Poêler le filet de porc 6-8 min de chaque côté. Servir avec les pommes de terre et les carottes réchauffées ou vapeur.', t:20},
+{id:'r-burger-maison', n:'Burger maison (steak, pain, fromage)', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:150},{id:'pain-burger',g:90},{id:'emmental',g:25},{id:'salade',g:20},{id:'ketchup',g:15}], steps:'Former un steak avec le haché, poêler 3-4 min de chaque côté avec le fromage dessus en fin de cuisson. Assembler dans le pain avec salade et ketchup.', t:20},
+{id:'r-boeuf-stroganoff', n:'Bœuf stroganoff, riz', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:150},{id:'champignons-cuits',g:120},{id:'cremelegere',g:50},{id:'riz-basmati-cuit',g:180}], steps:'Saisir le bœuf en lanières 2-3 min, réserver. Faire revenir les champignons, ajouter la crème et remettre le bœuf 2 min. Servir sur le riz.', t:20},
+{id:'r-boeuf-champignons-riz', n:'Poêlée de bœuf, champignons, riz', cat:'dejeuner', ing:[{id:'boeuf-hache5',g:150},{id:'champignons-cuits',g:150},{id:'riz-basmati-cuit',g:180},{id:'huile-olive',g:6}], steps:'Faire revenir le bœuf haché et les champignons ensemble dans l\u2019huile 8 min. Servir sur le riz.', t:20},
+{id:'r-porc-riz-sauce-soja', n:'Filet de porc, riz, sauce soja', cat:'dejeuner', ing:[{id:'porc-filet',g:160},{id:'riz-basmati-cuit',g:200},{id:'saucesoja',g:20},{id:'gingembre',g:5}], steps:'Poêler le porc en lamelles avec le gingembre râpé 6-8 min, déglacer à la sauce soja en fin de cuisson. Servir sur le riz.', t:20},
+
+// --- POISSON ---
+{id:'r-saumon-riz-brocoli', n:'Saumon, riz, brocoli', cat:'dejeuner', ing:[{id:'saumon-cru',g:150},{id:'riz-basmati-cuit',g:180},{id:'brocoli',g:150}], steps:'Poêler ou cuire au four le saumon 10-12 min. Cuire le brocoli à la vapeur 5-6 min. Servir avec le riz.', t:30},
+{id:'r-cabillaud-legumes-vapeur', n:'Cabillaud, légumes vapeur, pommes de terre', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:180},{id:'pdt-cuite',g:200},{id:'courgette',g:120}], steps:'Cuire le cabillaud à la vapeur ou au four 10-12 min. Cuire la courgette à la vapeur, réchauffer les pommes de terre.', t:30},
+{id:'r-thon-pates-tomate', n:'Thon, pâtes, sauce tomate', cat:'dejeuner', ing:[{id:'thon-boite',g:140},{id:'pates-cuites',g:220},{id:'coulistomate',g:100}], steps:'Chauffer le coulis de tomate avec le thon émietté 5 min. Mélanger avec les pâtes cuites.', t:10},
+{id:'r-salade-thon-oeuf', n:'Salade thon, œuf dur, tomate', cat:'dejeuner', ing:[{id:'thon-boite',g:120},{id:'oeuf',g:110},{id:'tomate',g:100},{id:'salade',g:50},{id:'huile-olive',g:8}], steps:'Cuire l\u2019œuf dur 9-10 min, refroidir et écaler. Mélanger tous les ingrédients avec un filet d\u2019huile.', t:15},
+{id:'r-saumon-quinoa-avocat', n:'Saumon, quinoa, avocat', cat:'dejeuner', ing:[{id:'saumon-cru',g:150},{id:'quinoa-cuit',g:150},{id:'avocat',g:60}], steps:'Poêler ou cuire au four le saumon 10-12 min. Servir sur le quinoa avec l\u2019avocat en tranches.', t:30},
+{id:'r-poke-bowl-thon', n:'Poke bowl thon, riz, avocat, edamame', cat:'dejeuner', ing:[{id:'thon-cru',g:150},{id:'riz-basmati-cuit',g:180},{id:'avocat',g:60},{id:'petitspois',g:60},{id:'saucesoja',g:15}], steps:'Couper le thon cru en dés, mariner rapidement dans un peu de sauce soja. Dresser sur le riz avec avocat et petits pois.', t:15},
+{id:'r-crevettes-riz-saute', n:'Crevettes sautées, riz, légumes', cat:'dejeuner', ing:[{id:'crevettes-cuites',g:180},{id:'riz-basmati-cuit',g:200},{id:'poivron',g:80},{id:'huile-sesame',g:8},{id:'saucesoja',g:15}], steps:'Faire sauter le poivron dans l\u2019huile de sésame 3-4 min, ajouter les crevettes 2-3 min pour réchauffer. Déglacer à la sauce soja, servir sur le riz.', t:20},
+{id:'r-saumon-teriyaki', n:'Saumon teriyaki, riz, brocoli', cat:'dejeuner', ing:[{id:'saumon-cru',g:160},{id:'saucesoja',g:20},{id:'miel',g:10},{id:'riz-basmati-cuit',g:180},{id:'brocoli',g:120}], steps:'Poêler le saumon 3-4 min de chaque côté, ajouter le mélange sauce soja-miel en fin de cuisson pour glacer. Servir avec riz et brocoli vapeur.', t:20},
+{id:'r-cabillaud-citron', n:'Cabillaud, riz, sauce citron', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:180},{id:'riz-basmati-cuit',g:180},{id:'citron',g:20},{id:'huile-olive',g:8}], steps:'Poêler le cabillaud 4-5 min de chaque côté avec un filet d\u2019huile et de jus de citron. Servir sur le riz.', t:20},
+{id:'r-pates-saumon-creme', n:'Pâtes au saumon, crème légère', cat:'dejeuner', ing:[{id:'saumon-cru',g:130},{id:'pates-cuites',g:220},{id:'cremelegere',g:60},{id:'epinards',g:60}], steps:'Poêler le saumon émietté 5 min avec les épinards, ajouter la crème et chauffer 2 min. Mélanger avec les pâtes.', t:20},
+{id:'r-pates-thon-olives', n:'Pâtes au thon, olives, tomates', cat:'dejeuner', ing:[{id:'thon-boite',g:140},{id:'pates-cuites',g:200},{id:'olives',g:20},{id:'tomate',g:100}], steps:'Mélanger le thon émietté, les olives et la tomate coupée avec les pâtes tièdes.', t:10},
+{id:'r-salade-pates-thon', n:'Salade de pâtes, thon, tomates', cat:'dejeuner', ing:[{id:'thon-boite',g:120},{id:'pates-cuites',g:180},{id:'tomate',g:100},{id:'olives',g:15},{id:'huile-olive',g:8}], steps:'Mélanger tous les ingrédients froids avec un filet d\u2019huile.', t:10},
+{id:'r-gratin-poisson', n:'Gratin de poisson, pommes de terre', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:170},{id:'pdt-cuite',g:200},{id:'cremelegere',g:50},{id:'emmental',g:20}], steps:'Disposer le poisson et les pommes de terre en tranches dans un plat, napper de crème, parsemer de fromage. Four 20 min à 200°C.', t:30},
+{id:'r-wrap-thon-avocat', n:'Wrap thon, avocat, salade', cat:'dejeuner', ing:[{id:'thon-boite',g:120},{id:'tortilla',g:60},{id:'avocat',g:60},{id:'salade',g:30}], steps:'Garnir la tortilla avec le thon égoutté, l\u2019avocat écrasé et la salade, rouler.', t:15},
+
+// --- VÉGÉ / LÉGUMINEUSES ---
+{id:'r-dahl-lentilles', n:'Dahl de lentilles, riz', cat:'dejeuner', ing:[{id:'lentilles-cuites',g:250},{id:'lait-coco',g:80},{id:'riz-basmati-cuit',g:180},{id:'oignon',g:50}], steps:'Faire revenir l\u2019oignon émincé, ajouter les lentilles et le lait de coco, mijoter 10 min. Servir sur le riz.', t:30},
+{id:'r-curry-poischiches', n:'Curry de pois chiches, riz', cat:'dejeuner', ing:[{id:'poischiches-cuits',g:250},{id:'lait-coco',g:100},{id:'riz-basmati-cuit',g:180},{id:'tomate',g:80}], steps:'Faire chauffer la tomate coupée, ajouter pois chiches et lait de coco, mijoter 12-15 min. Servir sur le riz.', t:30},
+{id:'r-tofu-legumes-riz', n:'Tofu sauté, légumes, riz', cat:'dejeuner', ing:[{id:'tofu',g:200},{id:'poivron',g:100},{id:'brocoli',g:100},{id:'riz-basmati-cuit',g:180},{id:'saucesoja',g:15}], steps:'Couper le tofu en dés, faire sauter à feu vif avec les légumes 8-10 min, déglacer à la sauce soja. Servir sur le riz.', t:20},
+{id:'r-salade-quinoa-poischiches', n:'Salade quinoa, pois chiches, feta', cat:'dejeuner', ing:[{id:'quinoa-cuit',g:180},{id:'poischiches-cuits',g:150},{id:'tomate',g:100},{id:'huile-olive',g:10}], steps:'Mélanger tous les ingrédients froids avec un filet d\u2019huile.', t:10},
+{id:'r-chili-vege', n:'Chili végétarien, haricots rouges', cat:'dejeuner', ing:[{id:'haricotsrouges-cuits',g:250},{id:'coulistomate',g:150},{id:'oignon',g:60},{id:'riz-basmati-cuit',g:150}], steps:'Faire revenir l\u2019oignon, ajouter haricots rouges et coulis, mijoter 15 min. Servir sur le riz.', t:30},
+{id:'r-oeufs-lentilles', n:'Œufs, lentilles, épinards', cat:'dejeuner', ing:[{id:'oeuf',g:110},{id:'lentilles-cuites',g:200},{id:'epinards',g:100},{id:'huile-olive',g:8}], steps:'Faire tomber les épinards à la poêle 2 min, ajouter les lentilles pour réchauffer. Cuire les œufs au plat ou pochés à part.', t:20},
+{id:'r-soupe-lentillescorail', n:'Soupe de lentilles corail, riz', cat:'dejeuner', ing:[{id:'lentillescorail-cuites',g:300},{id:'lait-coco',g:80},{id:'riz-basmati-cuit',g:120}], steps:'Chauffer les lentilles corail avec le lait de coco 5-8 min en mixant si besoin pour une texture soupe. Servir avec un peu de riz.', t:15},
+{id:'r-buddhabowl', n:'Buddha bowl (quinoa, pois chiches, avocat)', cat:'dejeuner', ing:[{id:'quinoa-cuit',g:150},{id:'poischiches-cuits',g:150},{id:'avocat',g:70},{id:'carotte',g:60}], steps:'Dresser tous les ingrédients côte à côte dans un bol, la carotte râpée crue.', t:15},
+{id:'r-curry-legumes-tofu', n:'Curry de légumes, tofu, riz', cat:'dejeuner', ing:[{id:'tofu',g:180},{id:'poivron',g:100},{id:'choufleur',g:100},{id:'lait-coco',g:100},{id:'riz-basmati-cuit',g:180}], steps:'Faire revenir le tofu en dés et les légumes 5 min, ajouter le lait de coco, mijoter 12-15 min. Servir sur le riz.', t:30},
+{id:'r-falafel-salade', n:'Galettes de pois chiches (falafel), salade', cat:'dejeuner', ing:[{id:'poischiches-cuits',g:220},{id:'farine',g:20},{id:'salade',g:60},{id:'huile-olive',g:10}], steps:'Mixer les pois chiches avec la farine et un peu d\u2019épices, former des galettes. Cuire à la poêle avec l\u2019huile 4-5 min de chaque côté. Servir avec la salade.', t:20},
+{id:'r-tofu-riz-cantonais', n:'Riz cantonais tofu, œuf, petits pois', cat:'dejeuner', ing:[{id:'tofu',g:150},{id:'riz-basmati-cuit',g:220},{id:'oeuf',g:55},{id:'petitspois',g:60},{id:'saucesoja',g:15}], steps:'Cuire l\u2019œuf brouillé à part et réserver. Sauter le tofu en dés et le riz avec les petits pois 5 min, ajouter l\u2019œuf et la sauce soja.', t:20},
+{id:'r-salade-feta-poischiches', n:'Salade feta, pois chiches, tomates', cat:'dejeuner', ing:[{id:'feta',g:60},{id:'poischiches-cuits',g:180},{id:'tomate',g:120},{id:'olives',g:15},{id:'huile-olive',g:10}], steps:'Mélanger tous les ingrédients froids avec un filet d\u2019huile.', t:10},
+
+// --- ŒUFS ---
+{id:'r-riz-oeufs-sesame-soja', n:'Riz, œufs, huile de sésame, sauce soja', cat:'dejeuner', ing:[{id:'riz-basmati-cuit',g:250},{id:'oeuf',g:220},{id:'huile-sesame',g:5},{id:'saucesoja',g:25}], steps:'Brouiller ou sauter les œufs dans l\u2019huile de sésame. Mélanger avec le riz chaud, arroser de sauce soja.', t:20},
+{id:'r-omelette-jambon-fromage', n:'Omelette jambon, fromage', cat:'dejeuner', ing:[{id:'oeuf',g:165},{id:'jambonblanc',g:50},{id:'emmental',g:25}], steps:'Battre les œufs, verser en poêle chaude. Ajouter jambon coupé et fromage râpé, replier.', t:20},
+{id:'r-shakshuka', n:'Shakshuka (œufs, tomate, poivron)', cat:'dejeuner', ing:[{id:'oeuf',g:165},{id:'coulistomate',g:200},{id:'poivron',g:100},{id:'huile-olive',g:10}], steps:'Faire revenir le poivron dans l\u2019huile 5 min, ajouter le coulis, mijoter 5 min. Casser les œufs directement dedans, couvrir 5-6 min jusqu\u2019à cuisson désirée.', t:30},
+{id:'r-frittata-legumes', n:'Frittata légumes, fromage', cat:'dejeuner', ing:[{id:'oeuf',g:220},{id:'courgette',g:100},{id:'emmental',g:30}], steps:'Faire revenir la courgette 3-4 min. Verser les œufs battus avec le fromage par-dessus, cuire à couvert feu doux 8-10 min.', t:20},
+{id:'r-oeufs-avocat-toast', n:'Œufs brouillés, avocat, toast complet', cat:'dejeuner', ing:[{id:'oeuf',g:165},{id:'avocat',g:80},{id:'pain-complet',g:70}], steps:'Cuire les œufs brouillés à feu doux. Servir sur le pain grillé avec l\u2019avocat écrasé.', t:15},
+{id:'r-omelette-champignons', n:'Omelette champignons, fromage', cat:'dejeuner', ing:[{id:'oeuf',g:165},{id:'champignons-cuits',g:100},{id:'emmental',g:25}], steps:'Faire revenir les champignons 3 min. Verser les œufs battus, ajouter le fromage, cuire et replier.', t:20},
+{id:'r-oeufs-cocotte', n:'Œufs cocotte, tomate, crème légère', cat:'dejeuner', ing:[{id:'oeuf',g:110},{id:'coulistomate',g:100},{id:'cremelegere',g:30},{id:'pain-complet',g:50}], steps:'Verser le coulis et la crème dans des ramequins, casser un œuf dessus. Four 10-12 min à 200°C. Servir avec le pain.', t:30},
+
+// --- COLLATIONS / POST-TRAINING ---
+{id:'c-shaker-whey', n:'Shaker whey seul', cat:'collation', ing:[{id:'whey-hsn',g:1}], steps:'Mélanger la dose de whey avec de l\u2019eau ou du lait dans un shaker.', t:6},
+{id:'c-shaker-banane', n:'Shaker whey, banane', cat:'collation', ing:[{id:'whey-hsn',g:1},{id:'banane',g:100}], steps:'Mixer la whey avec la banane et un peu d\u2019eau ou de lait.', t:6},
+{id:'c-yaourt-whey', n:'Yaourt grec, whey', cat:'collation', ing:[{id:'yaourtgrec',g:150},{id:'whey-hsn',g:0.5}], steps:'Mélanger la demi-dose de whey directement dans le yaourt.', t:6},
+{id:'c-skyr-fruits', n:'Skyr, fruits rouges', cat:'collation', ing:[{id:'skyr',g:200},{id:'fraises',g:100}], steps:'Couper les fraises et les mélanger au skyr.', t:6},
+{id:'c-fromageblanc-miel-amandes', n:'Fromage blanc, miel, amandes', cat:'collation', ing:[{id:'fromageblanc0',g:200},{id:'miel',g:10},{id:'amandes',g:15}], steps:'Verser le miel sur le fromage blanc, parsemer d\u2019amandes concassées.', t:6},
+{id:'c-toast-beurrecacahuete', n:'Toast, beurre de cacahuète, banane', cat:'collation', ing:[{id:'pain-complet',g:50},{id:'beurrecacahuete',g:20},{id:'banane',g:80}], steps:'Griller le pain, tartiner de beurre de cacahuète, ajouter la banane en rondelles.', t:6},
+{id:'c-pomme-amandes', n:'Pomme, amandes', cat:'collation', ing:[{id:'pomme',g:150},{id:'amandes',g:20}], steps:'À consommer tel quel.', t:2},
+{id:'c-oeufs-durs', n:'2 œufs durs', cat:'collation', ing:[{id:'oeuf',g:110}], steps:'Cuire les œufs 9-10 min dans l\u2019eau bouillante, refroidir sous l\u2019eau froide et écaler.', t:6},
+{id:'c-jambon-fromage-roule', n:'Roulé jambon-fromage', cat:'collation', ing:[{id:'jambonblanc',g:60},{id:'emmental',g:30}], steps:'Rouler une tranche de fromage dans une tranche de jambon.', t:6},
+{id:'c-cottage-fruits', n:'Cottage cheese, ananas', cat:'collation', ing:[{id:'cottage',g:200},{id:'ananas',g:100}], steps:'Couper l\u2019ananas en dés et mélanger avec le cottage cheese.', t:6},
+{id:'c-houmous-crudites', n:'Houmous, bâtonnets de crudités', cat:'collation', ing:[{id:'houmous',g:100},{id:'carotte',g:100},{id:'concombre',g:100}], steps:'Couper carotte et concombre en bâtonnets, tremper dans le houmous.', t:6},
+{id:'c-noix-fruits-secs', n:'Mélange noix, amandes, cajou', cat:'collation', ing:[{id:'amandes',g:15},{id:'noix',g:10},{id:'cajou',g:10}], steps:'À consommer tel quel.', t:2},
+{id:'c-fromagefrais-crudites', n:'Fromage frais, bâtonnets de concombre', cat:'collation', ing:[{id:'fromagefrais',g:60},{id:'concombre',g:100}], steps:'Couper le concombre en bâtonnets, tremper dans le fromage frais.', t:6},
+{id:'c-banane-beurrecacahuete', n:'Banane, beurre de cacahuète', cat:'collation', ing:[{id:'banane',g:100},{id:'beurrecacahuete',g:20}], steps:'Tartiner la banane coupée en deux de beurre de cacahuète.', t:6},
+{id:'c-thon-galettes-riz', n:'Thon, galettes de riz', cat:'collation', ing:[{id:'thon-boite',g:100},{id:'riz-blanc-cuit',g:60}], steps:'Égoutter le thon, servir sur ou à côté des galettes de riz.', t:6},
+{id:'c-fromageblanc-cacao', n:'Fromage blanc, cacao, banane', cat:'collation', ing:[{id:'fromageblanc0',g:180},{id:'cacao',g:8},{id:'banane',g:80}], steps:'Mélanger le cacao dans le fromage blanc, ajouter la banane coupée.', t:6},
+{id:'c-jambondinde-roule', n:'Roulé jambon de dinde, fromage frais', cat:'collation', ing:[{id:'jambondinde',g:60},{id:'fromagefrais',g:30}], steps:'Tartiner la tranche de jambon de dinde de fromage frais et rouler.', t:6},
+{id:'c-orange-amandes', n:'Orange, amandes', cat:'collation', ing:[{id:'orange',g:150},{id:'amandes',g:15}], steps:'À consommer tel quel.', t:2},
+
+// --- DESSERTS PROTÉINÉS ---
+{id:'d-pancakes-proteines', n:'Pancakes protéinés', cat:'dessert', ing:[{id:'avoine',g:50},{id:'oeuf',g:110},{id:'banane',g:80},{id:'whey-hsn',g:0.5}], steps:'Mixer tous les ingrédients, cuire par petites louches 2 min de chaque côté à la poêle.', t:8},
+{id:'d-mugcake', n:'Mug cake protéiné cacao', cat:'dessert', ing:[{id:'avoine',g:40},{id:'oeuf',g:55},{id:'cacao',g:10},{id:'whey-hsn',g:0.5},{id:'lait-demi',g:60}], steps:'Mélanger tous les ingrédients dans un mug. Micro-ondes 1min30-2 min à pleine puissance.', t:6},
+{id:'d-skyr-chocolat', n:'Skyr, cacao, miel', cat:'dessert', ing:[{id:'skyr',g:200},{id:'cacao',g:8},{id:'miel',g:10}], steps:'Mélanger le cacao et le miel directement dans le skyr.', t:8},
+{id:'d-compote-fromageblanc', n:'Fromage blanc, compote, chocolat noir', cat:'dessert', ing:[{id:'fromageblanc0',g:150},{id:'compote',g:100},{id:'chocolatnoir',g:10}], steps:'Superposer fromage blanc et compote, râper le chocolat noir par-dessus.', t:8},
+{id:'d-yaourt-chocolat-noisette', n:'Yaourt grec, pâte à tartiner', cat:'dessert', ing:[{id:'yaourtgrec',g:150},{id:'nutella',g:15}], steps:'Faire fondre légèrement la pâte à tartiner (quelques secondes micro-ondes) et la marbrer dans le yaourt.', t:6},
+{id:'d-glace-protein-banane', n:'Nice cream banane (banane glacée mixée)', cat:'dessert', ing:[{id:'banane',g:200},{id:'lait-demi',g:40}], steps:'Congeler la banane coupée en rondelles au moins 3h. Mixer avec le lait jusqu\u2019à texture glace.', t:8},
+{id:'d-cookie-proteine', n:'Cookie protéiné maison (avoine, whey)', cat:'dessert', ing:[{id:'avoine',g:40},{id:'whey-hsn',g:1},{id:'beurrecacahuete',g:15},{id:'miel',g:10}], steps:'Mélanger tous les ingrédients en pâte homogène, former des cookies. Four 10-12 min à 180°C.', t:20},
+{id:'d-chocolat-amandes', n:'Carré de chocolat noir, amandes', cat:'dessert', ing:[{id:'chocolatnoir',g:20},{id:'amandes',g:15}], steps:'À consommer tel quel.', t:8},
+];
+
+/* ============================= ÉTAT & PERSISTANCE ============================= */
+const LS_KEY = 'nutri-app-state-v1';
+function defaultState(){
+  return {
+    people: [{id:'moi', name:'Moi', kcalTarget:1800, proteinTarget:170, weight:null, weightLog:[]}],
+    customIngredients: [],
+    customSupplements: [],
+    customRecipes: [],
+    recipeOverrides: {},
+    log: []
+  };
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      const d = defaultState();
+      const merged = Object.assign({}, d, parsed);
+      if((!parsed.people || parsed.people.length===0) && parsed.settings){
+        merged.people = [{id:'moi', name:'Moi', kcalTarget:parsed.settings.kcalTarget||1800, proteinTarget:parsed.settings.proteinTarget||170, weight:parsed.settings.weight||null, weightLog:parsed.settings.weightLog||[]}];
+      }
+      if(!merged.people || merged.people.length===0) merged.people = d.people;
+      const firstId = merged.people[0].id;
+      merged.log = (merged.log||[]).map(e => e.person ? e : Object.assign({}, e, {person: firstId}));
+      delete merged.settings;
+      return merged;
+    }
+  }catch(e){}
+  return defaultState();
+}
+let STATE = loadState();
+function saveState(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }catch(e){} }
+function getPerson(id){ return STATE.people.find(p=>p.id===id) || STATE.people[0]; }
+function activePerson(){ return getPerson(VIEW.activePersonId || STATE.people[0].id); }
+
+/* ============================= HELPERS DE DONNÉES ============================= */
+function allIngredients(){ return INGREDIENTS.concat(STATE.customIngredients); }
+function allSupplements(){ return SUPPLEMENTS_BASE.concat(STATE.customSupplements); }
+function allRecipes(){
+  const base = RECIPES.map(r => STATE.recipeOverrides[r.id] ? Object.assign({}, r, STATE.recipeOverrides[r.id], {isOverridden:true}) : r);
+  return base.concat(STATE.customRecipes.map(r=>Object.assign({}, r, {isCustom:true})));
+}
+function findIngredient(id){ return allIngredients().find(i=>i.id===id); }
+function findSupplement(id){ return allSupplements().find(i=>i.id===id); }
+function findRecipe(id){ return allRecipes().find(i=>i.id===id); }
+function isBuiltInRecipe(id){ return RECIPES.some(r=>r.id===id); }
+
+function macrosFromRef(ref){
+  const ing = findIngredient(ref.id);
+  if(ing){
+    const f = ref.g/100;
+    return {k:ing.k*f, p:ing.p*f, c:ing.c*f, f:ing.f*f};
+  }
+  const sup = findSupplement(ref.id);
+  if(sup){
+    const f = ref.g;
+    return {k:sup.k*f, p:sup.p*f, c:sup.c*f, f:sup.f*f};
+  }
+  return {k:0,p:0,c:0,f:0};
+}
+function computeRecipeMacros(recipe){
+  const tot = {k:0,p:0,c:0,f:0};
+  (recipe.ing||[]).forEach(ref=>{
+    const m = macrosFromRef(ref);
+    tot.k+=m.k; tot.p+=m.p; tot.c+=m.c; tot.f+=m.f;
+  });
+  return tot;
+}
+function round(n){ return Math.round(n*10)/10; }
+function r0(n){ return Math.round(n); }
+
+/* Macros pour une entrée du journal */
+function macrosForEntry(e){
+  if(e.kind==='recipe'){
+    let m;
+    if(e.ingSnapshot){ m = computeRecipeMacros({ing:e.ingSnapshot}); }
+    else { const rec = findRecipe(e.refId); if(!rec) return {k:0,p:0,c:0,f:0}; m = computeRecipeMacros(rec); }
+    return {k:m.k*e.qty, p:m.p*e.qty, c:m.c*e.qty, f:m.f*e.qty};
+  }
+  if(e.kind==='ingredient'){
+    const ing = findIngredient(e.refId);
+    if(!ing) return {k:0,p:0,c:0,f:0};
+    const f = e.qty/100;
+    return {k:ing.k*f, p:ing.p*f, c:ing.c*f, f:ing.f*f};
+  }
+  if(e.kind==='supplement'){
+    const sup = findSupplement(e.refId);
+    if(!sup) return {k:0,p:0,c:0,f:0};
+    return {k:sup.k*e.qty, p:sup.p*e.qty, c:sup.c*e.qty, f:sup.f*e.qty};
+  }
+  if(e.kind==='custom'){
+    return {k:(e.macros.k||0)*e.qty, p:(e.macros.p||0)*e.qty, c:(e.macros.c||0)*e.qty, f:(e.macros.f||0)*e.qty};
+  }
+  return {k:0,p:0,c:0,f:0};
+}
+function entryLabel(e){
+  if(e.kind==='recipe'){ const r=findRecipe(e.refId); return {name: r?r.n:'(recette supprimée)', qty: (e.qty===1?'1 portion':round(e.qty)+' portions')}; }
+  if(e.kind==='ingredient'){ const i=findIngredient(e.refId); return {name: i?i.n:'(aliment supprimé)', qty: r0(e.qty)+' g'}; }
+  if(e.kind==='supplement'){ const s=findSupplement(e.refId); return {name: s?s.n.split(' — ')[0]:'(complément supprimé)', qty: (e.qty===1?'1 dose':round(e.qty)+' doses')}; }
+  if(e.kind==='custom'){ return {name: e.name, qty: 'saisie libre'}; }
+  return {name:'?', qty:''};
+}
+function dotClass(kind){ return kind; }
+
+/* ============================= DATES ============================= */
+function fmtDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function todayStr(){ return fmtDate(new Date()); }
+function addDays(dateStr, n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()+n); return fmtDate(d); }
+function humanDate(dateStr){
+  const t = todayStr(); const y = addDays(t,-1);
+  if(dateStr===t) return "Aujourd\u2019hui";
+  if(dateStr===y) return 'Hier';
+  const d = new Date(dateStr+'T00:00:00');
+  const s = d.toLocaleDateString('fr-FR',{weekday:'long', day:'numeric', month:'long'});
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+function dayLetter(dateStr){
+  const d = new Date(dateStr+'T00:00:00');
+  return d.toLocaleDateString('fr-FR',{weekday:'narrow'}).toUpperCase();
+}
+
+function entriesForDate(dateStr, personId){
+  const pid = personId || activePerson().id;
+  return STATE.log.filter(e=>e.date===dateStr && (e.person||STATE.people[0].id)===pid);
+}
+function totalsForDate(dateStr, personId){
+  const tot = {k:0,p:0,c:0,f:0};
+  entriesForDate(dateStr, personId).forEach(e=>{ const m=macrosForEntry(e); tot.k+=m.k; tot.p+=m.p; tot.c+=m.c; tot.f+=m.f; });
+  return tot;
+}
+function last7Days(fromDate){
+  const days = [];
+  for(let i=6;i>=0;i--) days.push(addDays(fromDate,-i));
+  return days;
+}
+
+/* ============================= VUE / ROUTAGE ============================= */
+const VIEW = {
+  tab: 'today',
+  currentDate: todayStr(),
+  modal: null,          // {type:'add', ...} | {type:'recipe-detail', id} | {type:'recipe-editor', id|null} | {type:'custom-entry'} | {type:'ingredient-picker', onPick} | {type:'export'}
+  recipeSearch: '',
+  recipeCat: 'all',
+  editorDraft: null,    // objet recette en cours d'édition
+  ingSearch: '',
+  activePersonId: null, // null = première personne (STATE.people[0])
+  logFor: []            // ids des personnes concernées par le prochain ajout au journal
+};
+
+function resetLogFor(){ VIEW.logFor = [activePerson().id]; }
+function togglePersonForLog(id){
+  const idx = VIEW.logFor.indexOf(id);
+  if(idx>=0){ if(VIEW.logFor.length>1) VIEW.logFor.splice(idx,1); }
+  else VIEW.logFor.push(id);
+  render();
+}
+function personPillsField(){
+  if(STATE.people.length<2) return '';
+  const pills = STATE.people.map(p=>'<button class="person-pill '+(VIEW.logFor.includes(p.id)?'active':'')+'" onclick="togglePersonForLog(\''+p.id+'\')">'+esc(p.name)+'</button>').join('');
+  return '<div class="field"><label>Pour qui\u00a0?</label><div class="person-pills">'+pills+'</div></div>';
+}
+
+const ICONS = {
+  today: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 14.5l2.2 2.2L16 11"/></svg>',
+  recipes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 3v18M4 3c3 0 3 3 3 5s0 5-3 5"/><path d="M20 3v18M20 3c-2.5 0-4 2-4 5v3c0 1 .5 2 2 2"/></svg>',
+  supplements: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="3" width="10" height="18" rx="4"/><path d="M7 11h10"/></svg>',
+  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h10M17 6h3M4 12h3M9 12h11M4 18h13M20 18h0"/><circle cx="14" cy="6" r="2.2"/><circle cx="6" cy="12" r="2.2"/><circle cx="17" cy="18" r="2.2"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+  chevL: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>',
+  chevR: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>',
+};
+
+function render(){
+  const app = document.getElementById('app');
+  let html = '';
+  if(VIEW.tab==='today') html = renderToday();
+  else if(VIEW.tab==='recipes') html = renderRecipes();
+  else if(VIEW.tab==='supplements') html = renderSupplements();
+  else if(VIEW.tab==='settings') html = renderSettings();
+  html += renderTabbar();
+  app.innerHTML = html;
+  const modalRoot = document.createElement('div');
+  modalRoot.id = 'modal-root';
+  app.appendChild(modalRoot);
+  if(VIEW.modal) renderModal();
+}
+function renderTabbar(){
+  const t = (id)=> VIEW.tab===id ? 'active' : '';
+  return '<div class="tabbar">'
+    + '<button class="'+t('today')+'" onclick="switchTab(\'today\')">'+ICONS.today+'<span>Aujourd\u2019hui</span></button>'
+    + '<button class="'+t('recipes')+'" onclick="switchTab(\'recipes\')">'+ICONS.recipes+'<span>Recettes</span></button>'
+    + '<button class="'+t('supplements')+'" onclick="switchTab(\'supplements\')">'+ICONS.supplements+'<span>Compl\u00e9ments</span></button>'
+    + '<button class="'+t('settings')+'" onclick="switchTab(\'settings\')">'+ICONS.settings+'<span>R\u00e9glages</span></button>'
+    + '</div>';
+}
+function switchTab(id){ VIEW.tab=id; VIEW.modal=null; if(id==='supplements') resetLogFor(); render(); window.scrollTo(0,0); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+/* ============================= VUE : AUJOURD\u2019HUI ============================= */
+function renderToday(){
+  const date = VIEW.currentDate;
+  const person = activePerson();
+  const tot = totalsForDate(date, person.id);
+  const kcalPct = Math.min(100, (tot.k/person.kcalTarget)*100);
+  const protPct = Math.min(100, (tot.p/person.proteinTarget)*100);
+  const kcalOver = tot.k > person.kcalTarget * 1.05;
+  const days = last7Days(date);
+  const weekTotals = days.map(d=>totalsForDate(d, person.id).k);
+  const maxWeek = Math.max(person.kcalTarget, ...weekTotals, 1);
+  const avg7 = weekTotals.reduce((a,b)=>a+b,0)/7;
+  const entries = entriesForDate(date, person.id).slice().sort((a,b)=>b.ts-a.ts);
+
+  let entriesHtml = '';
+  if(entries.length===0){
+    entriesHtml = '<div class="empty">Rien de logg\u00e9 pour l\u2019instant.</div>';
+  } else {
+    entriesHtml = entries.map(e=>{
+      const m = macrosForEntry(e);
+      const lbl = entryLabel(e);
+      return '<div class="entry">'
+        + '<div class="dot '+dotClass(e.kind)+'"></div>'
+        + '<div class="info"><div class="name">'+esc(lbl.name)+'</div><div class="qty">'+esc(lbl.qty)+'</div></div>'
+        + '<div class="macros"><span class="kc num">'+r0(m.k)+' kcal</span><br>'+round(m.p)+' g prot</div>'
+        + '<button class="del" onclick="deleteEntry(\''+e.id+'\')">\u00d7</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  const weekHtml = days.map((d,i)=>{
+    const v = weekTotals[i];
+    const h = Math.max(4, (v/maxWeek)*64);
+    const isToday = d===date;
+    return '<div class="col"><div class="stick" style="height:'+64+'px"><div class="fill" style="height:'+h+'px; opacity:'+(isToday?1:0.55)+'"></div></div><div class="day" style="'+(isToday?'color:var(--accent)':'')+'">'+dayLetter(d)+'</div></div>';
+  }).join('');
+
+  const personSwitch = STATE.people.length>1 ? '<div class="person-switch">'+STATE.people.map(p=>'<button class="'+(p.id===person.id?'active':'')+'" onclick="setActivePerson(\''+p.id+'\')">'+esc(p.name)+'</button>').join('')+'</div>' : '';
+
+  return '<div class="wrap">'
+    + '<div class="topbar">'
+    + personSwitch
+    + '<div style="display:flex; align-items:center; justify-content:space-between;">'
+    + '<button class="btn small ghost" onclick="navDay(-1)" style="padding:6px 10px;">'+ICONS.chevL+'</button>'
+    + '<div style="text-align:center;"><div class="date">Journal</div><h1 style="font-size:20px;">'+humanDate(date)+'</h1></div>'
+    + '<button class="btn small ghost" onclick="navDay(1)" style="padding:6px 10px; opacity:'+(date>=todayStr()?'.3':'1')+';" '+(date>=todayStr()?'disabled':'')+'>'+ICONS.chevR+'</button>'
+    + '</div></div>'
+
+    + '<div class="metric-row">'
+    + '<div class="metric"><div class="label">Calories</div><div class="value num">'+r0(tot.k)+'<span class="sub"> / '+person.kcalTarget+'</span></div>'
+    + '<div class="bar-track"><div class="bar-fill '+(kcalOver?'over':'kcal')+'" style="width:'+kcalPct+'%"></div></div>'
+    + '<div style="font-size:11px; color:var(--text-dim); margin-top:6px;">reste '+r0(Math.max(0,person.kcalTarget-tot.k))+' kcal</div></div>'
+    + '<div class="metric"><div class="label">Prot\u00e9ines</div><div class="value num">'+round(tot.p)+'<span class="sub"> / '+person.proteinTarget+' g</span></div>'
+    + '<div class="bar-track"><div class="bar-fill prot" style="width:'+protPct+'%"></div></div>'
+    + '<div style="font-size:11px; color:var(--text-dim); margin-top:6px;">reste '+round(Math.max(0,person.proteinTarget-tot.p))+' g</div></div>'
+    + '</div>'
+
+    + '<button class="btn primary full" onclick="openAddPicker()">+ Ajouter une entr\u00e9e</button>'
+
+    + '<div class="section-title"><h2>Moyenne 7 jours</h2><span class="hint num">'+r0(avg7)+' kcal/j</span></div>'
+    + '<div class="weekbars">'+weekHtml+'</div>'
+
+    + '<div class="section-title"><h2>Journal du jour</h2></div>'
+    + entriesHtml
+
+    + '</div>';
+}
+function setActivePerson(id){ VIEW.activePersonId = id; render(); }
+function navDay(n){ VIEW.currentDate = addDays(VIEW.currentDate, n); render(); }
+function deleteEntry(id){
+  STATE.log = STATE.log.filter(e=>e.id!==id);
+  saveState(); render();
+}
+
+/* ============================= VUE : RECETTES ============================= */
+const CATS = [['all','Toutes'],['petit-dej','Petit-d\u00e9j'],['dejeuner','D\u00e9jeuner / D\u00eener'],['collation','Collation'],['dessert','Dessert']];
+function renderRecipes(){
+  const q = VIEW.recipeSearch.toLowerCase();
+  let list = allRecipes();
+  if(VIEW.recipeCat!=='all') list = list.filter(r=>r.cat===VIEW.recipeCat);
+  if(q) list = list.filter(r=>r.n.toLowerCase().includes(q));
+  list = list.slice().sort((a,b)=>a.n.localeCompare(b.n,'fr'));
+
+  const chips = CATS.map(([id,label])=>'<button class="chip '+(VIEW.recipeCat===id?'active':'')+'" onclick="setRecipeCat(\''+id+'\')">'+label+'</button>').join('');
+
+  const cards = list.map(r=>{
+    const m = computeRecipeMacros(r);
+    const catLabel = (CATS.find(c=>c[0]===r.cat)||['',''])[1];
+    const timeTag = r.t ? ' \u00b7 '+r.t+' min' : '';
+    return '<div class="recipe-card" onclick="openRecipeDetail(\''+r.id+'\')">'
+      + '<div><div class="name">'+esc(r.n)+'</div><div class="tag">'+catLabel+timeTag+(r.isCustom?' \u00b7 perso':(r.isOverridden?' \u00b7 modifi\u00e9e':''))+'</div></div>'
+      + '<div class="m"><span class="kc num">'+r0(m.k)+' kcal</span>'+round(m.p)+' g prot</div>'
+      + '</div>';
+  }).join('') || '<div class="empty">Aucune recette ne correspond.</div>';
+
+  return '<div class="wrap">'
+    + '<div class="topbar"><div class="date">'+allRecipes().length+' recettes</div><h1>Recettes</h1></div>'
+    + '<div class="searchbar"><input placeholder="Rechercher une recette\u2026" value="'+esc(VIEW.recipeSearch)+'" oninput="onRecipeSearch(this.value)"></div>'
+    + '<div class="chiprow">'+chips+'</div>'
+    + '<div class="fab-row" style="margin:16px 0 6px;">'
+    + '<button class="btn primary" onclick="openRecipeEditor(null)">+ Nouvelle recette</button>'
+    + '<button class="btn" onclick="openRoulette()">'+ICONS.dice+' Roulette</button>'
+    + '</div>'
+    + '<div style="margin-top:10px;">'+cards+'</div>'
+    + '</div>';
+}
+function onRecipeSearch(v){ VIEW.recipeSearch=v; render(); }
+function setRecipeCat(id){ VIEW.recipeCat=id; render(); }
+function openRecipeDetail(id){
+  const r = findRecipe(id);
+  VIEW.detailAdjust = {recipeId:id, servings:1, ing: JSON.parse(JSON.stringify(r.ing)), adjusting:false};
+  resetLogFor();
+  VIEW.modal={type:'recipe-detail'};
+  render();
+}
+function openRecipeEditor(id){
+  if(id){
+    const r = findRecipe(id);
+    const ingSource = (VIEW.detailAdjust && VIEW.detailAdjust.recipeId===id) ? VIEW.detailAdjust.ing : r.ing;
+    VIEW.editorDraft = {id: r.isCustom?r.id:null, baseId: r.isCustom?null:id, n:r.n, cat:r.cat, steps:r.steps||'', t:r.t||10, ing: JSON.parse(JSON.stringify(ingSource))};
+  } else {
+    VIEW.editorDraft = {id:null, baseId:null, n:'', cat:'dejeuner', steps:'', t:10, ing:[]};
+  }
+  VIEW.modal = {type:'recipe-editor'};
+  render();
+}
+
+/* ============================= VUE : COMPL\u00c9MENTS ============================= */
+function renderSupplements(){
+  const list = allSupplements();
+  const cards = list.map(s=>{
+    return '<div class="recipe-card">'
+      + '<div><div class="name">'+esc(s.n)+'</div><div class="tag">'+esc(s.brand||'')+'</div></div>'
+      + '<div class="m"><span class="kc num">'+r0(s.k)+' kcal</span>'+round(s.p)+' g prot</div>'
+      + '</div>'
+      + '<div class="fab-row" style="margin-bottom:16px;">'
+      + '<button class="btn small" onclick="logSupplement(\''+s.id+'\',0.5)">+ 1/2 dose</button>'
+      + '<button class="btn small primary" onclick="logSupplement(\''+s.id+'\',1)">+ 1 dose</button>'
+      + '<button class="btn small" onclick="logSupplement(\''+s.id+'\',2)">+ 2 doses</button>'
+      + '</div>';
+  }).join('') || '<div class="empty">Aucun compl\u00e9ment.</div>';
+
+  return '<div class="wrap">'
+    + '<div class="topbar"><div class="date">'+list.length+' produits</div><h1>Compl\u00e9ments</h1></div>'
+    + personPillsField()
+    + '<button class="btn primary full" style="margin:16px 0 18px;" onclick="openSupplementEditor()">+ Nouveau compl\u00e9ment / marque</button>'
+    + cards
+    + '</div>';
+}
+function logSupplement(id, doses){
+  const people = VIEW.logFor && VIEW.logFor.length ? VIEW.logFor : [activePerson().id];
+  people.forEach(pid=>{
+    STATE.log.push({id:'e'+Date.now()+Math.random().toString(36).slice(2,6)+pid, date:VIEW.currentDate, ts:Date.now(), kind:'supplement', refId:id, qty:doses, person:pid});
+  });
+  saveState();
+  toast('Ajout\u00e9 au journal');
+  if(VIEW.tab==='today') render();
+}
+function openSupplementEditor(){ VIEW.modal={type:'supplement-editor', draft:{n:'',brand:'',k:'',p:'',c:'',f:''}}; render(); }
+
+/* ============================= VUE : R\u00c9GLAGES ============================= */
+function renderSettings(){
+  const peopleHtml = STATE.people.map((p,i)=>{
+    const wlog = (p.weightLog||[]).slice().sort((a,b)=>b.ts-a.ts).slice(0,4);
+    const wlogHtml = wlog.length ? wlog.map(w=>'<div class="entry"><div class="info"><div class="name num">'+w.value+' kg</div><div class="qty">'+humanDate(w.date)+'</div></div></div>').join('') : '<div class="empty">Aucun poids enregistr\u00e9.</div>';
+    return '<div class="section-title"><h2>'+esc(p.name)+'</h2>'+(STATE.people.length>1?'<span class="hint" onclick="removePerson(\''+p.id+'\')" style="cursor:pointer;">Supprimer</span>':'')+'</div>'
+      + '<div class="settings-row"><div class="l">Nom</div><input value="'+esc(p.name)+'" style="width:140px;" onchange="updatePerson(\''+p.id+'\',\'name\',this.value)"></div>'
+      + '<div class="settings-row"><div class="l">Calories cible<span class="s">kcal / jour</span></div><input type="number" value="'+p.kcalTarget+'" onchange="updatePerson(\''+p.id+'\',\'kcalTarget\',this.value)"></div>'
+      + '<div class="settings-row"><div class="l">Prot\u00e9ines cible<span class="s">g / jour</span></div><input type="number" value="'+p.proteinTarget+'" onchange="updatePerson(\''+p.id+'\',\'proteinTarget\',this.value)"></div>'
+      + '<div class="settings-row"><div class="l">Poids actuel<span class="s">kg</span></div><input type="number" step="0.1" placeholder="'+(p.weight||'--')+'" onchange="logWeight(\''+p.id+'\', this.value)"></div>'
+      + wlogHtml;
+  }).join('<div style="height:8px;"></div>');
+
+  return '<div class="wrap">'
+    + '<div class="topbar"><h1>R\u00e9glages</h1></div>'
+
+    + peopleHtml
+
+    + (STATE.people.length<2 ? '<button class="btn full" style="margin-top:22px;" onclick="addPerson()">+ Ajouter une personne (ex. ta copine)</button>' : '')
+
+    + '<div class="section-title"><h2>Donn\u00e9es</h2></div>'
+    + '<div class="fab-row">'
+    + '<button class="btn" onclick="openExport()">Exporter (sauvegarde)</button>'
+    + '<button class="btn" onclick="openImport()">Importer</button>'
+    + '</div>'
+    + '<button class="btn danger full" style="margin-top:10px;" onclick="confirmReset()">R\u00e9initialiser toutes les donn\u00e9es</button>'
+    + '<p style="color:var(--text-dim); font-size:12px; margin-top:26px; line-height:1.5;">Les donn\u00e9es sont stock\u00e9es uniquement sur cet appareil (localStorage). Utilise l\u2019export pour en garder une copie ou passer d\u2019un appareil \u00e0 l\u2019autre.</p>'
+    + '</div>';
+}
+function updatePerson(id, key, val){
+  const p = getPerson(id);
+  if(!p) return;
+  if(key==='name'){ if(val.trim()) p.name = val.trim(); }
+  else { const n = parseFloat(val); if(!isNaN(n) && n>0) p[key]=n; }
+  saveState(); render();
+}
+function addPerson(){
+  const id = 'p'+Date.now().toString(36);
+  STATE.people.push({id, name:'Copine', kcalTarget:2000, proteinTarget:120, weight:null, weightLog:[]});
+  saveState(); render(); toast('Personne ajout\u00e9e \u2014 modifie son nom et ses cibles');
+}
+function removePerson(id){
+  if(STATE.people.length<2) return;
+  STATE.people = STATE.people.filter(p=>p.id!==id);
+  STATE.log = STATE.log.filter(e=>e.person!==id);
+  if(VIEW.activePersonId===id) VIEW.activePersonId = STATE.people[0].id;
+  saveState(); render(); toast('Personne supprim\u00e9e');
+}
+function logWeight(personId, val){
+  const n = parseFloat(val);
+  if(isNaN(n) || n<=0) return;
+  const p = getPerson(personId);
+  p.weight = n;
+  p.weightLog = p.weightLog || [];
+  p.weightLog.push({date: todayStr(), value:n, ts:Date.now()});
+  saveState(); render(); toast('Poids enregistr\u00e9');
+}
+function confirmReset(){
+  VIEW.modal = {type:'confirm-reset'};
+  render();
+}
+function replaceState(newState){
+  Object.keys(STATE).forEach(k=>delete STATE[k]);
+  Object.assign(STATE, newState);
+}
+function doReset(){
+  replaceState(defaultState());
+  saveState();
+  VIEW.modal = null;
+  render();
+  toast('Donn\u00e9es r\u00e9initialis\u00e9es');
+}
+function openExport(){ VIEW.modal={type:'export'}; render(); }
+function openImport(){ VIEW.modal={type:'import'}; render(); }
+function doImport(){
+  const ta = document.getElementById('import-ta');
+  try{
+    const parsed = JSON.parse(ta.value);
+    replaceState(Object.assign(defaultState(), parsed));
+    saveState();
+    VIEW.modal = null;
+    render();
+    toast('Donn\u00e9es import\u00e9es');
+  }catch(e){
+    toast('JSON invalide');
+  }
+}
+
+/* ============================= MODALES ============================= */
+function closeModal(){ VIEW.modal=null; render(); }
+function stop(ev){ ev.stopPropagation(); }
+function openAddPicker(){ resetLogFor(); VIEW.modal={type:'add'}; render(); }
+
+function renderModal(){
+  const root = document.getElementById('modal-root');
+  const m = VIEW.modal;
+  let inner = '';
+  if(m.type==='add') inner = modalAdd();
+  else if(m.type==='recipe-detail') inner = modalRecipeDetail(m);
+  else if(m.type==='recipe-editor') inner = modalRecipeEditor();
+  else if(m.type==='ingredient-picker') inner = modalIngredientPicker(m);
+  else if(m.type==='log-ingredient-qty') inner = modalLogIngredientQty(m);
+  else if(m.type==='new-ingredient') inner = modalNewIngredient(m);
+  else if(m.type==='custom-entry') inner = modalCustomEntry(m);
+  else if(m.type==='supplement-editor') inner = modalSupplementEditor(m);
+  else if(m.type==='confirm-reset') inner = modalConfirmReset();
+  else if(m.type==='export') inner = modalExport();
+  else if(m.type==='import') inner = modalImport();
+  else if(m.type==='roulette') inner = modalRoulette(m);
+  root.innerHTML = '<div class="modal-backdrop" onclick="closeModal()"><div class="modal" onclick="stop(event)"><div class="modal-handle"></div>'+inner+'</div></div>';
+}
+
+function modalRecipeDetail(){
+  const da = VIEW.detailAdjust;
+  const r = findRecipe(da.recipeId);
+  if(!r) return '<div class="empty">Recette introuvable.</div>';
+  const tot = computeRecipeMacros({ing: da.ing});
+  const servings = da.servings||1;
+
+  let rows;
+  if(da.adjusting){
+    rows = da.ing.map((ref,i)=>{
+      const ing = findIngredient(ref.id); const sup = !ing?findSupplement(ref.id):null; const item = ing||sup;
+      const label = item ? item.n : '(?)';
+      return '<div class="ing-row"><div class="n">'+esc(label)+'</div>'
+        + '<input class="g" type="number" step="'+(ing?'1':'0.5')+'" value="'+ref.g+'" onchange="updateDetailIngQty('+i+', this.value)">'
+        + '<div class="u">'+(ing?'g':'d')+'</div>'
+        + '<button class="rm" onclick="removeDetailIngredient('+i+')">\u00d7</button></div>';
+    }).join('') || '<div class="empty">Plus aucun ingr\u00e9dient \u2014 ajoutes-en un.</div>';
+    rows += '<button class="btn full" style="margin-top:10px;" onclick="addIngredientToDetail()">+ Ajouter un ingr\u00e9dient</button>';
+  } else {
+    rows = da.ing.map(ref=>{
+      const ing = findIngredient(ref.id);
+      const sup = !ing ? findSupplement(ref.id) : null;
+      const item = ing||sup;
+      if(!item) return '';
+      const mm = macrosFromRef(ref);
+      const qtyLabel = ing ? ref.g+' g' : (ref.g===1?'1 dose':round(ref.g)+' doses');
+      return '<div class="ing-row"><div class="n">'+esc(item.n)+'</div><div style="font-size:12px; color:var(--text-dim); width:70px; text-align:right;">'+qtyLabel+'</div><div style="font-size:12px; color:var(--text-dim); width:60px; text-align:right;" class="num">'+r0(mm.k)+' kcal</div></div>';
+    }).join('');
+  }
+  const catLabel = (CATS.find(c=>c[0]===r.cat)||['',''])[1];
+  const changed = JSON.stringify(da.ing)!==JSON.stringify(r.ing);
+  const stepsHtml = r.steps ? '<div class="section-title" style="margin-top:22px;"><h2 style="font-size:15px;">Pr\u00e9paration</h2></div><p style="font-size:14px; line-height:1.55; color:var(--text);">'+esc(r.steps)+'</p>' : '';
+  const person = activePerson();
+  const timeHtml = r.t ? ' \u00b7 <span class="time-badge">'+ICONS.clock+r.t+' min</span>' : '';
+
+  return '<div class="sheet-header"><button class="back" onclick="closeModal()">\u2039 Fermer</button>'
+    + '<button class="back" onclick="toggleAdjust()">'+(da.adjusting?'Termin\u00e9':'Ajuster les ingr\u00e9dients')+'</button></div>'
+    + '<h2 style="font-size:21px; margin-bottom:4px;">'+esc(r.n)+'</h2>'
+    + '<div style="color:var(--text-dim); font-size:13px; margin-bottom:14px; display:flex; align-items:center; gap:4px;">'+catLabel+timeHtml+(changed?' \u00b7 ingr\u00e9dients modifi\u00e9s pour cette fois':'')+'</div>'
+    + '<div>'+rows+'</div>'
+    + '<div class="macro-preview">'
+    + '<div class="m"><div class="v num">'+r0(tot.k)+'</div><div class="l">kcal</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.p)+'</div><div class="l">prot (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.c)+'</div><div class="l">gluc (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.f)+'</div><div class="l">lip (g)</div></div>'
+    + '</div>'
+    + '<div class="field"><label>Portions</label><div class="stepper">'
+    + '<button onclick="stepServings(-0.5)">\u2212</button><div class="v num">'+servings+'</div><button onclick="stepServings(0.5)">+</button>'
+    + '</div></div>'
+    + '<div class="field"><label>Ajuster \u00e0 un objectif calorique</label><div class="fab-row">'
+    + '<button class="btn small" onclick="scaleRecipeToTarget('+person.kcalTarget+')">Objectif ('+person.kcalTarget+')</button>'
+    + '<button class="btn small" onclick="scaleRecipeToTarget('+r0(person.kcalTarget/2)+')">Moiti\u00e9 ('+r0(person.kcalTarget/2)+')</button>'
+    + '</div><input type="number" placeholder="Ou viser X kcal pr\u00e9cis\u00e9ment" style="margin-top:8px;" onchange="scaleRecipeToTarget(parseFloat(this.value)||0)"></div>'
+    + personPillsField()
+    + '<button class="btn primary full" onclick="logRecipe()">Ajouter au journal \u2014 '+r0(tot.k*servings)+' kcal</button>'
+    + '<div class="fab-row" style="margin-top:10px;">'
+    + '<button class="btn" onclick="openRecipeEditor(\''+r.id+'\')">'+(changed?'Enregistrer ces changements':'Modifier la recette')+'</button>'
+    + (r.isCustom ? '<button class="btn danger" onclick="deleteCustomRecipe(\''+r.id+'\')">Supprimer</button>' : (r.isOverridden ? '<button class="btn" onclick="resetRecipeOverride(\''+r.id+'\')">R\u00e9initialiser</button>' : ''))
+    + '</div>'
+    + stepsHtml;
+}
+function scaleRecipeToTarget(targetKcal){
+  const da = VIEW.detailAdjust;
+  const base = computeRecipeMacros({ing: da.ing});
+  if(base.k<=0 || !targetKcal || targetKcal<=0) return;
+  da.servings = Math.max(0.25, round(targetKcal / base.k));
+  render();
+}
+function toggleAdjust(){ VIEW.detailAdjust.adjusting = !VIEW.detailAdjust.adjusting; render(); }
+function updateDetailIngQty(i, val){
+  const n = parseFloat(val);
+  if(!isNaN(n) && n>=0) VIEW.detailAdjust.ing[i].g = n;
+  render();
+}
+function removeDetailIngredient(i){ VIEW.detailAdjust.ing.splice(i,1); render(); }
+function addIngredientToDetail(){ VIEW.modal = {type:'ingredient-picker', context:'detail-adjust', search:''}; render(); }
+function stepServings(d){
+  VIEW.detailAdjust.servings = Math.max(0.25, round((VIEW.detailAdjust.servings||1)+d));
+  render();
+}
+function logRecipe(){
+  const da = VIEW.detailAdjust;
+  const people = VIEW.logFor && VIEW.logFor.length ? VIEW.logFor : [activePerson().id];
+  people.forEach(pid=>{
+    STATE.log.push({id:'e'+Date.now()+Math.random().toString(36).slice(2,6)+pid, date:VIEW.currentDate, ts:Date.now(), kind:'recipe', refId:da.recipeId, qty:da.servings, ingSnapshot: JSON.parse(JSON.stringify(da.ing)), person:pid});
+  });
+  saveState();
+  VIEW.modal=null; VIEW.detailAdjust=null;
+  toast('Ajout\u00e9 au journal');
+  if(VIEW.tab==='today') render(); else { VIEW.tab='today'; render(); }
+}
+function deleteCustomRecipe(id){
+  STATE.customRecipes = STATE.customRecipes.filter(r=>r.id!==id);
+  saveState();
+  VIEW.modal=null; render(); toast('Recette supprim\u00e9e');
+}
+function resetRecipeOverride(id){
+  delete STATE.recipeOverrides[id];
+  saveState();
+  VIEW.modal=null; render(); toast('Recette r\u00e9initialis\u00e9e');
+}
+
+function modalRecipeEditor(){
+  const d = VIEW.editorDraft;
+  const tot = computeRecipeMacros(d);
+  const rows = d.ing.map((ref,i)=>{
+    const ing = findIngredient(ref.id); const sup = !ing?findSupplement(ref.id):null; const item = ing||sup;
+    const label = item ? item.n : '(?)';
+    const unit = ing ? 'g' : 'dose(s)';
+    return '<div class="ing-row"><div class="n">'+esc(label)+'</div>'
+      + '<input class="g" type="number" step="'+(ing?'1':'0.5')+'" value="'+ref.g+'" onchange="updateEditorIngQty('+i+', this.value)">'
+      + '<div class="u">'+(ing?'g':'d')+'</div>'
+      + '<button class="rm" onclick="removeEditorIngredient('+i+')">\u00d7</button></div>';
+  }).join('') || '<div class="empty">Aucun ingr\u00e9dient. Ajoute-en un ci-dessous.</div>';
+
+  const catOptions = CATS.filter(c=>c[0]!=='all').map(([id,l])=>'<option value="'+id+'" '+(d.cat===id?'selected':'')+'>'+l+'</option>').join('');
+
+  return '<div class="sheet-header"><button class="back" onclick="closeModal()">Annuler</button><h2 style="font-size:16px;">'+(d.id||d.baseId?'Modifier':'Nouvelle')+' recette</h2><button class="back" style="color:var(--accent); font-weight:600;" onclick="saveRecipeDraft()">Enregistrer</button></div>'
+    + '<div class="field"><label>Nom de la recette</label><input value="'+esc(d.n)+'" onchange="VIEW.editorDraft.n=this.value">'
+    + '</div>'
+    + '<div class="field"><label>Cat\u00e9gorie</label><select onchange="VIEW.editorDraft.cat=this.value">'+catOptions+'</select></div>'
+    + '<div class="field"><label>Temps de pr\u00e9paration (minutes)</label><input type="number" value="'+(d.t||10)+'" onchange="VIEW.editorDraft.t=parseInt(this.value)||10"></div>'
+    + '<div class="field"><label>Ingr\u00e9dients</label>'+rows+'</div>'
+    + '<button class="btn full" onclick="openIngredientPicker(\'editor\')">+ Ajouter un ingr\u00e9dient</button>'
+    + '<div class="field"><label>Pr\u00e9paration (optionnel)</label><textarea style="width:100%; min-height:90px; background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:12px 14px; color:var(--text); font-size:14.5px; font-family:inherit;" onchange="VIEW.editorDraft.steps=this.value" placeholder="Ex. Faire revenir l\u2019oignon, ajouter le poulet\u2026">'+esc(d.steps||'')+'</textarea></div>'
+    + '<div class="macro-preview">'
+    + '<div class="m"><div class="v num">'+r0(tot.k)+'</div><div class="l">kcal</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.p)+'</div><div class="l">prot (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.c)+'</div><div class="l">gluc (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(tot.f)+'</div><div class="l">lip (g)</div></div>'
+    + '</div>';
+}
+function updateEditorIngQty(i, val){
+  const n = parseFloat(val);
+  if(!isNaN(n) && n>=0) VIEW.editorDraft.ing[i].g = n;
+  render();
+}
+function removeEditorIngredient(i){ VIEW.editorDraft.ing.splice(i,1); render(); }
+function saveRecipeDraft(){
+  const d = VIEW.editorDraft;
+  if(!d.n.trim()){ toast('Donne un nom \u00e0 la recette'); return; }
+  if(d.ing.length===0){ toast('Ajoute au moins un ingr\u00e9dient'); return; }
+  if(d.id){
+    const idx = STATE.customRecipes.findIndex(r=>r.id===d.id);
+    if(idx>=0) STATE.customRecipes[idx] = {id:d.id, n:d.n, cat:d.cat, steps:d.steps||'', t:d.t||10, ing:d.ing};
+  } else if(d.baseId){
+    STATE.recipeOverrides[d.baseId] = {n:d.n, cat:d.cat, steps:d.steps||'', t:d.t||10, ing:d.ing};
+  } else {
+    const slug = 'custom-'+d.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')+'-'+Date.now().toString(36);
+    STATE.customRecipes.push({id:slug, n:d.n, cat:d.cat, steps:d.steps||'', t:d.t||10, ing:d.ing});
+  }
+  saveState();
+  VIEW.modal=null; VIEW.editorDraft=null;
+  toast('Recette enregistr\u00e9e');
+  switchTab('recipes');
+}
+
+function openIngredientPicker(context){ VIEW.modal={type:'ingredient-picker', context, search:''}; render(); setTimeout(()=>{ const el=document.getElementById('ing-search'); if(el) el.focus(); },30); }
+function modalIngredientPicker(m){
+  const q = (m.search||'').toLowerCase();
+  const ings = allIngredients().filter(i=>i.n.toLowerCase().includes(q)).slice(0,40);
+  const items = ings.map(i=>'<div class="ac-item" onclick="pickIngredient(\''+i.id+'\')" style="cursor:pointer;"><div>'+esc(i.n)+'</div><div class="k num">'+r0(i.k)+' kcal \u00b7 '+round(i.p)+'g prot /100g</div></div>').join('') || '<div class="empty">Aucun r\u00e9sultat.</div>';
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Choisir un ingr\u00e9dient</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<div class="field"><input id="ing-search" placeholder="Rechercher\u2026" value="'+esc(m.search||'')+'" oninput="onIngSearch(this.value)"></div>'
+    + '<div style="max-height:46vh; overflow-y:auto; border:1px solid var(--line); border-radius:2px;">'+items+'</div>'
+    + '<button class="btn full" style="margin-top:14px;" onclick="openNewIngredient()">+ Cr\u00e9er un nouvel ingr\u00e9dient</button>';
+}
+function onIngSearch(v){ VIEW.modal.search=v; render(); const el=document.getElementById('ing-search'); if(el){ el.focus(); el.setSelectionRange(v.length,v.length); } }
+function pickIngredient(id){
+  const context = VIEW.modal.context;
+  if(context==='editor'){
+    VIEW.editorDraft.ing.push({id, g:100});
+    VIEW.modal={type:'recipe-editor'};
+    render();
+  } else if(context==='detail-adjust'){
+    VIEW.detailAdjust.ing.push({id, g:100});
+    VIEW.modal={type:'recipe-detail'};
+    render();
+  } else if(context==='log-ingredient'){
+    VIEW.modal={type:'log-ingredient-qty', id, qty:100};
+    render();
+  }
+}
+function modalLogIngredientQty(m){
+  const ing = findIngredient(m.id);
+  const factor = m.qty/100;
+  return '<div class="sheet-header"><h2 style="font-size:16px;">'+esc(ing.n)+'</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<div class="field"><label>Quantit\u00e9 (g)</label><input type="number" value="'+m.qty+'" onchange="VIEW.modal.qty=parseFloat(this.value)||0; render();"></div>'
+    + '<div class="macro-preview">'
+    + '<div class="m"><div class="v num">'+r0(ing.k*factor)+'</div><div class="l">kcal</div></div>'
+    + '<div class="m"><div class="v num">'+round(ing.p*factor)+'</div><div class="l">prot (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(ing.c*factor)+'</div><div class="l">gluc (g)</div></div>'
+    + '<div class="m"><div class="v num">'+round(ing.f*factor)+'</div><div class="l">lip (g)</div></div>'
+    + '</div>'
+    + personPillsField()
+    + '<button class="btn primary full" onclick="logIngredient(\''+m.id+'\', '+m.qty+')">Ajouter au journal</button>';
+}
+function logIngredient(id, grams){
+  const people = VIEW.logFor && VIEW.logFor.length ? VIEW.logFor : [activePerson().id];
+  people.forEach(pid=>{
+    STATE.log.push({id:'e'+Date.now()+Math.random().toString(36).slice(2,6)+pid, date:VIEW.currentDate, ts:Date.now(), kind:'ingredient', refId:id, qty:grams, person:pid});
+  });
+  saveState();
+  VIEW.modal=null;
+  toast('Ajout\u00e9 au journal');
+  if(VIEW.tab==='today') render(); else { VIEW.tab='today'; render(); }
+}
+
+function openNewIngredient(){
+  const context = VIEW.modal.context;
+  VIEW.modal = {type:'new-ingredient', pendingContext:context, draft:{n:'',k:'',p:'',c:'',f:''}};
+  render();
+}
+function modalNewIngredient(m){
+  const d = m.draft;
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Nouvel ingr\u00e9dient</h2><button class="back" onclick="closeModal()">Annuler</button></div>'
+    + '<p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">Valeurs pour 100 g (ou 100 ml).</p>'
+    + '<div class="field"><label>Nom</label><input value="'+esc(d.n)+'" onchange="VIEW.modal.draft.n=this.value"></div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Kcal</label><input type="number" value="'+d.k+'" onchange="VIEW.modal.draft.k=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Prot (g)</label><input type="number" value="'+d.p+'" onchange="VIEW.modal.draft.p=this.value"></div>'
+    + '</div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Gluc (g)</label><input type="number" value="'+d.c+'" onchange="VIEW.modal.draft.c=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Lip (g)</label><input type="number" value="'+d.f+'" onchange="VIEW.modal.draft.f=this.value"></div>'
+    + '</div>'
+    + '<button class="btn primary full" style="margin-top:8px;" onclick="saveNewIngredient()">Enregistrer</button>';
+}
+function saveNewIngredient(){
+  const d = VIEW.modal.draft;
+  if(!d.n.trim()){ toast('Donne un nom'); return; }
+  const id = 'custom-'+d.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')+'-'+Date.now().toString(36);
+  const item = {id, n:d.n, k:parseFloat(d.k)||0, p:parseFloat(d.p)||0, c:parseFloat(d.c)||0, f:parseFloat(d.f)||0};
+  STATE.customIngredients.push(item);
+  saveState();
+  const context = VIEW.modal.pendingContext;
+  if(context==='editor'){
+    VIEW.editorDraft.ing.push({id:item.id, g:100});
+    VIEW.modal={type:'recipe-editor'};
+  } else {
+    VIEW.modal={type:'log-ingredient-qty', id:item.id, qty:100};
+  }
+  render();
+  toast('Ingr\u00e9dient cr\u00e9\u00e9');
+}
+
+function openCustomEntry(){ resetLogFor(); VIEW.modal={type:'custom-entry', draft:{n:'',k:'',p:'',c:'',f:''}}; render(); }
+function modalCustomEntry(m){
+  const d = m.draft;
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Saisie libre</h2><button class="back" onclick="closeModal()">Annuler</button></div>'
+    + '<p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">Pour un repas ponctuel dont tu connais d\u00e9j\u00e0 les macros (ex. restaurant).</p>'
+    + '<div class="field"><label>Nom</label><input value="'+esc(d.n)+'" placeholder="Ex. Menu resto" onchange="VIEW.modal.draft.n=this.value"></div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Kcal</label><input type="number" value="'+d.k+'" onchange="VIEW.modal.draft.k=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Prot (g)</label><input type="number" value="'+d.p+'" onchange="VIEW.modal.draft.p=this.value"></div>'
+    + '</div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Gluc (g)</label><input type="number" value="'+d.c+'" onchange="VIEW.modal.draft.c=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Lip (g)</label><input type="number" value="'+d.f+'" onchange="VIEW.modal.draft.f=this.value"></div>'
+    + '</div>'
+    + personPillsField()
+    + '<button class="btn primary full" style="margin-top:8px;" onclick="saveCustomEntry()">Ajouter au journal</button>';
+}
+function saveCustomEntry(){
+  const d = VIEW.modal.draft;
+  if(!d.n.trim()){ toast('Donne un nom'); return; }
+  const people = VIEW.logFor && VIEW.logFor.length ? VIEW.logFor : [activePerson().id];
+  people.forEach(pid=>{
+    STATE.log.push({id:'e'+Date.now()+Math.random().toString(36).slice(2,6)+pid, date:VIEW.currentDate, ts:Date.now(), kind:'custom', name:d.n, qty:1, macros:{k:parseFloat(d.k)||0, p:parseFloat(d.p)||0, c:parseFloat(d.c)||0, f:parseFloat(d.f)||0}, person:pid});
+  });
+  saveState();
+  VIEW.modal=null;
+  toast('Ajout\u00e9 au journal');
+  if(VIEW.tab==='today') render(); else { VIEW.tab='today'; render(); }
+}
+
+function modalSupplementEditor(m){
+  const d = m.draft;
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Nouveau compl\u00e9ment</h2><button class="back" onclick="closeModal()">Annuler</button></div>'
+    + '<p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">Valeurs pour 1 dose / 1 shaker.</p>'
+    + '<div class="field"><label>Nom</label><input value="'+esc(d.n)+'" placeholder="Ex. Whey Prozis \u2014 1 dose" onchange="VIEW.modal.draft.n=this.value"></div>'
+    + '<div class="field"><label>Marque</label><input value="'+esc(d.brand)+'" placeholder="Ex. Prozis" onchange="VIEW.modal.draft.brand=this.value"></div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Kcal</label><input type="number" value="'+d.k+'" onchange="VIEW.modal.draft.k=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Prot (g)</label><input type="number" value="'+d.p+'" onchange="VIEW.modal.draft.p=this.value"></div>'
+    + '</div>'
+    + '<div class="metric-row">'
+    + '<div class="field" style="flex:1; margin:0;"><label>Gluc (g)</label><input type="number" value="'+d.c+'" onchange="VIEW.modal.draft.c=this.value"></div>'
+    + '<div class="field" style="flex:1; margin:0;"><label>Lip (g)</label><input type="number" value="'+d.f+'" onchange="VIEW.modal.draft.f=this.value"></div>'
+    + '</div>'
+    + '<button class="btn primary full" style="margin-top:8px;" onclick="saveSupplementDraft()">Enregistrer</button>';
+}
+function saveSupplementDraft(){
+  const d = VIEW.modal.draft;
+  if(!d.n.trim()){ toast('Donne un nom'); return; }
+  const id = 'custom-sup-'+d.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')+'-'+Date.now().toString(36);
+  STATE.customSupplements.push({id, n:d.n, brand:d.brand, k:parseFloat(d.k)||0, p:parseFloat(d.p)||0, c:parseFloat(d.c)||0, f:parseFloat(d.f)||0});
+  saveState();
+  VIEW.modal=null; render();
+  toast('Compl\u00e9ment ajout\u00e9');
+}
+
+function modalConfirmReset(){
+  return '<div class="sheet-header"><h2 style="font-size:16px;">R\u00e9initialiser</h2><button class="back" onclick="closeModal()">Annuler</button></div>'
+    + '<p style="font-size:14.5px; line-height:1.5;">Ceci efface d\u00e9finitivement ton journal, tes recettes/ingr\u00e9dients/compl\u00e9ments personnalis\u00e9s, ton poids et tes cibles sur cet appareil. Pense \u00e0 exporter avant si besoin.</p>'
+    + '<button class="btn danger full" onclick="doReset()">Tout r\u00e9initialiser</button>';
+}
+
+function modalExport(){
+  const json = JSON.stringify(STATE, null, 2);
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Exporter</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">S\u00e9lectionne tout et copie, garde-le quelque part en cas de changement d\u2019appareil.</p>'
+    + '<textarea readonly style="width:100%; height:220px; background:var(--surface); border:1px solid var(--line); border-radius:2px; color:var(--text); padding:12px; font-family:var(--mono); font-size:11px;" onclick="this.select()">'+esc(json)+'</textarea>'
+    + '<button class="btn primary full" style="margin-top:12px;" onclick="copyExport()">Copier</button>';
+}
+function copyExport(){
+  const ta = document.querySelector('#modal-root textarea');
+  ta.select();
+  try{ document.execCommand('copy'); toast('Copi\u00e9'); }
+  catch(e){
+    if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(()=>toast('Copi\u00e9')).catch(()=>toast('Copie manuelle n\u00e9cessaire'));
+  }
+}
+function modalImport(){
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Importer</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<p style="color:var(--text-dim); font-size:12.5px; margin-top:-4px;">Colle ici un export pr\u00e9c\u00e9dent. Remplace toutes les donn\u00e9es actuelles.</p>'
+    + '<textarea id="import-ta" style="width:100%; height:220px; background:var(--surface); border:1px solid var(--line); border-radius:2px; color:var(--text); padding:12px; font-family:var(--mono); font-size:11px;" placeholder="Colle le JSON ici\u2026"></textarea>'
+    + '<button class="btn primary full" style="margin-top:12px;" onclick="doImport()">Importer et remplacer</button>';
+}
+
+function openRoulette(){ VIEW.modal={type:'roulette', cat:'all', budgetOnly:false, result:null}; render(); }
+function roulettePool(m){
+  let pool = allRecipes();
+  if(m.cat!=='all') pool = pool.filter(r=>r.cat===m.cat);
+  if(m.budgetOnly){
+    const remaining = Math.max(0, activePerson().kcalTarget - totalsForDate(VIEW.currentDate).k);
+    pool = pool.filter(r=>computeRecipeMacros(r).k <= remaining + 80);
+  }
+  return pool;
+}
+function setRouletteCat(cat){ VIEW.modal.cat=cat; VIEW.modal.result=null; render(); }
+function toggleRouletteBudget(){ VIEW.modal.budgetOnly=!VIEW.modal.budgetOnly; VIEW.modal.result=null; render(); }
+function modalRoulette(m){
+  const pool = roulettePool(m);
+  const chips = CATS.map(([id,label])=>'<button class="chip '+(m.cat===id?'active':'')+'" onclick="setRouletteCat(\''+id+'\')">'+label+'</button>').join('');
+  const display = m.result ? m.result.n : (pool.length ? 'Pr\u00eat \u00e0 tourner\u00a0?' : 'Aucune recette dans ce filtre');
+  const resultActions = m.result
+    ? '<div style="text-align:center; color:var(--text-dim); font-size:13px; margin:-6px 0 16px;">'+r0(computeRecipeMacros(m.result).k)+' kcal \u00b7 '+(m.result.t||'?')+' min</div>'
+      + '<div class="fab-row"><button class="btn" onclick="spinRoulette()">Relancer</button><button class="btn primary" onclick="closeModal(); openRecipeDetail(\''+m.result.id+'\')">Voir la recette</button></div>'
+    : '<button id="roulette-spin-btn" class="btn primary full" onclick="spinRoulette()" '+(pool.length?'':'disabled')+'>Lancer la roulette</button>';
+
+  return '<div class="sheet-header"><h2 style="font-size:16px;">Roulette</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<div class="chiprow">'+chips+'</div>'
+    + '<label style="display:flex; align-items:center; gap:8px; font-size:13.5px; color:var(--text-dim); margin:10px 0 4px; cursor:pointer;"><input type="checkbox" '+(m.budgetOnly?'checked':'')+' onchange="toggleRouletteBudget()"> Seulement ce qui tient dans mon budget restant</label>'
+    + '<div class="roulette-wheel" id="roulette-display">'+esc(display)+'</div>'
+    + resultActions;
+}
+function spinRoulette(){
+  const m = VIEW.modal;
+  const pool = roulettePool(m);
+  if(pool.length===0){ toast('Aucune recette ne correspond \u00e0 ce filtre'); return; }
+  const el = document.getElementById('roulette-display');
+  const btn = document.getElementById('roulette-spin-btn');
+  if(btn) btn.disabled = true;
+  let i=0; const total = 16 + Math.floor(Math.random()*8);
+  const iv = setInterval(()=>{
+    const r = pool[Math.floor(Math.random()*pool.length)];
+    if(el) el.textContent = r.n;
+    i++;
+    if(i>=total){
+      clearInterval(iv);
+      m.result = pool[Math.floor(Math.random()*pool.length)];
+      render();
+    }
+  }, 80);
+}
+
+/* ============================= INIT ============================= */
+window.STATE = STATE; window.VIEW = VIEW;
+window.INGREDIENTS = INGREDIENTS; window.RECIPES = RECIPES; window.SUPPLEMENTS_BASE = SUPPLEMENTS_BASE;
+resetLogFor();
+render();
+
+function modalAdd(){
+  const dot = (cls)=>'<span class="dot '+cls+'" style="display:inline-block; margin-right:12px; vertical-align:middle;"></span>';
+  return '<div class="sheet-header"><h2>Ajouter au journal</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
+    + '<div class="field"><button class="btn full" onclick="closeModal(); switchTab(\'recipes\')" style="text-align:left; padding:16px; display:flex; align-items:center;">'+dot('recipe')+'Une recette</button></div>'
+    + '<div class="field"><button class="btn full" onclick="openIngredientPicker(\'log-ingredient\')" style="text-align:left; padding:16px; display:flex; align-items:center;">'+dot('ingredient')+'Un aliment brut (avec grammage)</button></div>'
+    + '<div class="field"><button class="btn full" onclick="closeModal(); switchTab(\'supplements\')" style="text-align:left; padding:16px; display:flex; align-items:center;">'+dot('supplement')+'Un compl\u00e9ment / shaker</button></div>'
+    + '<div class="field"><button class="btn full" onclick="openCustomEntry()" style="text-align:left; padding:16px; display:flex; align-items:center;">'+dot('custom')+'Saisie libre (kcal/macros \u00e0 la main)</button></div>';
+}
+</script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
