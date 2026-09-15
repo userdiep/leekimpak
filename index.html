@@ -175,7 +175,7 @@ const INGREDIENTS = [
 {id:'thon-boite', n:'Thon au naturel (boîte, égoutté)', k:116,p:26,c:0,f:1},
 {id:'thon-cru', n:'Thon cru', k:130,p:24,c:0,f:3},
 {id:'crevettes-cuites', n:'Crevettes cuites', k:99,p:21,c:0.5,f:1},
-{id:'oeuf', n:'Œuf entier', k:145,p:12.5,c:1,f:10},
+{id:'oeuf', n:'Œuf entier', k:145,p:12.5,c:1,f:10, uw:55, ul:'œuf'},
 {id:'blanc-oeuf', n:'Blanc d\u2019œuf', k:48,p:11,c:0.7,f:0.2},
 {id:'tofu', n:'Tofu ferme', k:145,p:15,c:2,f:9},
 {id:'lentilles-cuites', n:'Lentilles cuites', k:116,p:9,c:20,f:0.4},
@@ -199,10 +199,10 @@ const INGREDIENTS = [
 {id:'pates-cuites', n:'Pâtes cuites', k:158,p:5.8,c:31,f:0.9},
 {id:'quinoa-cru', n:'Quinoa cru', k:368,p:14,c:64,f:6},
 {id:'quinoa-cuit', n:'Quinoa cuit', k:120,p:4.4,c:21,f:1.9},
-{id:'pdt-crue', n:'Pomme de terre crue', k:77,p:2,c:17,f:0.1},
+{id:'pdt-crue', n:'Pomme de terre crue', k:77,p:2,c:17,f:0.1, uw:150, ul:'pomme de terre'},
 {id:'pdt-cuite', n:'Pomme de terre cuite', k:87,p:2,c:20,f:0.1},
 {id:'pdt-sautee-canard', n:'Pommes de terre sautées (graisse de canard)', k:200,p:2.5,c:22,f:12},
-{id:'patatedouce-crue', n:'Patate douce crue', k:86,p:1.6,c:20,f:0.1},
+{id:'patatedouce-crue', n:'Patate douce crue', k:86,p:1.6,c:20,f:0.1, uw:200, ul:'patate douce'},
 {id:'patatedouce-cuite', n:'Patate douce cuite', k:90,p:2,c:21,f:0.1},
 {id:'pain-complet', n:'Pain complet', k:250,p:9,c:41,f:3.5},
 {id:'pain-blanc', n:'Pain blanc / baguette', k:270,p:9,c:55,f:1},
@@ -211,26 +211,26 @@ const INGREDIENTS = [
 {id:'semoule-cuite', n:'Semoule cuite', k:112,p:3.8,c:23,f:0.2},
 {id:'granola', n:'Granola / muesli', k:450,p:10,c:60,f:18},
 {id:'brocoli', n:'Brocoli', k:34,p:2.8,c:4,f:0.4},
-{id:'courgette', n:'Courgette', k:17,p:1.2,c:3,f:0.2},
-{id:'poivron', n:'Poivron', k:31,p:1,c:6,f:0.3},
-{id:'tomate', n:'Tomate', k:18,p:0.9,c:3.5,f:0.2},
-{id:'carotte', n:'Carotte', k:41,p:0.9,c:9.6,f:0.2},
-{id:'oignon', n:'Oignon', k:40,p:1.1,c:9,f:0.1},
+{id:'courgette', n:'Courgette', k:17,p:1.2,c:3,f:0.2, uw:200, ul:'courgette'},
+{id:'poivron', n:'Poivron', k:31,p:1,c:6,f:0.3, uw:150, ul:'poivron'},
+{id:'tomate', n:'Tomate', k:18,p:0.9,c:3.5,f:0.2, uw:120, ul:'tomate'},
+{id:'carotte', n:'Carotte', k:41,p:0.9,c:9.6,f:0.2, uw:80, ul:'carotte'},
+{id:'oignon', n:'Oignon', k:40,p:1.1,c:9,f:0.1, uw:100, ul:'oignon'},
 {id:'epinards', n:'Épinards', k:23,p:2.9,c:3.6,f:0.4},
 {id:'salade', n:'Salade verte', k:15,p:1.4,c:2.9,f:0.2},
 {id:'champignons', n:'Champignons de Paris', k:22,p:3,c:3.3,f:0.3},
 {id:'haricotsverts', n:'Haricots verts cuits', k:31,p:1.8,c:7,f:0.2},
-{id:'aubergine', n:'Aubergine', k:25,p:1,c:6,f:0.2},
-{id:'concombre', n:'Concombre', k:12,p:0.7,c:2,f:0.1},
+{id:'aubergine', n:'Aubergine', k:25,p:1,c:6,f:0.2, uw:250, ul:'aubergine'},
+{id:'concombre', n:'Concombre', k:12,p:0.7,c:2,f:0.1, uw:300, ul:'concombre'},
 {id:'choufleur', n:'Chou-fleur', k:25,p:2,c:5,f:0.3},
 {id:'petitspois', n:'Petits pois cuits', k:81,p:5.4,c:14,f:0.4},
-{id:'avocat', n:'Avocat', k:160,p:2,c:9,f:15},
+{id:'avocat', n:'Avocat', k:160,p:2,c:9,f:15, uw:150, ul:'avocat'},
 {id:'ratatouille', n:'Ratatouille', k:62,p:1.5,c:6,f:3.5},
 {id:'carottes-creme', n:'Carottes à la crème', k:95,p:1.5,c:9,f:5.5},
 {id:'gratin-dauphinois', n:'Gratin dauphinois', k:175,p:3.5,c:16,f:11},
-{id:'banane', n:'Banane', k:89,p:1.1,c:23,f:0.3},
-{id:'pomme', n:'Pomme', k:52,p:0.3,c:14,f:0.2},
-{id:'orange', n:'Orange', k:47,p:0.9,c:12,f:0.1},
+{id:'banane', n:'Banane', k:89,p:1.1,c:23,f:0.3, uw:120, ul:'banane'},
+{id:'pomme', n:'Pomme', k:52,p:0.3,c:14,f:0.2, uw:180, ul:'pomme'},
+{id:'orange', n:'Orange', k:47,p:0.9,c:12,f:0.1, uw:200, ul:'orange'},
 {id:'fraises', n:'Fraises', k:32,p:0.7,c:7.7,f:0.3},
 {id:'myrtilles', n:'Myrtilles', k:57,p:0.7,c:14,f:0.3},
 {id:'raisin', n:'Raisin', k:69,p:0.7,c:18,f:0.2},
@@ -259,7 +259,7 @@ const INGREDIENTS = [
 {id:'siroperable', n:'Sirop d\u2019érable', k:260,p:0,c:67,f:0},
 {id:'ail', n:'Ail', k:149,p:6.4,c:33,f:0.5},
 {id:'gingembre', n:'Gingembre frais', k:80,p:1.8,c:18,f:0.8},
-{id:'citron', n:'Citron', k:29,p:1.1,c:9,f:0.3},
+{id:'citron', n:'Citron', k:29,p:1.1,c:9,f:0.3, uw:100, ul:'citron'},
 {id:'farine', n:'Farine de blé', k:364,p:10,c:76,f:1},
 {id:'chocolatnoir', n:'Chocolat noir 70%', k:598,p:7.8,c:46,f:43},
 {id:'cacao', n:'Cacao en poudre non sucré', k:228,p:20,c:12,f:14},
@@ -283,6 +283,129 @@ const INGREDIENTS = [
 {id:'pain-burger', n:'Pain à burger', k:280,p:9,c:50,f:5},
 {id:'concentretomate', n:'Concentré de tomate', k:82,p:4.3,c:15,f:0.5},
 {id:'champignons-cuits', n:'Champignons de Paris cuits', k:29,p:3.6,c:2.3,f:0.6},
+
+/* --- Crèmes --- */
+{id:'creme-liquide-entiere', n:'Crème liquide entière (30%)', k:292,p:2.2,c:3.4,f:30},
+{id:'creme-liquide-legere', n:'Crème liquide légère (12%)', k:145,p:2.8,c:4,f:12},
+{id:'chantilly', n:'Crème chantilly sucrée', k:257,p:2.2,c:17,f:22},
+{id:'creme-soja', n:'Crème de soja (cuisine)', k:190,p:2,c:3,f:18},
+{id:'creme-avoine', n:'Crème d\u2019avoine (cuisine)', k:160,p:1,c:7,f:14},
+{id:'mascarpone', n:'Mascarpone', k:435,p:4.5,c:4.8,f:44},
+{id:'creme-anglaise', n:'Crème anglaise', k:120,p:3.5,c:17,f:4},
+{id:'creme-patissiere', n:'Crème pâtissière', k:165,p:4,c:22,f:6},
+{id:'creme-fraiche-30', n:'Crème fraîche (30%, pot)', k:296,p:2.4,c:3,f:30},
+{id:'creme-fouettee-legere', n:'Crème fouettée allégée (bombe)', k:190,p:3,c:8,f:16},
+
+/* --- Viandes supplémentaires --- */
+{id:'agneau-gigot-cru', n:'Gigot d\u2019agneau cru', k:175,p:20,c:0,f:10},
+{id:'agneau-cotelette-crue', n:'Côtelette d\u2019agneau crue', k:250,p:17,c:0,f:20},
+{id:'veau-escalope-crue', n:'Escalope de veau crue', k:108,p:21,c:0,f:2.5},
+{id:'canard-magret-cru', n:'Magret de canard cru (avec peau)', k:210,p:18,c:0,f:15},
+{id:'lapin-cru', n:'Lapin cru', k:114,p:21,c:0,f:3},
+{id:'foie-volaille-cru', n:'Foie de volaille cru', k:130,p:20,c:3,f:4.5},
+{id:'chorizo', n:'Chorizo', k:400,p:24,c:2,f:32},
+{id:'saucisse-toulouse-crue', n:'Saucisse de Toulouse crue', k:280,p:15,c:1,f:24},
+{id:'merguez-crue', n:'Merguez crue', k:290,p:16,c:2,f:24},
+{id:'poulet-pilon-cru', n:'Pilon de poulet cru (avec peau)', k:180,p:18,c:0,f:12, uw:90, ul:'pilon'},
+{id:'poulet-aile-crue', n:'Aile de poulet crue', k:200,p:18,c:0,f:14, uw:70, ul:'aile'},
+{id:'boeuf-rumsteck-cru', n:'Rumsteck de bœuf cru', k:140,p:21,c:0,f:6},
+{id:'boeuf-entrecote-crue', n:'Entrecôte de bœuf crue', k:175,p:20,c:0,f:10},
+{id:'boeuf-bavette-crue', n:'Bavette de bœuf crue', k:145,p:21,c:0,f:6},
+
+/* --- Poissons & fruits de mer supplémentaires --- */
+{id:'bar-cru', n:'Bar (loup) cru', k:97,p:18,c:0,f:2.5},
+{id:'dorade-crue', n:'Dorade crue', k:105,p:20,c:0,f:2.5},
+{id:'truite-crue', n:'Truite crue', k:120,p:20,c:0,f:4},
+{id:'maquereau-cru', n:'Maquereau cru', k:190,p:19,c:0,f:12},
+{id:'sardine-crue', n:'Sardine crue', k:170,p:20,c:0,f:10},
+{id:'sardine-huile', n:'Sardines à l\u2019huile (boîte, égouttées)', k:210,p:21,c:0,f:14},
+{id:'hareng-cru', n:'Hareng cru', k:190,p:18,c:0,f:13},
+{id:'sole-crue', n:'Sole crue', k:85,p:17,c:0,f:1.5},
+{id:'merlu-cru', n:'Merlu / colin cru', k:85,p:17,c:0,f:1},
+{id:'lieunoir-cru', n:'Lieu noir cru', k:85,p:18,c:0,f:1},
+{id:'anchois-huile', n:'Anchois (filets à l\u2019huile)', k:210,p:25,c:0,f:12},
+{id:'raie-crue', n:'Raie crue', k:80,p:18,c:0,f:0.7},
+{id:'calamar-cru', n:'Calamar / encornet cru', k:75,p:15,c:2,f:1},
+{id:'moules-cuites', n:'Moules cuites (sans coquille)', k:85,p:12,c:4,f:2},
+{id:'huitres', n:'Huîtres (chair)', k:65,p:9,c:4,f:1.5},
+
+/* --- Légumes supplémentaires --- */
+{id:'celeribranche', n:'Céleri branche', k:16,p:0.7,c:3,f:0.2, uw:40, ul:'branche'},
+{id:'poireau', n:'Poireau', k:29,p:1.5,c:6,f:0.3, uw:150, ul:'poireau'},
+{id:'radis', n:'Radis', k:16,p:0.7,c:3,f:0.1, uw:10, ul:'radis'},
+{id:'betterave-cuite', n:'Betterave cuite', k:44,p:1.7,c:9,f:0.1, uw:100, ul:'betterave'},
+{id:'navet', n:'Navet', k:28,p:0.9,c:5,f:0.1, uw:100, ul:'navet'},
+{id:'endive', n:'Endive', k:17,p:1,c:2.8,f:0.1, uw:100, ul:'endive'},
+{id:'choux-vert', n:'Chou vert', k:27,p:1.4,c:4.3,f:0.2},
+{id:'fenouil', n:'Fenouil', k:22,p:1.2,c:3,f:0.2, uw:300, ul:'fenouil'},
+
+/* --- Sauces --- */
+{id:'saucesoja-sucree', n:'Sauce soja sucrée', k:209,p:5,c:47,f:0.5},
+{id:'pesto-vert', n:'Pesto (basilic)', k:450,p:4,c:5,f:45},
+{id:'pesto-rouge', n:'Pesto rouge (tomates séchées)', k:380,p:4,c:10,f:35},
+{id:'sauce-worcestershire', n:'Sauce Worcestershire', k:78,p:0,c:19,f:0},
+{id:'sauce-barbecue', n:'Sauce barbecue', k:172,p:1,c:40,f:0.5},
+{id:'sauce-cesar', n:'Sauce César', k:450,p:2,c:4,f:47},
+{id:'sauce-carbonara', n:'Sauce carbonara (toute prête)', k:250,p:6,c:6,f:22},
+{id:'sauce-bolo-bocal', n:'Sauce bolognaise (bocal)', k:65,p:3,c:7,f:3},
+{id:'sauce-tartare', n:'Sauce tartare', k:450,p:1,c:5,f:47},
+{id:'sauce-cocktail', n:'Sauce cocktail', k:350,p:1,c:15,f:32},
+{id:'nuocmam', n:'Nuoc-mâm (sauce poisson)', k:50,p:5,c:5,f:0},
+{id:'sauce-teriyaki', n:'Sauce teriyaki', k:89,p:6,c:16,f:0},
+{id:'sauce-hoisin', n:'Sauce hoisin', k:220,p:3,c:44,f:3},
+{id:'sriracha', n:'Sriracha / sauce piment', k:93,p:2,c:19,f:0.5},
+{id:'tzatziki', n:'Tzatziki', k:85,p:3,c:4,f:6},
+{id:'sauce-ranch', n:'Sauce ranch', k:420,p:1,c:7,f:44},
+{id:'bechamel', n:'Sauce béchamel', k:95,p:2.5,c:6,f:7},
+{id:'sauce-poivre', n:'Sauce au poivre', k:120,p:2,c:4,f:10},
+{id:'chimichurri', n:'Chimichurri', k:350,p:1,c:4,f:37},
+{id:'wasabi', n:'Wasabi', k:109,p:3,c:23,f:0.5},
+{id:'moutarde-ancienne', n:'Moutarde à l\u2019ancienne', k:100,p:6,c:4,f:6},
+{id:'vinaigre-riz', n:'Vinaigre de riz', k:20,p:0,c:1,f:0},
+
+/* --- Ingrédients de plats (pizza, lasagnes, sushi, gnocchis...) --- */
+{id:'pate-pizza-crue', n:'Pâte à pizza crue', k:265,p:9,c:50,f:3},
+{id:'pates-lasagne-crues', n:'Pâtes à lasagne crues', k:350,p:12,c:71,f:1.5},
+{id:'gnocchis-crus', n:'Gnocchis frais', k:150,p:3.5,c:31,f:0.5},
+{id:'nouilles-chinoises-cuites', n:'Nouilles chinoises cuites', k:140,p:4.5,c:25,f:1},
+{id:'nouilles-udon-cuites', n:'Nouilles udon cuites', k:130,p:3.5,c:27,f:0.3},
+{id:'pate-brisee-crue', n:'Pâte brisée crue', k:280,p:6,c:32,f:15},
+{id:'chapelure', n:'Chapelure', k:395,p:13,c:73,f:5},
+{id:'gari', n:'Gingembre mariné (gari)', k:60,p:0.2,c:14,f:0.1},
+{id:'algue-nori', n:'Algue nori (feuille)', k:35,p:6,c:5,f:0.3},
+{id:'riz-sushi-cuit', n:'Riz à sushi cuit (vinaigré)', k:145,p:2.5,c:32,f:0.2},
+{id:'pate-curry-verte', n:'Pâte de curry verte (tha\u00eflandaise)', k:120,p:3,c:15,f:6},
+{id:'cacahuetes', n:'Cacahuètes', k:570,p:25,c:16,f:48},
+
+/* --- Pour les nouvelles cuisines --- */
+{id:'sucre', n:'Sucre', k:400,p:0,c:100,f:0},
+{id:'paneer', n:'Paneer (fromage indien)', k:265,p:18,c:2,f:21},
+{id:'naan', n:'Pain naan', k:310,p:9,c:52,f:7},
+{id:'pruneaux', n:'Pruneaux', k:240,p:2.2,c:57,f:0.4},
+{id:'haricotsnoirs-cuits', n:'Haricots noirs cuits', k:132,p:9,c:24,f:0.5},
+{id:'edamame', n:'Edamame (f\u00e8ves de soja)', k:120,p:11,c:9,f:5},
+{id:'popcorn-nature', n:'Pop-corn nature (souffl\u00e9)', k:387,p:12,c:78,f:5},
+{id:'cheddar', n:'Cheddar', k:400,p:25,c:1,f:33},
+{id:'vin-rouge-cuisine', n:'Vin rouge (cuisine)', k:85,p:0.1,c:2.6,f:0},
+{id:'curry-japonais-roux', n:'Curry japonais (roux/bloc)', k:450,p:5,c:50,f:25},
+{id:'biscuits-secs', n:'Biscuits secs (type petit-beurre)', k:435,p:7,c:75,f:12},
+{id:'boudoirs', n:'Boudoirs (biscuits cuill\u00e8re)', k:390,p:7,c:80,f:5},
+{id:'cafe-expresso', n:'Caf\u00e9 expresso', k:2,p:0.1,c:0,f:0},
+{id:'kimchi', n:'Kimchi', k:34,p:1.8,c:5,f:0.5},
+{id:'gochujang', n:'Gochujang (pâte pimentée coréenne)', k:200,p:5,c:44,f:1},
+{id:'persil', n:'Persil', k:36,p:3,c:6,f:0.8},
+{id:'ricotta', n:'Ricotta', k:150,p:8,c:3,f:11},
+{id:'cannelle', n:'Cannelle (poudre)', k:250,p:4,c:80,f:1},
+{id:'haricotsblancs-tomate', n:'Haricots blancs sauce tomate', k:90,p:4.5,c:15,f:0.5},
+{id:'mangue', n:'Mangue', k:60,p:0.8,c:15,f:0.4, uw:300, ul:'mangue'},
+{id:'dattes', n:'Dattes', k:280,p:2.5,c:75,f:0.4},
+{id:'cerises', n:'Cerises', k:63,p:1,c:16,f:0.2},
+{id:'potiron', n:'Potiron / courge', k:26,p:1,c:6,f:0.1},
+{id:'chevre', n:'Fromage de ch\u00e8vre', k:290,p:19,c:1,f:23},
+{id:'mais', n:'Ma\u00efs (en grains)', k:96,p:3.3,c:19,f:1.5},
+{id:'saucisson', n:'Saucisson sec', k:410,p:24,c:1,f:35},
+{id:'farine-sarrasin', n:'Farine de sarrasin', k:335,p:13,c:70,f:2.5},
+{id:'roquefort', n:'Roquefort', k:370,p:20,c:2,f:31},
 ];
 
 /* ============================= DATA: SUPPLÉMENTS ============================= */
@@ -316,6 +439,25 @@ const RECIPES = [
 {id:'r-smoothiebowl', n:'Smoothie bowl yaourt, fruits, granola', cat:'petit-dej', ing:[{id:'yaourtgrec',g:180},{id:'banane',g:100},{id:'myrtilles',g:60},{id:'granola',g:30}], steps:'Mixer le yaourt avec la moitié de la banane et des myrtilles. Verser dans un bol, garnir avec le reste des fruits et le granola.', t:5},
 {id:'r-wrap-petitdej', n:'Wrap œuf, fromage', cat:'petit-dej', ing:[{id:'tortilla',g:60},{id:'oeuf',g:110},{id:'emmental',g:25}], steps:'Cuire l\u2019œuf brouillé, le déposer avec le fromage sur la tortilla tiédie, rouler serré.', t:12},
 {id:'r-fromagefrais-saumon', n:'Tartine fromage frais, saumon fumé', cat:'petit-dej', ing:[{id:'pain-complet',g:60},{id:'fromagefrais',g:40},{id:'saumonfume',g:50}], steps:'Tartiner le pain de fromage frais, déposer le saumon fumé par-dessus.', t:7},
+{id:'r-granola-maison', n:'Granola maison au four, yaourt', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'miel',g:15},{id:'amandes',g:15},{id:'yaourtgrec',g:150}], steps:'M\u00e9langer avoine, miel et amandes, \u00e9taler sur une plaque. Four 15-18 min \u00e0 160\u00b0C en remuant \u00e0 mi-cuisson. Servir sur le yaourt une fois refroidi.', t:22},
+{id:'r-chiapudding', n:'Chia pudding, fruits rouges', cat:'petit-dej', ing:[{id:'lait-demi',g:200},{id:'fraises',g:80},{id:'miel',g:10}], steps:'M\u00e9langer le lait avec des graines de chia (non compt\u00e9es ici, quantit\u00e9 libre), laisser reposer au frigo toute la nuit. Ajouter les fruits et le miel au moment de servir.', t:6},
+{id:'r-bagel-saumon', n:'Bagel, saumon fum\u00e9, fromage frais', cat:'petit-dej', ing:[{id:'pain-blanc',g:90},{id:'saumonfume',g:60},{id:'fromagefrais',g:40}], steps:'Couper le bagel en deux, tartiner de fromage frais, garnir de saumon fum\u00e9.', t:5},
+{id:'r-muffin-anglais-bacon', n:'Muffin anglais, œuf, bacon', cat:'petit-dej', ing:[{id:'pain-blanc',g:70},{id:'oeuf',g:55},{id:'lardons',g:40},{id:'emmental',g:20}], steps:'Faire dorer les lardons. Cuire un œuf au plat. Monter le muffin toast\u00e9 avec lardons, œuf et fromage.', t:12},
+{id:'r-porridge-pomme-cannelle', n:'Porridge pomme, cannelle', cat:'petit-dej', ing:[{id:'avoine',g:60},{id:'lait-demi',g:200},{id:'pomme',g:100},{id:'cannelle',g:2}], steps:'Faire chauffer l\u2019avoine avec le lait 4-5 min. Ajouter la pomme coup\u00e9e en d\u00e9s et la cannelle.', t:10},
+{id:'r-skyr-fruitssecs', n:'Skyr, fruits secs, miel', cat:'petit-dej', ing:[{id:'skyr',g:200},{id:'amandes',g:15},{id:'dattes',g:20},{id:'miel',g:10}], steps:'M\u00e9langer le skyr avec les fruits secs coup\u00e9s et le miel.', t:5},
+{id:'r-tartine-ricotta-miel', n:'Tartine ricotta, miel', cat:'petit-dej', ing:[{id:'pain-complet',g:70},{id:'ricotta',g:80},{id:'miel',g:12}], steps:'Tartiner le pain grill\u00e9 de ricotta, filer un peu de miel par-dessus.', t:5},
+{id:'r-pain-perdu-classique', n:'Pain perdu classique', cat:'petit-dej', ing:[{id:'pain-blanc',g:80},{id:'oeuf',g:55},{id:'lait-demi',g:80},{id:'sucre',g:10},{id:'beurre',g:10}], steps:'Battre l\u2019œuf avec le lait et le sucre, y tremper le pain. Cuire 2-3 min de chaque c\u00f4t\u00e9 dans le beurre.', t:12},
+{id:'r-smoothie-vert', n:'Smoothie vert (\u00e9pinard, banane)', cat:'petit-dej', ing:[{id:'epinards',g:50},{id:'banane',g:120},{id:'lait-demi',g:200}], steps:'Mixer tous les ingr\u00e9dients ensemble jusqu\u2019\u00e0 texture lisse.', t:4},
+{id:'r-oeufs-benedict', n:'Œufs B\u00e9n\u00e9dicte simplifi\u00e9s', cat:'petit-dej', ing:[{id:'pain-blanc',g:70},{id:'oeuf',g:110},{id:'jambonblanc',g:50},{id:'cremeepaisse',g:20}], steps:'Pocher les œufs 3 min. Monter sur le pain grill\u00e9 avec le jambon, napper d\u2019un peu de cr\u00e8me.', t:12},
+{id:'r-blinis-saumon', n:'Blinis, saumon fum\u00e9, fromage frais', cat:'petit-dej', ing:[{id:'pain-blanc',g:60},{id:'saumonfume',g:50},{id:'fromagefrais',g:30}], steps:'Tartiner les blinis de fromage frais, garnir de saumon fum\u00e9.', t:5},
+{id:'r-congee-poulet', n:'Congee au poulet (riz asiatique)', cat:'petit-dej', ing:[{id:'riz-blanc-cru',g:60},{id:'poulet-cuit',g:100},{id:'gingembre',g:5},{id:'saucesoja',g:10}], steps:'Cuire le riz dans beaucoup d\u2019eau 30-35 min jusqu\u2019\u00e0 texture cr\u00e9meuse. Ajouter le poulet effiloch\u00e9, le gingembre et la sauce soja.', t:40},
+{id:'r-porridge-quinoa', n:'Porridge de quinoa, fruits', cat:'petit-dej', ing:[{id:'quinoa-cuit',g:150},{id:'lait-demi',g:150},{id:'banane',g:80},{id:'miel',g:10}], steps:'Chauffer le quinoa cuit avec le lait 3-4 min. Ajouter la banane et le miel.', t:10},
+{id:'r-muesli-maison', n:'Muesli, lait', cat:'petit-dej', ing:[{id:'granola',g:60},{id:'lait-demi',g:180},{id:'pomme',g:80}], steps:'M\u00e9langer le granola avec le lait et la pomme coup\u00e9e en d\u00e9s.', t:5},
+{id:'r-toast-avocat-feta', n:'Toast avocat, feta', cat:'petit-dej', ing:[{id:'pain-complet',g:70},{id:'avocat',g:80},{id:'feta',g:30}], steps:'\u00c9craser l\u2019avocat sur le pain grill\u00e9, \u00e9mietter la feta par-dessus.', t:6},
+{id:'r-gaufres-proteinees', n:'Gaufres prot\u00e9in\u00e9es', cat:'petit-dej', ing:[{id:'avoine',g:50},{id:'oeuf',g:110},{id:'whey-hsn',g:1},{id:'lait-demi',g:60}], steps:'Mixer tous les ingr\u00e9dients, cuire au gaufrier 4-5 min jusqu\u2019\u00e0 dor\u00e9.', t:12},
+{id:'r-crepes-classiques', n:'Cr\u00eapes classiques', cat:'petit-dej', ing:[{id:'farine',g:60},{id:'oeuf',g:55},{id:'lait-demi',g:150},{id:'sucre',g:10}], steps:'M\u00e9langer farine, œuf, lait et sucre en pâte lisse. Cuire 1-2 min de chaque c\u00f4t\u00e9 dans une po\u00eale chaude l\u00e9g\u00e8rement huil\u00e9e.', t:15},
+{id:'r-compote-fromageblanc-granola', n:'Fromage blanc, compote, granola', cat:'petit-dej', ing:[{id:'fromageblanc0',g:180},{id:'compote',g:100},{id:'granola',g:30}], steps:'Superposer fromage blanc, compote et granola dans un bol.', t:4},
+{id:'r-petitdej-anglais', n:'Petit-d\u00e9jeuner anglais simplifi\u00e9', cat:'petit-dej', ing:[{id:'oeuf',g:110},{id:'lardons',g:50},{id:'haricotsblancs-tomate',g:120},{id:'pain-complet',g:50}], steps:'Cuire les œufs au plat, faire dorer les lardons, r\u00e9chauffer les haricots blancs. Servir avec le pain grill\u00e9.', t:15},
 
 // --- POULET / DINDE ---
 {id:'r-poulet-riz-brocoli', n:'Poulet, riz, brocoli', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'riz-basmati-cuit',g:200},{id:'brocoli',g:150},{id:'huile-olive',g:8}], steps:'Cuire le riz. Faire dorer le poulet coupé en morceaux dans l\u2019huile 8-10 min. Cuire le brocoli à la vapeur 5-6 min. Assembler.', t:15},
@@ -412,6 +554,23 @@ const RECIPES = [
 {id:'c-fromageblanc-cacao', n:'Fromage blanc, cacao, banane', cat:'collation', ing:[{id:'fromageblanc0',g:180},{id:'cacao',g:8},{id:'banane',g:80}], steps:'Mélanger le cacao dans le fromage blanc, ajouter la banane coupée.', t:6},
 {id:'c-jambondinde-roule', n:'Roulé jambon de dinde, fromage frais', cat:'collation', ing:[{id:'jambondinde',g:60},{id:'fromagefrais',g:30}], steps:'Tartiner la tranche de jambon de dinde de fromage frais et rouler.', t:6},
 {id:'c-orange-amandes', n:'Orange, amandes', cat:'collation', ing:[{id:'orange',g:150},{id:'amandes',g:15}], steps:'À consommer tel quel.', t:2},
+{id:'c-barre-cereales-maison', n:'Barre de c\u00e9r\u00e9ales maison', cat:'collation', ing:[{id:'avoine',g:40},{id:'miel',g:15},{id:'amandes',g:15},{id:'dattes',g:20}], steps:'M\u00e9langer tous les ingr\u00e9dients, presser dans un moule, four 15 min \u00e0 160\u00b0C. Laisser refroidir avant de d\u00e9couper.', t:20},
+{id:'c-chips-patatedouce', n:'Chips de patate douce au four', cat:'collation', ing:[{id:'patatedouce-crue',g:150},{id:'huile-olive',g:8}], steps:'Couper la patate douce en fines tranches, enduire d\u2019huile. Four 20-25 min \u00e0 200\u00b0C en retournant \u00e0 mi-cuisson.', t:30},
+{id:'c-popcorn', n:'Pop-corn nature', cat:'collation', ing:[{id:'popcorn-nature',g:30}], steps:'\u00c0 consommer tel quel (d\u00e9j\u00e0 souffl\u00e9), ou faire \u00e9clater au micro-ondes/po\u00eale sans mati\u00e8re grasse ajout\u00e9e.', t:5},
+{id:'c-edamame', n:'Edamame vapeur, sel', cat:'collation', ing:[{id:'edamame',g:150}], steps:'Cuire \u00e0 la vapeur ou \u00e0 l\u2019eau bouillante 4-5 min, saler.', t:8},
+{id:'c-fromageblanc-granola-miel', n:'Fromage blanc, granola, miel', cat:'collation', ing:[{id:'fromageblanc0',g:180},{id:'granola',g:30},{id:'miel',g:10}], steps:'M\u00e9langer le fromage blanc avec le granola et le miel.', t:3},
+{id:'c-wrap-thon-mini', n:'Mini wrap au thon', cat:'collation', ing:[{id:'thon-boite',g:80},{id:'tortilla',g:40},{id:'salade',g:20}], steps:'Garnir la tortilla de thon \u00e9goutt\u00e9 et de salade, rouler.', t:5},
+{id:'c-smoothie-mangue', n:'Smoothie prot\u00e9in\u00e9 mangue', cat:'collation', ing:[{id:'mangue',g:150},{id:'lait-demi',g:150},{id:'whey-hsn',g:1}], steps:'Mixer tous les ingr\u00e9dients ensemble.', t:4},
+{id:'c-toast-tomate-mozza', n:'Toast tomate, mozzarella', cat:'collation', ing:[{id:'pain-complet',g:50},{id:'tomate',g:80},{id:'mozzarella',g:40}], steps:'Disposer tomate et mozzarella en tranches sur le pain grill\u00e9.', t:5},
+{id:'c-yaourt-fruitssecs-miel', n:'Yaourt, fruits secs, miel', cat:'collation', ing:[{id:'yaourtgrec',g:170},{id:'noix',g:15},{id:'miel',g:10}], steps:'M\u00e9langer le yaourt avec les noix concass\u00e9es et le miel.', t:3},
+{id:'c-courgette-houmous', n:'B\u00e2tonnets de courgette, houmous', cat:'collation', ing:[{id:'courgette',g:150},{id:'houmous',g:80}], steps:'Couper la courgette en b\u00e2tonnets, tremper dans le houmous.', t:5},
+{id:'c-boule-energie-dattes', n:'Boules d\u2019\u00e9nergie dattes-amandes', cat:'collation', ing:[{id:'dattes',g:60},{id:'amandes',g:30},{id:'cacao',g:8}], steps:'Mixer les dattes d\u00e9noyaut\u00e9es avec les amandes et le cacao jusqu\u2019\u00e0 p\u00e2te homog\u00e8ne. Former des boules.', t:10},
+{id:'c-fromagefrais-radis', n:'Fromage frais, radis', cat:'collation', ing:[{id:'fromagefrais',g:60},{id:'radis',g:100}], steps:'Tremper les radis entiers dans le fromage frais.', t:3},
+{id:'c-skyr-granola-banane', n:'Skyr, granola, banane', cat:'collation', ing:[{id:'skyr',g:180},{id:'granola',g:25},{id:'banane',g:80}], steps:'M\u00e9langer le skyr avec le granola et la banane coup\u00e9e.', t:4},
+{id:'c-oeuf-mimosa', n:'Œuf mimosa l\u00e9ger', cat:'collation', ing:[{id:'oeuf',g:110},{id:'fromageblanc0',g:30}], steps:'Cuire l\u2019œuf dur, couper en deux, m\u00e9langer le jaune avec le fromage blanc et remplir les blancs.', t:12},
+{id:'c-biscuits-fromageblanc', n:'Biscuits secs, fromage blanc', cat:'collation', ing:[{id:'biscuits-secs',g:30},{id:'fromageblanc0',g:150}], steps:'\u00c0 consommer ensemble ou tremper les biscuits dans le fromage blanc.', t:2},
+{id:'c-thon-biscottes', n:'Thon, biscottes', cat:'collation', ing:[{id:'thon-boite',g:100},{id:'pain-complet',g:40}], steps:'\u00c9taler le thon \u00e9goutt\u00e9 sur les biscottes ou tartines grill\u00e9es.', t:3},
+{id:'c-compote-amandes', n:'Compote, amandes', cat:'collation', ing:[{id:'compote',g:120},{id:'amandes',g:15}], steps:'\u00c0 consommer ensemble.', t:2},
 
 // --- DESSERTS PROTÉINÉS ---
 {id:'d-pancakes-proteines', n:'Pancakes protéinés', cat:'dessert', ing:[{id:'avoine',g:50},{id:'oeuf',g:110},{id:'banane',g:80},{id:'whey-hsn',g:0.5}], steps:'Mixer tous les ingrédients, cuire par petites louches 2 min de chaque côté à la poêle.', t:8},
@@ -422,6 +581,197 @@ const RECIPES = [
 {id:'d-glace-protein-banane', n:'Nice cream banane (banane glacée mixée)', cat:'dessert', ing:[{id:'banane',g:200},{id:'lait-demi',g:40}], steps:'Congeler la banane coupée en rondelles au moins 3h. Mixer avec le lait jusqu\u2019à texture glace.', t:8},
 {id:'d-cookie-proteine', n:'Cookie protéiné maison (avoine, whey)', cat:'dessert', ing:[{id:'avoine',g:40},{id:'whey-hsn',g:1},{id:'beurrecacahuete',g:15},{id:'miel',g:10}], steps:'Mélanger tous les ingrédients en pâte homogène, former des cookies. Four 10-12 min à 180°C.', t:20},
 {id:'d-chocolat-amandes', n:'Carré de chocolat noir, amandes', cat:'dessert', ing:[{id:'chocolatnoir',g:20},{id:'amandes',g:15}], steps:'À consommer tel quel.', t:8},
+{id:'d-tiramisu-leger', n:'Tiramisu l\u00e9ger', cat:'dessert', ing:[{id:'mascarpone',g:80},{id:'boudoirs',g:40},{id:'cafe-expresso',g:60},{id:'cacao',g:5}], steps:'Tremper rapidement les boudoirs dans le caf\u00e9, alterner avec des couches de mascarpone. Saupoudrer de cacao. Frigo au moins 2h.', t:15},
+{id:'d-cheesecake-proteine', n:'Cheesecake prot\u00e9in\u00e9', cat:'dessert', ing:[{id:'fromagefrais',g:200},{id:'biscuits-secs',g:40},{id:'oeuf',g:55},{id:'sucre',g:15}], steps:'\u00c9craser les biscuits pour le fond. M\u00e9langer fromage frais, œuf et sucre, verser dessus. Four 25-30 min \u00e0 160\u00b0C, laisser refroidir avant de servir.', t:40},
+{id:'d-crumble-pommes', n:'Crumble aux pommes', cat:'dessert', ing:[{id:'pomme',g:200},{id:'farine',g:50},{id:'beurre',g:30},{id:'sucre',g:20}], steps:'Couper les pommes en d\u00e9s dans un plat. M\u00e9langer farine, beurre et sucre du bout des doigts en sable grossier, r\u00e9partir dessus. Four 25-30 min \u00e0 180\u00b0C.', t:35},
+{id:'d-riz-au-lait', n:'Riz au lait', cat:'dessert', ing:[{id:'riz-blanc-cru',g:60},{id:'lait-demi',g:300},{id:'sucre',g:20}], steps:'Cuire le riz dans le lait sucr\u00e9 \u00e0 feu doux 25-30 min en remuant r\u00e9guli\u00e8rement jusqu\u2019\u00e0 texture cr\u00e9meuse.', t:35},
+{id:'d-brownie-proteine', n:'Brownie prot\u00e9in\u00e9', cat:'dessert', ing:[{id:'chocolatnoir',g:40},{id:'oeuf',g:110},{id:'whey-hsn',g:1},{id:'beurrecacahuete',g:20}], steps:'Faire fondre le chocolat. M\u00e9langer avec les œufs, la whey et le beurre de cacahu\u00e8te. Four 15-18 min \u00e0 170\u00b0C dans un petit moule.', t:22},
+{id:'d-pannacotta-legere', n:'Panna cotta l\u00e9g\u00e8re', cat:'dessert', ing:[{id:'cremelegere',g:150},{id:'lait-demi',g:80},{id:'sucre',g:20}], steps:'Chauffer cr\u00e8me, lait et sucre sans bouillir. Ajouter de la g\u00e9latine (non compt\u00e9e), verser dans des ramequins, frigo au moins 3h.', t:15},
+{id:'d-salade-fruits', n:'Salade de fruits frais', cat:'dessert', ing:[{id:'pomme',g:100},{id:'orange',g:100},{id:'kiwi',g:80},{id:'raisin',g:80}], steps:'Couper tous les fruits en morceaux, m\u00e9langer.', t:8},
+{id:'d-flan', n:'Flan p\u00e2tissier', cat:'dessert', ing:[{id:'oeuf',g:165},{id:'lait-entier',g:300},{id:'sucre',g:40},{id:'farine',g:30}], steps:'M\u00e9langer œufs, sucre et farine, d\u00e9layer avec le lait chaud. Verser dans un moule, four 35-40 min \u00e0 180\u00b0C. Laisser refroidir.', t:50},
+{id:'d-tarte-pommes', n:'Tarte aux pommes (part)', cat:'dessert', ing:[{id:'pate-brisee-crue',g:100},{id:'pomme',g:200},{id:'sucre',g:20}], steps:'Foncer un moule avec la p\u00e2te, disposer les pommes en lamelles, saupoudrer de sucre. Four 30-35 min \u00e0 190\u00b0C.', t:45},
+{id:'d-mousse-chocolat-legere', n:'Mousse au chocolat l\u00e9g\u00e8re', cat:'dessert', ing:[{id:'chocolatnoir',g:40},{id:'blanc-oeuf',g:120},{id:'sucre',g:10}], steps:'Faire fondre le chocolat. Monter les blancs en neige avec le sucre, incorporer d\u00e9licatement au chocolat fondu. Frigo au moins 2h.', t:20},
+{id:'d-clafoutis-cerises', n:'Clafoutis aux cerises', cat:'dessert', ing:[{id:'cerises',g:200},{id:'oeuf',g:110},{id:'farine',g:40},{id:'lait-demi',g:150},{id:'sucre',g:25}], steps:'Disposer les cerises dans un plat beurr\u00e9. M\u00e9langer œufs, farine, lait et sucre, verser dessus. Four 30-35 min \u00e0 180\u00b0C.', t:45},
+{id:'d-bananabread', n:'Banana bread (part)', cat:'dessert', ing:[{id:'banane',g:200},{id:'farine',g:100},{id:'oeuf',g:55},{id:'sucre',g:30},{id:'beurre',g:30}], steps:'\u00c9craser les bananes, m\u00e9langer avec les autres ingr\u00e9dients. Verser dans un moule \u00e0 cake, four 40-45 min \u00e0 180\u00b0C.', t:55},
+{id:'d-yaourt-glace-maison', n:'Yaourt glac\u00e9 maison', cat:'dessert', ing:[{id:'yaourtgrec',g:200},{id:'miel',g:20},{id:'fraises',g:80}], steps:'Mixer le yaourt avec le miel et les fraises, verser dans un bac et placer au cong\u00e9lateur au moins 4h en remuant une fois \u00e0 mi-prise.', t:15},
+{id:'d-sorbet-mangue', n:'Sorbet mangue maison', cat:'dessert', ing:[{id:'mangue',g:250},{id:'sucre',g:20},{id:'citron',g:10}], steps:'Mixer la mangue avec le sucre et le jus de citron. Verser dans un bac, cong\u00e9lateur au moins 4h en remuant \u00e0 mi-prise.', t:10},
+{id:'d-muffin-chocolat', n:'Muffin au chocolat', cat:'dessert', ing:[{id:'farine',g:60},{id:'oeuf',g:55},{id:'chocolatnoir',g:30},{id:'sucre',g:25},{id:'beurre',g:20}], steps:'M\u00e9langer tous les ingr\u00e9dients, verser dans un moule \u00e0 muffin. Four 18-20 min \u00e0 180\u00b0C.', t:28},
+
+// --- ITALIEN ---
+{id:'r-lasagnes', n:'Lasagnes bolognaise maison', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:180},{id:'coulistomate',g:200},{id:'pates-lasagne-crues',g:120},{id:'bechamel',g:150},{id:'emmental',g:60}], steps:'Pr\u00e9parer la bolognaise (bœuf hach\u00e9 revenu, coulis de tomate, mijoter 15 min). Monter en couches dans un plat : p\u00e2tes, bolognaise, b\u00e9chamel, r\u00e9p\u00e9ter, finir par le fromage. Four 35-40 min \u00e0 200\u00b0C.', t:55},
+{id:'r-spaghetti-carbonara', n:'Spaghetti carbonara', cat:'dejeuner', ing:[{id:'pates-cuites',g:250},{id:'lardons',g:100},{id:'oeuf',g:110},{id:'parmesan',g:30}], steps:'Cuire les p\u00e2tes. Faire dorer les lardons \u00e0 sec. Hors du feu, m\u00e9langer les p\u00e2tes chaudes avec les œufs battus, le parmesan et les lardons \u2014 la chaleur des p\u00e2tes cuit la sauce sans faire d\u2019œuf brouill\u00e9. Poivrer g\u00e9n\u00e9reusement.', t:20},
+{id:'r-spaghetti-bolognaise', n:'Spaghetti bolognaise', cat:'dejeuner', ing:[{id:'pates-cuites',g:250},{id:'boeuf-hache15',g:170},{id:'coulistomate',g:180},{id:'oignon',g:50},{id:'parmesan',g:15}], steps:'Faire revenir l\u2019oignon puis le bœuf hach\u00e9, ajouter le coulis de tomate, mijoter 20 min. Servir sur les spaghetti avec le parmesan.', t:30},
+{id:'r-risotto-poulet', n:'Risotto au poulet', cat:'dejeuner', ing:[{id:'riz-blanc-cru',g:90},{id:'poulet-cru',g:150},{id:'parmesan',g:20},{id:'oignon',g:40},{id:'beurre',g:10}], steps:'Faire revenir l\u2019oignon et le riz cru 2 min. Ajouter du bouillon louche par louche en remuant 18-20 min jusqu\u2019\u00e0 cuisson cr\u00e9meuse. Ajouter le poulet poêl\u00e9 \u00e0 part, le parmesan et le beurre en fin de cuisson.', t:35},
+{id:'r-risotto-champignons', n:'Risotto aux champignons', cat:'dejeuner', ing:[{id:'riz-blanc-cru',g:90},{id:'champignons-cuits',g:150},{id:'parmesan',g:25},{id:'oignon',g:40},{id:'beurre',g:10}], steps:'Faire revenir l\u2019oignon et le riz cru 2 min. Ajouter du bouillon louche par louche 18-20 min en remuant. Ajouter les champignons, le parmesan et le beurre en fin de cuisson.', t:30},
+{id:'r-pizza-maison', n:'Pizza maison jambon-fromage', cat:'dejeuner', ing:[{id:'pate-pizza-crue',g:200},{id:'coulistomate',g:80},{id:'mozzarella',g:100},{id:'jambonblanc',g:60}], steps:'\u00c9taler la p\u00e2te, tartiner de coulis de tomate. Garnir de mozzarella et de jambon. Four 10-12 min \u00e0 220-250\u00b0C.', t:25},
+{id:'r-gnocchis-tomate-parmesan', n:'Gnocchis, sauce tomate, parmesan', cat:'dejeuner', ing:[{id:'gnocchis-crus',g:300},{id:'coulistomate',g:150},{id:'parmesan',g:20},{id:'huile-olive',g:6}], steps:'Cuire les gnocchis 2-3 min dans l\u2019eau bouillante jusqu\u2019\u00e0 ce qu\u2019ils remontent. Chauffer le coulis de tomate, m\u00e9langer, parsemer de parmesan.', t:15},
+{id:'r-penne-arrabbiata', n:'Penne all\u2019arrabbiata', cat:'dejeuner', ing:[{id:'pates-cuites',g:250},{id:'coulistomate',g:180},{id:'ail',g:8},{id:'huile-olive',g:10},{id:'parmesan',g:15}], steps:'Faire revenir l\u2019ail dans l\u2019huile avec du piment, ajouter le coulis de tomate, mijoter 10 min. M\u00e9langer avec les p\u00e2tes, parsemer de parmesan.', t:20},
+
+// --- JAPONAIS / ASIATIQUE ---
+{id:'r-chirashi-saumon', n:'Chirashi saumon', cat:'dejeuner', ing:[{id:'riz-sushi-cuit',g:250},{id:'saumon-cru',g:150},{id:'avocat',g:60},{id:'gari',g:15},{id:'saucesoja',g:15}], steps:'Napper le riz \u00e0 sushi de tranches fines de saumon cru et d\u2019avocat. Servir avec le gari et la sauce soja \u00e0 part pour tremper.', t:15},
+{id:'r-sushi-bowl-thon', n:'Sushi bowl thon', cat:'dejeuner', ing:[{id:'riz-sushi-cuit',g:220},{id:'thon-cru',g:150},{id:'avocat',g:60},{id:'algue-nori',g:5},{id:'saucesoja',g:15}], steps:'Couper le thon cru en d\u00e9s, dresser sur le riz avec l\u2019avocat, \u00e9mietter l\u2019algue nori dessus. Arroser de sauce soja.', t:12},
+{id:'r-poke-bowl-saumon', n:'Poke bowl saumon', cat:'dejeuner', ing:[{id:'saumon-cru',g:150},{id:'riz-sushi-cuit',g:220},{id:'avocat',g:60},{id:'petitspois',g:50},{id:'saucesoja',g:15}], steps:'Couper le saumon cru en d\u00e9s, mariner rapidement dans la sauce soja. Dresser sur le riz avec avocat et petits pois.', t:15},
+{id:'r-ramen-poulet', n:'Ramen au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'nouilles-udon-cuites',g:200},{id:'oeuf',g:55},{id:'saucesoja',g:20},{id:'champignons-cuits',g:80}], steps:'Poêler le poulet en lamelles. Pr\u00e9parer un bouillon avec la sauce soja et les champignons, y plonger les nouilles 2-3 min. Ajouter le poulet et un œuf mollet en topping.', t:25},
+{id:'r-padthai-poulet', n:'Pad tha\u00ef au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'nouilles-chinoises-cuites',g:200},{id:'oeuf',g:55},{id:'cacahuetes',g:20},{id:'saucesoja',g:15}], steps:'Poêler le poulet en lamelles, pousser sur le c\u00f4t\u00e9, casser l\u2019œuf dans la poêle et brouiller. Ajouter les nouilles et la sauce soja, m\u00e9langer 3-4 min. Parsemer de cacahu\u00e8tes concass\u00e9es.', t:20},
+{id:'r-boeuf-nouilles-sautees', n:'Nouilles saut\u00e9es au bœuf', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:150},{id:'nouilles-chinoises-cuites',g:200},{id:'poivron',g:80},{id:'huile-sesame',g:8},{id:'saucesoja',g:20}], steps:'Faire saut\u00e9r le bœuf en lamelles \u00e0 feu vif 2-3 min, r\u00e9server. Saisir le poivron, ajouter les nouilles et la sauce soja, remettre le bœuf, m\u00e9langer 2 min.', t:18},
+{id:'r-curry-vert-poulet', n:'Curry vert tha\u00ef au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'pate-curry-verte',g:30},{id:'lait-coco',g:150},{id:'riz-basmati-cuit',g:200},{id:'poivron',g:80}], steps:'Faire revenir la p\u00e2te de curry 1 min, ajouter le poulet en morceaux, saisir. Verser le lait de coco et le poivron, mijoter 12-15 min. Servir sur le riz.', t:25},
+
+// --- FRANÇAIS ---
+{id:'r-hachis-parmentier', n:'Hachis parmentier', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:180},{id:'pdt-cuite',g:300},{id:'lait-demi',g:40},{id:'emmental',g:30}], steps:'Faire revenir le bœuf hach\u00e9. \u00c9craser les pommes de terre en pur\u00e9e avec le lait. Monter en couches (viande puis pur\u00e9e) dans un plat, parsemer de fromage. Four 20 min \u00e0 200\u00b0C (gratiner en fin de cuisson).', t:40},
+{id:'r-blanquette-veau', n:'Blanquette de veau, riz', cat:'dejeuner', ing:[{id:'veau-escalope-crue',g:180},{id:'carotte',g:100},{id:'cremelegere',g:60},{id:'riz-basmati-cuit',g:180}], steps:'Faire mijoter le veau en morceaux avec les carottes dans un bouillon 40-45 min. Lier avec la cr\u00e8me en fin de cuisson. Servir avec le riz.', t:55},
+{id:'r-pot-au-feu', n:'Pot-au-feu', cat:'dejeuner', ing:[{id:'boeuf-rumsteck-cru',g:200},{id:'carotte',g:150},{id:'poireau',g:100},{id:'pdt-cuite',g:200}], steps:'Faire mijoter le bœuf dans un grand volume d\u2019eau avec les l\u00e9gumes 2h \u00e0 feu doux, \u00e9cumer r\u00e9guli\u00e8rement. Servir la viande et les l\u00e9gumes avec un peu de bouillon.', t:130},
+{id:'r-quiche-lorraine', n:'Quiche lorraine, salade', cat:'dejeuner', ing:[{id:'pate-brisee-crue',g:150},{id:'oeuf',g:165},{id:'lardons',g:100},{id:'cremeepaisse',g:100},{id:'salade',g:50}], steps:'Foncer un moule avec la p\u00e2te. M\u00e9langer œufs, cr\u00e8me et lardons poêl\u00e9s, verser sur la p\u00e2te. Four 30-35 min \u00e0 190\u00b0C. Servir avec la salade.', t:45},
+{id:'r-tartiflette', n:'Tartiflette', cat:'dejeuner', ing:[{id:'pdt-cuite',g:300},{id:'lardons',g:100},{id:'oignon',g:60},{id:'cremeepaisse',g:80},{id:'emmental',g:80}], steps:'Faire revenir lardons et oignon. M\u00e9langer avec les pommes de terre en tranches et la cr\u00e8me dans un plat, couvrir de fromage. Four 20-25 min \u00e0 200\u00b0C.', t:40},
+
+// --- MEXICAIN ---
+{id:'r-tacos-boeuf', n:'Tacos au bœuf', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:170},{id:'tortilla',g:80},{id:'salade',g:30},{id:'tomate',g:60},{id:'emmental',g:30}], steps:'Faire revenir le bœuf hach\u00e9 avec des \u00e9pices tex-mex 8 min. Garnir les tortillas chaudes avec la viande, salade, tomate et fromage.', t:18},
+{id:'r-burrito-bowl-poulet', n:'Burrito bowl poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'riz-blanc-cuit',g:200},{id:'haricotsrouges-cuits',g:120},{id:'avocat',g:60},{id:'tomate',g:80}], steps:'Poêler le poulet en d\u00e9s. Dresser le riz en bol avec le poulet, les haricots rouges, l\u2019avocat et la tomate coup\u00e9e.', t:20},
+{id:'r-quesadillas-poulet', n:'Quesadillas poulet, fromage', cat:'dejeuner', ing:[{id:'poulet-cuit',g:130},{id:'tortilla',g:120},{id:'emmental',g:60},{id:'poivron',g:60}], steps:'Garnir une tortilla de poulet effiloch\u00e9, fromage et poivron, refermer avec une seconde tortilla. Cuire 2-3 min de chaque c\u00f4t\u00e9 \u00e0 la po\u00eale jusqu\u2019\u00e0 ce que le fromage fonde.', t:15},
+
+// --- AUTRES ---
+{id:'r-couscous-poulet-merguez', n:'Couscous poulet, merguez', cat:'dejeuner', ing:[{id:'poulet-cru',g:120},{id:'merguez-crue',g:100},{id:'semoule-cuite',g:220},{id:'carotte',g:100},{id:'poischiches-cuits',g:100}], steps:'Faire mijoter le poulet, la merguez et les l\u00e9gumes dans un bouillon \u00e9pic\u00e9 25-30 min. Servir sur la semoule avec les pois chiches.', t:40},
+{id:'r-paella-poulet-fruitsdemer', n:'Paella poulet, fruits de mer', cat:'dejeuner', ing:[{id:'poulet-cru',g:130},{id:'crevettes-cuites',g:100},{id:'moules-cuites',g:100},{id:'riz-blanc-cru',g:100},{id:'poivron',g:80}], steps:'Faire dorer le poulet, ajouter le riz cru et le poivron, mouiller avec du bouillon safran\u00e9. Cuire 18-20 min sans remuer, ajouter crevettes et moules en fin de cuisson.', t:35},
+{id:'r-tzatziki-poulet-grec', n:'Poulet grec, tzatziki, pain pita', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'tzatziki',g:60},{id:'pain-blanc',g:70},{id:'tomate',g:60},{id:'salade',g:30}], steps:'Mariner puis griller le poulet 8-10 min. Garnir le pain pita avec le poulet, le tzatziki, la tomate et la salade.', t:20},
+
+// --- INDIEN ---
+{id:'r-poulet-korma', n:'Poulet korma, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'lait-coco',g:100},{id:'yaourtgrec',g:40},{id:'riz-basmati-cuit',g:200},{id:'oignon',g:50}], steps:'Faire revenir l\u2019oignon, ajouter le poulet et saisir. Verser lait de coco et yaourt, mijoter 15-18 min \u00e0 couvert. Servir sur le riz.', t:30},
+{id:'r-biryani-poulet', n:'Biryani au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'riz-basmati-cru',g:90},{id:'yaourtgrec',g:50},{id:'oignon',g:60}], steps:'Mariner le poulet dans le yaourt et les \u00e9pices. Faire revenir l\u2019oignon, ajouter le poulet et saisir. Ajouter le riz cru et l\u2019eau, cuire \u00e0 couvert 18-20 min.', t:35},
+{id:'r-saag-paneer', n:'Saag paneer (\u00e9pinards, paneer)', cat:'dejeuner', ing:[{id:'paneer',g:150},{id:'epinards',g:250},{id:'cremelegere',g:50},{id:'riz-basmati-cuit',g:180}], steps:'Faire tomber les \u00e9pinards \u00e0 la po\u00eale, mixer grossi\u00e8rement. Ajouter le paneer en d\u00e9s et la cr\u00e8me, chauffer 5 min. Servir sur le riz.', t:20},
+{id:'r-chicken-tikka', n:'Chicken tikka, naan', cat:'dejeuner', ing:[{id:'poulet-cru',g:170},{id:'yaourtgrec',g:60},{id:'naan',g:90},{id:'salade',g:30}], steps:'Mariner le poulet dans le yaourt et les \u00e9pices tandoori au moins 20 min. Griller 10-12 min. Servir avec le naan tied\u00e8 et la salade.', t:25},
+{id:'r-dahl-epice-paneer', n:'Dahl de lentilles \u00e9pic\u00e9, paneer', cat:'dejeuner', ing:[{id:'lentilles-cuites',g:220},{id:'paneer',g:100},{id:'lait-coco',g:60},{id:'riz-basmati-cuit',g:150}], steps:'Chauffer les lentilles avec le lait de coco et les \u00e9pices 8-10 min. Ajouter le paneer en d\u00e9s en fin de cuisson. Servir sur le riz.', t:20},
+
+// --- CHINOIS ---
+{id:'r-poulet-ananas', n:'Poulet \u00e0 l\u2019ananas, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'ananas',g:120},{id:'poivron',g:80},{id:'saucesoja',g:15},{id:'riz-basmati-cuit',g:200}], steps:'Saisir le poulet en morceaux 6-8 min. Ajouter le poivron et l\u2019ananas coup\u00e9s, la sauce soja, saut\u00e9r 5 min. Servir sur le riz.', t:20},
+{id:'r-boeuf-huitres', n:'Bœuf sauce aux hu\u00eetres, br\u00f4coli', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:150},{id:'brocoli',g:150},{id:'saucesoja',g:15},{id:'riz-basmati-cuit',g:180}], steps:'Saisir le bœuf en lamelles \u00e0 feu vif 2-3 min, r\u00e9server. Faire sauter le brocoli, remettre le bœuf avec la sauce soja. Servir sur le riz.', t:18},
+{id:'r-porc-caramel', n:'Porc au caramel (asiatique), riz', cat:'dejeuner', ing:[{id:'porc-filet',g:170},{id:'saucesoja',g:20},{id:'miel',g:15},{id:'riz-basmati-cuit',g:200}], steps:'Faire dorer le porc en cubes. Ajouter sauce soja et miel, laisser caram\u00e9liser \u00e0 feu doux 10 min en remuant. Servir sur le riz.', t:25},
+{id:'r-riz-cantonais-classique', n:'Riz cantonais classique', cat:'dejeuner', ing:[{id:'riz-basmati-cuit',g:250},{id:'jambonblanc',g:80},{id:'oeuf',g:55},{id:'petitspois',g:60},{id:'saucesoja',g:15}], steps:'Faire cuire l\u2019œuf brouill\u00e9 \u00e0 part. Sauter le riz avec le jambon en d\u00e9s et les petits pois, ajouter l\u2019œuf et la sauce soja.', t:15},
+{id:'r-nems-poulet', n:'Nems au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'carotte',g:60},{id:'saucesoja',g:10},{id:'huile-olive',g:15}], steps:'M\u00e9langer le poulet hach\u00e9 avec la carotte r\u00e2p\u00e9e et la sauce soja. Rouler dans des feuilles de riz, cuire \u00e0 la po\u00eale dans l\u2019huile 8-10 min en retournant.', t:25},
+
+// --- CORÉEN ---
+{id:'r-bibimbap-boeuf', n:'Bibimbap au bœuf', cat:'dejeuner', ing:[{id:'boeuf-hache5',g:150},{id:'riz-blanc-cuit',g:200},{id:'oeuf',g:55},{id:'carotte',g:60},{id:'epinards',g:60},{id:'gochujang',g:15}], steps:'Saisir le bœuf hach\u00e9. Faire sauter s\u00e9par\u00e9ment carotte et \u00e9pinards. Dresser sur le riz avec un œuf au plat et le gochujang.', t:20},
+{id:'r-poulet-bulgogi', n:'Poulet bulgogi, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'saucesoja',g:20},{id:'miel',g:10},{id:'ail',g:8},{id:'riz-blanc-cuit',g:200}], steps:'Mariner le poulet dans sauce soja, miel et ail hach\u00e9 20 min si possible. Saisir 8-10 min \u00e0 feu vif. Servir sur le riz.', t:20},
+{id:'r-kimchi-riz-saute', n:'Riz saut\u00e9 au kimchi et porc', cat:'dejeuner', ing:[{id:'porc-filet',g:130},{id:'kimchi',g:100},{id:'riz-blanc-cuit',g:220},{id:'oeuf',g:55}], steps:'Faire revenir le porc en d\u00e9s, ajouter le kimchi et le riz, saut\u00e9r 5-6 min. Servir avec un œuf au plat dessus.', t:18},
+
+// --- VIETNAMIEN ---
+{id:'r-bobun-boeuf', n:'Bo bun au bœuf', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:150},{id:'nouilles-chinoises-cuites',g:180},{id:'carotte',g:50},{id:'concombre',g:80},{id:'saucesoja',g:15}], steps:'Saisir le bœuf en lamelles \u00e0 feu vif. Dresser les nouilles froides avec carotte et concombre en julienne, ajouter le bœuf et arroser de sauce.', t:18},
+{id:'r-pho-poulet', n:'Pho au poulet', cat:'dejeuner', ing:[{id:'poulet-cuit',g:150},{id:'nouilles-udon-cuites',g:200},{id:'oignon',g:40},{id:'saucesoja',g:10}], steps:'Pr\u00e9parer un bouillon parfum\u00e9 (oignon, \u00e9pices), y plonger les nouilles 2 min. Ajouter le poulet effiloch\u00e9 et servir bien chaud.', t:20},
+
+// --- ESPAGNOL ---
+{id:'r-tortilla-espagnole', n:'Tortilla espagnole (pomme de terre, œuf)', cat:'dejeuner', ing:[{id:'oeuf',g:220},{id:'pdt-cuite',g:250},{id:'oignon',g:50},{id:'huile-olive',g:15}], steps:'Faire revenir pommes de terre en tranches et oignon dans l\u2019huile 10 min. Verser les œufs battus, cuire \u00e0 couvert feu doux 8-10 min, retourner pour dorer l\u2019autre face.', t:25},
+{id:'r-poulet-espagnole', n:'Poulet \u00e0 l\u2019espagnole (poivrons, tomate)', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'poivron',g:150},{id:'tomate',g:100},{id:'riz-blanc-cuit',g:180}], steps:'Faire dorer le poulet, ajouter poivrons et tomate coup\u00e9s, mijoter \u00e0 couvert 20-25 min. Servir sur le riz.', t:35},
+
+// --- GREC / MÉDITERRANÉEN ---
+{id:'r-souvlaki-poulet', n:'Souvlaki de poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'pain-blanc',g:70},{id:'tzatziki',g:50},{id:'tomate',g:50},{id:'oignon',g:30}], steps:'Mariner le poulet en cubes (citron, origan), enfiler en brochettes et griller 10-12 min. Servir dans le pain avec tzatziki, tomate et oignon.', t:25},
+{id:'r-moussaka', n:'Moussaka', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:180},{id:'aubergine',g:250},{id:'bechamel',g:150},{id:'coulistomate',g:100},{id:'emmental',g:40}], steps:'Faire griller les tranches d\u2019aubergine. Pr\u00e9parer une sauce bœuf-tomate mijot\u00e9e 15 min. Monter en couches (aubergine, viande, aubergine), napper de b\u00e9chamel et fromage. Four 30 min \u00e0 200\u00b0C.', t:55},
+{id:'r-salade-grecque-complete', n:'Salade grecque compl\u00e8te', cat:'dejeuner', ing:[{id:'feta',g:80},{id:'concombre',g:150},{id:'tomate',g:150},{id:'olives',g:30},{id:'huile-olive',g:12}], steps:'Couper concombre et tomate en gros morceaux, ajouter la feta en tranche, les olives et un filet d\u2019huile.', t:10},
+
+// --- MOYEN-ORIENT / LIBANAIS ---
+{id:'r-chawarma-poulet', n:'Chawarma de poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'pain-blanc',g:70},{id:'salade',g:30},{id:'tomate',g:50},{id:'houmous',g:30}], steps:'Mariner le poulet aux \u00e9pices chawarma, griller 10 min en lamelles. Garnir le pain avec le poulet, salade, tomate et houmous.', t:22},
+{id:'r-taboule-poulet', n:'Taboul\u00e9 au poulet', cat:'dejeuner', ing:[{id:'semoule-cuite',g:180},{id:'poulet-cuit',g:130},{id:'tomate',g:120},{id:'concombre',g:80},{id:'citron',g:20},{id:'huile-olive',g:10}], steps:'M\u00e9langer la semoule avec tomate et concombre en petits d\u00e9s, le poulet effiloch\u00e9, le jus de citron et l\u2019huile.', t:15},
+{id:'r-kefta-boeuf', n:'Kefta de bœuf, salade', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:180},{id:'oignon',g:40},{id:'salade',g:50},{id:'pain-blanc',g:60}], steps:'M\u00e9langer le bœuf hach\u00e9 avec l\u2019oignon r\u00e2p\u00e9 et les \u00e9pices, former des brochettes allong\u00e9es. Griller 8-10 min. Servir avec salade et pain.', t:20},
+
+// --- NORD-AFRICAIN ---
+{id:'r-tajine-poulet-olives', n:'Tajine de poulet, olives, citron', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'olives',g:40},{id:'citron',g:30},{id:'oignon',g:60},{id:'semoule-cuite',g:180}], steps:'Faire dorer le poulet avec l\u2019oignon, ajouter olives et citron, mijoter \u00e0 couvert 30-35 min. Servir avec la semoule.', t:45},
+{id:'r-tajine-agneau-pruneaux', n:'Tajine d\u2019agneau aux pruneaux', cat:'dejeuner', ing:[{id:'agneau-gigot-cru',g:200},{id:'pruneaux',g:60},{id:'oignon',g:60},{id:'semoule-cuite',g:180}], steps:'Faire dorer l\u2019agneau en morceaux avec l\u2019oignon, ajouter les pruneaux et un peu d\u2019eau, mijoter \u00e0 couvert 40-45 min. Servir avec la semoule.', t:55},
+{id:'r-chakchouka-merguez', n:'Chakchouka aux merguez', cat:'dejeuner', ing:[{id:'merguez-crue',g:120},{id:'oeuf',g:110},{id:'coulistomate',g:180},{id:'poivron',g:100}], steps:'Faire dorer les merguez en tron\u00e7ons, ajouter poivron et coulis, mijoter 10 min. Casser les œufs dedans, couvrir 5-6 min.', t:25},
+
+// --- AMÉRICAIN ---
+{id:'r-poulet-frit-pane', n:'Poulet frit pan\u00e9, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:170},{id:'chapelure',g:40},{id:'oeuf',g:55},{id:'riz-blanc-cuit',g:180}], steps:'Tremper le poulet dans l\u2019œuf battu puis la chapelure. Cuire \u00e0 la po\u00eale ou au four 15-18 min jusqu\u2019\u00e0 dor\u00e9. Servir avec le riz.', t:25},
+{id:'r-mac-and-cheese', n:'Mac and cheese', cat:'dejeuner', ing:[{id:'pates-cuites',g:250},{id:'cheddar',g:100},{id:'lait-demi',g:100},{id:'beurre',g:15}], steps:'Faire fondre le beurre, ajouter le lait et le cheddar r\u00e2p\u00e9 \u00e0 feu doux jusqu\u2019\u00e0 sauce lisse. M\u00e9langer avec les p\u00e2tes cuites.', t:20},
+{id:'r-burger-classique', n:'Burger classique bœuf-cheddar', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:150},{id:'pain-burger',g:90},{id:'cheddar',g:30},{id:'salade',g:20},{id:'ketchup',g:15}], steps:'Former un steak, poêler 3-4 min de chaque c\u00f4t\u00e9 avec le cheddar dessus en fin de cuisson. Monter le burger avec salade et ketchup.', t:15},
+{id:'r-club-sandwich', n:'Club sandwich poulet, bacon', cat:'dejeuner', ing:[{id:'pain-mie-complet',g:90},{id:'poulet-cuit',g:120},{id:'lardons',g:50},{id:'salade',g:20},{id:'mayonnaise',g:15}], steps:'Faire dorer les lardons. Monter le sandwich en \u00e9tages avec pain grill\u00e9, poulet, lardons, salade et mayonnaise.', t:15},
+
+// --- BRÉSILIEN ---
+{id:'r-feijoada', n:'Feijoada simplifi\u00e9e (haricots noirs, porc)', cat:'dejeuner', ing:[{id:'porc-filet',g:150},{id:'haricotsnoirs-cuits',g:250},{id:'lardons',g:50},{id:'riz-blanc-cuit',g:180}], steps:'Faire revenir le porc en d\u00e9s et les lardons, ajouter les haricots noirs, mijoter 20 min. Servir avec le riz.', t:35},
+
+// --- CLASSIQUES / VARIANTES SUPPLÉMENTAIRES ---
+{id:'r-poulet-moutarde', n:'Poulet \u00e0 la moutarde, riz', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'moutarde',g:25},{id:'cremelegere',g:50},{id:'riz-basmati-cuit',g:180}], steps:'Enduire le poulet de moutarde, saisir 6-8 min de chaque c\u00f4t\u00e9. Ajouter la cr\u00e8me, mijoter 5 min. Servir sur le riz.', t:25},
+{id:'r-poulet-chasseur', n:'Poulet chasseur, champignons', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'champignons-cuits',g:150},{id:'coulistomate',g:100},{id:'riz-basmati-cuit',g:180}], steps:'Faire dorer le poulet, ajouter champignons et tomate, mijoter \u00e0 couvert 25 min. Servir sur le riz.', t:35},
+{id:'r-escalope-milanaise', n:'Escalope milanaise, spaghetti', cat:'dejeuner', ing:[{id:'poulet-cru',g:170},{id:'chapelure',g:40},{id:'oeuf',g:55},{id:'pates-cuites',g:200},{id:'coulistomate',g:100}], steps:'Aplatir l\u00e9g\u00e8rement l\u2019escalope, tremper dans l\u2019œuf puis la chapelure. Poêler 4-5 min de chaque c\u00f4t\u00e9. Servir avec les p\u00e2tes et le coulis.', t:25},
+{id:'r-boeuf-bourguignon', n:'Bœuf bourguignon, pommes de terre', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:200},{id:'carotte',g:100},{id:'champignons-cuits',g:100},{id:'vin-rouge-cuisine',g:100},{id:'pdt-cuite',g:200}], steps:'Faire dorer le bœuf en morceaux, ajouter carottes, champignons et vin, mijoter \u00e0 couvert 1h30-2h \u00e0 feu doux. Servir avec les pommes de terre.', t:130},
+{id:'r-porc-ananas', n:'Saut\u00e9 de porc \u00e0 l\u2019ananas, riz', cat:'dejeuner', ing:[{id:'porc-filet',g:170},{id:'ananas',g:120},{id:'poivron',g:80},{id:'riz-basmati-cuit',g:200}], steps:'Saisir le porc en cubes, ajouter poivron et ananas, saut\u00e9r 6-8 min. Servir sur le riz.', t:20},
+{id:'r-filet-mignon-champignons', n:'Filet mignon, sauce champignons', cat:'dejeuner', ing:[{id:'porc-filet',g:180},{id:'champignons-cuits',g:150},{id:'cremelegere',g:50},{id:'pdt-cuite',g:200}], steps:'Poêler le filet mignon en tranches 8-10 min, r\u00e9server. Faire revenir les champignons, ajouter la cr\u00e8me, remettre la viande 2 min. Servir avec les pommes de terre.', t:25},
+{id:'r-cabillaud-sauce-vierge', n:'Cabillaud, sauce vierge', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:180},{id:'tomate',g:100},{id:'huile-olive',g:12},{id:'citron',g:15},{id:'riz-basmati-cuit',g:180}], steps:'Cuire le cabillaud \u00e0 la po\u00eale ou au four 10-12 min. Pr\u00e9parer la sauce vierge (tomate en d\u00e9s, huile, citron, herbes). Servir avec le riz.', t:20},
+{id:'r-thon-grille-riz', n:'Thon grill\u00e9, riz', cat:'dejeuner', ing:[{id:'thon-cru',g:170},{id:'riz-basmati-cuit',g:180},{id:'huile-olive',g:8},{id:'citron',g:15}], steps:'Saisir le thon 1-2 min de chaque c\u00f4t\u00e9 pour un cœur encore rosé. Servir avec le riz et un filet de citron.', t:12},
+{id:'r-dorade-citron', n:'Dorade, sauce citron', cat:'dejeuner', ing:[{id:'dorade-crue',g:200},{id:'citron',g:20},{id:'huile-olive',g:10},{id:'pdt-cuite',g:200}], steps:'Cuire la dorade au four ou \u00e0 la po\u00eale 12-15 min. Arroser de jus de citron et d\u2019huile. Servir avec les pommes de terre.', t:25},
+{id:'r-truite-amandine', n:'Truite amandine', cat:'dejeuner', ing:[{id:'truite-crue',g:200},{id:'amandes',g:25},{id:'beurre',g:15},{id:'pdt-cuite',g:180}], steps:'Poêler la truite 4-5 min de chaque c\u00f4t\u00e9 dans le beurre. Parsemer d\u2019amandes effil\u00e9es dor\u00e9es \u00e0 la derni\u00e8re minute. Servir avec les pommes de terre.', t:20},
+{id:'r-saumon-papillote', n:'Saumon en papillote, l\u00e9gumes', cat:'dejeuner', ing:[{id:'saumon-cru',g:170},{id:'courgette',g:100},{id:'carotte',g:80},{id:'citron',g:15}], steps:'Disposer le saumon et les l\u00e9gumes en lamelles dans une papillote avec un filet de citron. Four 18-20 min \u00e0 200\u00b0C.', t:25},
+{id:'r-omelette-espagnole-legere', n:'Omelette aux l\u00e9gumes', cat:'dejeuner', ing:[{id:'oeuf',g:220},{id:'poivron',g:80},{id:'courgette',g:80},{id:'huile-olive',g:8}], steps:'Faire revenir les l\u00e9gumes 5 min. Verser les œufs battus, cuire \u00e0 couvert feu doux 6-8 min.', t:15},
+{id:'r-croque-madame', n:'Croque madame', cat:'dejeuner', ing:[{id:'pain-mie-complet',g:80},{id:'jambonblanc',g:60},{id:'emmental',g:40},{id:'oeuf',g:55}], steps:'Monter le croque-monsieur, cuire 3-4 min de chaque c\u00f4t\u00e9 \u00e0 la po\u00eale ou au four. Ajouter un œuf au plat dessus.', t:15},
+{id:'r-pates-pesto-poulet', n:'P\u00e2tes au pesto, poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'pates-cuites',g:220},{id:'pesto-vert',g:30},{id:'parmesan',g:15}], steps:'Poêler le poulet en d\u00e9s 8 min. M\u00e9langer avec les p\u00e2tes chaudes et le pesto, parsemer de parmesan.', t:20},
+{id:'r-pates-crevettes', n:'P\u00e2tes aux crevettes, ail', cat:'dejeuner', ing:[{id:'crevettes-cuites',g:180},{id:'pates-cuites',g:220},{id:'ail',g:10},{id:'huile-olive',g:10},{id:'citron',g:10}], steps:'Faire revenir l\u2019ail dans l\u2019huile, ajouter les crevettes 2-3 min pour r\u00e9chauffer. M\u00e9langer avec les p\u00e2tes et un filet de citron.', t:15},
+{id:'r-tofu-legumes-sesame', n:'Po\u00eal\u00e9e de tofu, l\u00e9gumes, s\u00e9same', cat:'dejeuner', ing:[{id:'tofu',g:200},{id:'brocoli',g:120},{id:'carotte',g:80},{id:'huile-sesame',g:10},{id:'saucesoja',g:15}], steps:'Faire saut\u00e9r le tofu en d\u00e9s dans l\u2019huile de s\u00e9same jusqu\u2019\u00e0 dorer. Ajouter les l\u00e9gumes, saut\u00e9r 6-8 min, d\u00e9glacer \u00e0 la sauce soja.', t:18},
+{id:'r-pates-saumonfume-citron', n:'P\u00e2tes au saumon fum\u00e9, cr\u00e8me, citron', cat:'dejeuner', ing:[{id:'saumonfume',g:100},{id:'pates-cuites',g:220},{id:'cremelegere',g:60},{id:'citron',g:10}], steps:'M\u00e9langer les p\u00e2tes chaudes avec la cr\u00e8me, le saumon fum\u00e9 en lani\u00e8res et un filet de citron.', t:12},
+{id:'r-salade-lentilles-saucisse', n:'Salade de lentilles, saucisse', cat:'dejeuner', ing:[{id:'lentilles-cuites',g:250},{id:'saucisse-toulouse-crue',g:120},{id:'oignon',g:40},{id:'vinaigrebalsa',g:10}], steps:'Poêler la saucisse 10-12 min, couper en rondelles. M\u00e9langer avec les lentilles, l\u2019oignon \u00e9minc\u00e9 et le vinaigre.', t:20},
+{id:'r-katsu-curry', n:'Katsu curry (poulet pan\u00e9, riz)', cat:'dejeuner', ing:[{id:'poulet-cru',g:170},{id:'chapelure',g:40},{id:'oeuf',g:55},{id:'curry-japonais-roux',g:40},{id:'riz-basmati-cuit',g:200}], steps:'Paner le poulet (œuf puis chapelure), cuire \u00e0 la po\u00eale 10-12 min. Chauffer le roux de curry avec de l\u2019eau. Servir le poulet tranch\u00e9 sur le riz, nap\u00e9 de curry.', t:25},
+{id:'r-riz-saute-jambon', n:'Riz saut\u00e9 au jambon', cat:'dejeuner', ing:[{id:'jambonblanc',g:100},{id:'riz-basmati-cuit',g:250},{id:'petitspois',g:60},{id:'oeuf',g:55},{id:'saucesoja',g:15}], steps:'Cuire l\u2019œuf brouill\u00e9 \u00e0 part. Sauter le riz avec le jambon en d\u00e9s et les petits pois, ajouter l\u2019œuf et la sauce soja.', t:12},
+{id:'r-buddhabowl-poulet', n:'Buddha bowl au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'quinoa-cuit',g:150},{id:'avocat',g:60},{id:'carotte',g:60},{id:'epinards',g:50}], steps:'Poêler le poulet 8-10 min. Dresser en bol avec le quinoa, l\u2019avocat, la carotte r\u00e2p\u00e9e et les \u00e9pinards crus.', t:18},
+{id:'r-wrap-houmous-vege', n:'Wrap houmous, l\u00e9gumes (v\u00e9g\u00e9)', cat:'dejeuner', ing:[{id:'tortilla',g:70},{id:'houmous',g:80},{id:'concombre',g:60},{id:'carotte',g:50},{id:'salade',g:30}], steps:'Tartiner la tortilla de houmous, garnir de l\u00e9gumes crus coup\u00e9s en b\u00e2tonnets, rouler.', t:8},
+{id:'r-salade-nicoise', n:'Salade ni\u00e7oise', cat:'dejeuner', ing:[{id:'thon-boite',g:120},{id:'oeuf',g:110},{id:'haricotsverts',g:100},{id:'tomate',g:100},{id:'olives',g:20},{id:'huile-olive',g:10}], steps:'Cuire l\u2019œuf dur et les haricots verts. M\u00e9langer tous les ingr\u00e9dients avec un filet d\u2019huile.', t:15},
+{id:'r-curry-rouge-boeuf', n:'Curry rouge tha\u00ef au bœuf', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:160},{id:'pate-curry-verte',g:25},{id:'lait-coco',g:120},{id:'poivron',g:80},{id:'riz-basmati-cuit',g:200}], steps:'Saisir le bœuf en lamelles, r\u00e9server. Faire revenir la p\u00e2te de curry, ajouter le lait de coco et le poivron, mijoter 8 min, remettre le bœuf. Servir sur le riz.', t:22},
+
+// --- BISTRO FRANÇAIS / SOUPES / SALADES / VARIÉTÉ ---
+{id:'r-ratatouille-poulet', n:'Ratatouille au poulet', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'ratatouille',g:300}], steps:'Poêler le poulet en morceaux 8-10 min. R\u00e9chauffer la ratatouille et servir ensemble.', t:15},
+{id:'r-poelee-legumes-hiver-saucisse', n:'Po\u00eal\u00e9e de l\u00e9gumes d\u2019hiver, saucisse', cat:'dejeuner', ing:[{id:'saucisse-toulouse-crue',g:130},{id:'navet',g:100},{id:'carotte',g:100},{id:'pdt-cuite',g:150}], steps:'Poêler la saucisse 10-12 min. Faire revenir navet et carotte en d\u00e9s 10 min, ajouter les pommes de terre.', t:25},
+{id:'r-veloute-potiron', n:'Velout\u00e9 de potiron, croûtons', cat:'dejeuner', ing:[{id:'potiron',g:350},{id:'cremelegere',g:50},{id:'pain-complet',g:40}], steps:'Cuire le potiron \u00e0 l\u2019eau ou \u00e0 la vapeur 15-20 min, mixer avec la cr\u00e8me. Servir avec des croûtons de pain grill\u00e9.', t:25},
+{id:'r-soupe-poisson', n:'Soupe de poisson', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:200},{id:'tomate',g:150},{id:'oignon',g:60},{id:'pain-complet',g:40}], steps:'Faire revenir l\u2019oignon, ajouter le poisson en morceaux et la tomate, mijoter 15-18 min. Mixer si texture veloutée souhait\u00e9e. Servir avec le pain.', t:25},
+{id:'r-salade-chevre-chaud', n:'Salade de ch\u00e8vre chaud', cat:'dejeuner', ing:[{id:'chevre',g:90},{id:'pain-complet',g:50},{id:'salade',g:80},{id:'noix',g:15},{id:'miel',g:10}], steps:'Disposer le ch\u00e8vre sur le pain, faire gratiner 5 min au four/grill. Servir sur la salade avec noix et un filet de miel.', t:12},
+{id:'r-endives-jambon-gratinees', n:'Endives au jambon gratin\u00e9es', cat:'dejeuner', ing:[{id:'endive',g:300},{id:'jambonblanc',g:80},{id:'bechamel',g:120},{id:'emmental',g:40}], steps:'Cuire les endives \u00e0 l\u2019eau 15 min, les envelopper dans le jambon. Napper de b\u00e9chamel et fromage. Four 20 min \u00e0 200\u00b0C.', t:35},
+{id:'r-poireaux-vinaigrette-oeuf', n:'Poireaux vinaigrette, œuf', cat:'dejeuner', ing:[{id:'poireau',g:250},{id:'oeuf',g:110},{id:'vinaigrette',g:20}], steps:'Cuire les poireaux \u00e0 l\u2019eau 12-15 min. Cuire l\u2019œuf dur. Servir les poireaux ti\u00e8des avec la vinaigrette et l\u2019œuf coup\u00e9.', t:20},
+{id:'r-gratin-courgettes', n:'Gratin de courgettes', cat:'dejeuner', ing:[{id:'courgette',g:300},{id:'oeuf',g:110},{id:'cremelegere',g:60},{id:'emmental',g:40}], steps:'Faire revenir les courgettes en rondelles 5 min. M\u00e9langer avec œuf et cr\u00e8me, verser dans un plat, parsemer de fromage. Four 25 min \u00e0 190\u00b0C.', t:35},
+{id:'r-poulet-citron', n:'Poulet au citron, riz', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'citron',g:40},{id:'ail',g:8},{id:'riz-basmati-cuit',g:180}], steps:'Faire dorer le poulet, ajouter jus de citron et ail, mijoter \u00e0 couvert 25 min. Servir sur le riz.', t:35},
+{id:'r-osso-bucco', n:'Osso bucco simplifi\u00e9, riz', cat:'dejeuner', ing:[{id:'veau-escalope-crue',g:200},{id:'tomate',g:150},{id:'carotte',g:80},{id:'riz-blanc-cuit',g:180}], steps:'Faire dorer le veau, ajouter tomate et carotte, mijoter \u00e0 couvert 40-45 min. Servir sur le riz.', t:55},
+{id:'r-dinde-moutarde', n:'Escalope de dinde, sauce moutarde', cat:'dejeuner', ing:[{id:'dinde-cru',g:160},{id:'moutarde',g:20},{id:'cremelegere',g:50},{id:'pdt-cuite',g:200}], steps:'Poêler l\u2019escalope 5-6 min de chaque c\u00f4t\u00e9, r\u00e9server. D\u00e9glacer avec moutarde et cr\u00e8me, remettre la viande 1-2 min. Servir avec les pommes de terre.', t:20},
+{id:'r-roti-porc-pdt', n:'R\u00f4ti de porc, pommes de terre', cat:'dejeuner', ing:[{id:'porc-filet',g:200},{id:'pdt-cuite',g:250},{id:'ail',g:8}], steps:'Rôtir le porc au four avec l\u2019ail 30-35 min \u00e0 200\u00b0C. Servir avec les pommes de terre r\u00f4ties.', t:45},
+{id:'r-choucroute', n:'Choucroute garnie', cat:'dejeuner', ing:[{id:'saucisse-toulouse-crue',g:130},{id:'lardons',g:60},{id:'choux-vert',g:250},{id:'pdt-cuite',g:200}], steps:'Faire revenir lardons et chou, mijoter 25-30 min \u00e0 couvert. Ajouter la saucisse poêl\u00e9e \u00e0 part. Servir avec les pommes de terre.', t:40},
+{id:'r-cassoulet', n:'Cassoulet simplifi\u00e9', cat:'dejeuner', ing:[{id:'saucisse-toulouse-crue',g:120},{id:'porc-filet',g:100},{id:'haricotsblancs-tomate',g:300}], steps:'Faire dorer saucisse et porc, ajouter les haricots blancs, mijoter 20 min \u00e0 couvert.', t:30},
+{id:'r-aligot-simplifie', n:'Aligot simplifi\u00e9, saucisse', cat:'dejeuner', ing:[{id:'pdt-cuite',g:300},{id:'emmental',g:100},{id:'lait-demi',g:40},{id:'saucisse-toulouse-crue',g:120}], steps:'\u00c9craser les pommes de terre en pur\u00e9e avec le lait, incorporer le fromage r\u00e2p\u00e9 \u00e0 feu doux en \u00e9tirant. Servir avec la saucisse poêl\u00e9e.', t:25},
+{id:'r-veloute-champignons', n:'Velout\u00e9 de champignons', cat:'dejeuner', ing:[{id:'champignons-cuits',g:300},{id:'cremelegere',g:60},{id:'pain-complet',g:40}], steps:'Faire revenir les champignons, mixer avec la cr\u00e8me et un peu d\u2019eau. Servir avec le pain.', t:18},
+{id:'r-salade-caprese', n:'Salade caprese', cat:'dejeuner', ing:[{id:'tomate',g:200},{id:'mozzarella',g:125},{id:'huile-olive',g:10}], steps:'Alterner tranches de tomate et de mozzarella, arroser d\u2019huile d\u2019olive.', t:8},
+{id:'r-croque-chevre-miel', n:'Croque au ch\u00e8vre, miel', cat:'dejeuner', ing:[{id:'pain-complet',g:80},{id:'chevre',g:80},{id:'miel',g:12}], steps:'Disposer le ch\u00e8vre sur le pain, filer un peu de miel, passer 5-6 min au four/grill jusqu\u2019\u00e0 fondant.', t:12},
+{id:'r-poulet-brocolis-amandes', n:'Po\u00eal\u00e9e de poulet, brocolis, amandes', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'brocoli',g:180},{id:'amandes',g:15},{id:'huile-olive',g:8}], steps:'Poêler le poulet en morceaux 8 min. Ajouter le brocoli, saut\u00e9r 5 min. Parsemer d\u2019amandes en fin de cuisson.', t:20},
+{id:'r-pates-poulet-champignons-creme', n:'P\u00e2tes au poulet, champignons, cr\u00e8me', cat:'dejeuner', ing:[{id:'poulet-cru',g:150},{id:'champignons-cuits',g:150},{id:'cremelegere',g:60},{id:'pates-cuites',g:220}], steps:'Poêler le poulet 8 min, r\u00e9server. Faire revenir les champignons, ajouter la cr\u00e8me, remettre le poulet. M\u00e9langer avec les p\u00e2tes.', t:25},
+{id:'r-bar-riz-legumes', n:'Filet de bar, riz, l\u00e9gumes', cat:'dejeuner', ing:[{id:'bar-cru',g:180},{id:'riz-basmati-cuit',g:180},{id:'courgette',g:100},{id:'huile-olive',g:8}], steps:'Poêler le bar c\u00f4t\u00e9 peau 4-5 min puis retourner 2 min. Servir avec le riz et la courgette saut\u00e9e.', t:20},
+{id:'r-curry-poisson', n:'Curry de poisson, riz', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:180},{id:'lait-coco',g:120},{id:'coulistomate',g:80},{id:'riz-basmati-cuit',g:180}], steps:'Chauffer lait de coco et coulis avec des \u00e9pices curry, ajouter le poisson en morceaux, mijoter 10-12 min. Servir sur le riz.', t:20},
+{id:'r-riz-cantonais-crevettes', n:'Riz cantonais aux crevettes', cat:'dejeuner', ing:[{id:'crevettes-cuites',g:150},{id:'riz-basmati-cuit',g:220},{id:'oeuf',g:55},{id:'petitspois',g:60},{id:'saucesoja',g:15}], steps:'Cuire l\u2019œuf brouill\u00e9 \u00e0 part. Sauter le riz avec les crevettes et les petits pois, ajouter l\u2019œuf et la sauce soja.', t:15},
+{id:'r-salade-riz-thon-mais', n:'Salade de riz, thon, ma\u00efs', cat:'dejeuner', ing:[{id:'riz-blanc-cuit',g:200},{id:'thon-boite',g:120},{id:'mais',g:80},{id:'tomate',g:80},{id:'huile-olive',g:8}], steps:'M\u00e9langer tous les ingr\u00e9dients froids avec un filet d\u2019huile.', t:10},
+{id:'r-wrap-saumonfume-avocat', n:'Wrap saumon fum\u00e9, avocat', cat:'dejeuner', ing:[{id:'saumonfume',g:100},{id:'tortilla',g:70},{id:'avocat',g:60},{id:'salade',g:20}], steps:'Garnir la tortilla de saumon fum\u00e9, avocat \u00e9cras\u00e9 et salade, rouler.', t:6},
+{id:'r-assiette-charcuterie', n:'Assiette de charcuterie, pain', cat:'dejeuner', ing:[{id:'jambonblanc',g:60},{id:'saucisson',g:50},{id:'pain-blanc',g:80},{id:'concombre',g:80}], steps:'Disposer les charcuteries sur une planche avec le pain et le concombre.', t:5},
+{id:'r-pates-thon-creme-citron', n:'P\u00e2tes au thon, cr\u00e8me, citron', cat:'dejeuner', ing:[{id:'thon-boite',g:130},{id:'pates-cuites',g:220},{id:'cremelegere',g:50},{id:'citron',g:10}], steps:'M\u00e9langer les p\u00e2tes chaudes avec le thon \u00e9miett\u00e9, la cr\u00e8me et un filet de citron.', t:12},
+{id:'r-poulet-roti-legumes-racines', n:'Poulet r\u00f4ti, l\u00e9gumes racines', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:220},{id:'carotte',g:120},{id:'navet',g:100},{id:'pdt-cuite',g:150}], steps:'Rôtir le poulet avec les l\u00e9gumes coup\u00e9s 35-40 min \u00e0 200\u00b0C, en retournant \u00e0 mi-cuisson.', t:45},
+{id:'r-epaule-agneau-confite', n:'\u00c9paule d\u2019agneau confite, l\u00e9gumes', cat:'dejeuner', ing:[{id:'agneau-gigot-cru',g:200},{id:'carotte',g:100},{id:'oignon',g:60},{id:'pdt-cuite',g:180}], steps:'Faire mijoter l\u2019agneau \u00e0 couvert avec les l\u00e9gumes 1h30-2h \u00e0 feu doux jusqu\u2019\u00e0 fondant.', t:120},
+{id:'r-porc-moutarde-ancienne', n:'Filet de porc, moutarde \u00e0 l\u2019ancienne', cat:'dejeuner', ing:[{id:'porc-filet',g:180},{id:'moutarde-ancienne',g:25},{id:'cremelegere',g:50},{id:'pdt-cuite',g:200}], steps:'Poêler le porc en tranches 8-10 min, r\u00e9server. D\u00e9glacer avec moutarde et cr\u00e8me, remettre la viande. Servir avec les pommes de terre.', t:22},
+{id:'r-gambas-ail', n:'Po\u00eal\u00e9e de gambas \u00e0 l\u2019ail', cat:'dejeuner', ing:[{id:'crevettes-cuites',g:200},{id:'ail',g:12},{id:'huile-olive',g:12},{id:'persil',g:5},{id:'riz-basmati-cuit',g:180}], steps:'Faire revenir l\u2019ail dans l\u2019huile, ajouter les gambas 3-4 min pour r\u00e9chauffer, parsemer de persil. Servir avec le riz.', t:12},
+{id:'r-riz-pilaf-legumes', n:'Riz pilaf aux l\u00e9gumes', cat:'dejeuner', ing:[{id:'riz-blanc-cru',g:100},{id:'carotte',g:80},{id:'petitspois',g:60},{id:'oignon',g:40},{id:'huile-olive',g:8}], steps:'Faire revenir l\u2019oignon et le riz cru 2 min, ajouter l\u2019eau et les l\u00e9gumes, cuire \u00e0 couvert 15-18 min.', t:25},
+{id:'r-salade-pates-pesto-tomatescerises', n:'Salade de p\u00e2tes au pesto, tomates cerises', cat:'dejeuner', ing:[{id:'pates-cuites',g:220},{id:'pesto-vert',g:30},{id:'tomate',g:120},{id:'parmesan',g:15}], steps:'M\u00e9langer les p\u00e2tes froides avec le pesto, les tomates cerises coup\u00e9es et le parmesan.', t:10},
+{id:'r-veloute-courgette', n:'Velout\u00e9 de courgette', cat:'dejeuner', ing:[{id:'courgette',g:350},{id:'cremelegere',g:50},{id:'ail',g:5}], steps:'Cuire les courgettes avec l\u2019ail \u00e0 l\u2019eau 15 min, mixer avec la cr\u00e8me.', t:20},
+{id:'r-poulet-yaourt-epices', n:'Poulet mariné au yaourt, \u00e9pices, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:170},{id:'yaourtgrec',g:60},{id:'riz-basmati-cuit',g:200}], steps:'Mariner le poulet dans le yaourt et les \u00e9pices (au moins 20 min). Griller ou poêler 10-12 min. Servir sur le riz.', t:20},
+{id:'r-saumon-puree-patatedouce', n:'Filet de saumon, pur\u00e9e de patate douce', cat:'dejeuner', ing:[{id:'saumon-cru',g:170},{id:'patatedouce-cuite',g:250},{id:'beurre',g:10}], steps:'Poêler ou cuire au four le saumon 10-12 min. \u00c9craser la patate douce en pur\u00e9e avec le beurre.', t:22},
+{id:'r-boulettes-sauce-tomate-spaghetti', n:'Boulettes de viande, sauce tomate, spaghetti', cat:'dejeuner', ing:[{id:'boeuf-hache15',g:180},{id:'coulistomate',g:180},{id:'pates-cuites',g:220},{id:'parmesan',g:15}], steps:'Former des boulettes avec le bœuf hach\u00e9, les dorer puis mijoter dans le coulis 15 min. Servir sur les spaghetti.', t:30},
+{id:'r-assiette-sushis-mixte', n:'Assiette de sushis mixtes', cat:'dejeuner', ing:[{id:'riz-sushi-cuit',g:220},{id:'saumon-cru',g:80},{id:'thon-cru',g:80},{id:'algue-nori',g:8},{id:'saucesoja',g:15}], steps:'Former des makis ou nigiris avec le riz, le poisson cru et l\u2019algue nori. Servir avec la sauce soja.', t:30},
+{id:'r-galettes-sarrasin-completes', n:'Galette de sarrasin compl\u00e8te (jambon, œuf, fromage)', cat:'dejeuner', ing:[{id:'farine-sarrasin',g:60},{id:'oeuf',g:55},{id:'jambonblanc',g:50},{id:'emmental',g:30}], steps:'Pr\u00e9parer la p\u00e2te (farine de sarrasin, eau), cuire la galette. Garnir de jambon, fromage et œuf, replier les bords en carr\u00e9.', t:18},
+{id:'r-crepe-salee-jambonfromage', n:'Cr\u00eape sal\u00e9e jambon-fromage', cat:'dejeuner', ing:[{id:'farine',g:50},{id:'oeuf',g:55},{id:'lait-demi',g:120},{id:'jambonblanc',g:50},{id:'emmental',g:30}], steps:'Pr\u00e9parer la p\u00e2te \u00e0 cr\u00eape, cuire. Garnir de jambon et fromage, replier et laisser fondre 1-2 min.', t:15},
+{id:'r-tortellini-tomate', n:'Tortellini fromage, sauce tomate', cat:'dejeuner', ing:[{id:'pates-cuites',g:250},{id:'coulistomate',g:150},{id:'parmesan',g:20}], steps:'Cuire les tortellini selon indication. Napper de coulis de tomate chaud, parsemer de parmesan.', t:15},
+{id:'r-curry-crevettes-riz', n:'Curry de crevettes, riz', cat:'dejeuner', ing:[{id:'crevettes-cuites',g:180},{id:'lait-coco',g:120},{id:'coulistomate',g:80},{id:'riz-basmati-cuit',g:200}], steps:'Chauffer lait de coco et coulis avec des \u00e9pices, ajouter les crevettes 3-4 min. Servir sur le riz.', t:15},
+{id:'r-dinde-poivrons-oignons', n:'Po\u00eal\u00e9e de dinde, poivrons, oignons', cat:'dejeuner', ing:[{id:'dinde-cru',g:160},{id:'poivron',g:120},{id:'oignon',g:60},{id:'huile-olive',g:8}], steps:'Faire sauter la dinde en lamelles avec poivrons et oignons 10-12 min \u00e0 feu vif.', t:18},
+{id:'r-boeuf-gingembre-riz', n:'Bœuf saut\u00e9 au gingembre, riz', cat:'dejeuner', ing:[{id:'boeuf-fauxfilet',g:160},{id:'gingembre',g:15},{id:'saucesoja',g:20},{id:'riz-basmati-cuit',g:200}], steps:'Saisir le bœuf en lamelles \u00e0 feu vif avec le gingembre r\u00e2p\u00e9, d\u00e9glacer \u00e0 la sauce soja. Servir sur le riz.', t:15},
+{id:'r-poulet-creme-citron-riz', n:'Filet de poulet, sauce cr\u00e8me citron, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'cremelegere',g:60},{id:'citron',g:20},{id:'riz-basmati-cuit',g:200}], steps:'Poêler le poulet 8-10 min, r\u00e9server. D\u00e9glacer avec la cr\u00e8me et le jus de citron, remettre le poulet. Servir sur le riz.', t:18},
+{id:'r-salade-quinoa-feta-concombre', n:'Salade de quinoa, feta, concombre', cat:'dejeuner', ing:[{id:'quinoa-cuit',g:180},{id:'feta',g:70},{id:'concombre',g:120},{id:'huile-olive',g:10}], steps:'M\u00e9langer tous les ingr\u00e9dients froids avec un filet d\u2019huile.', t:10},
+{id:'r-riz-tofu-legumes-croquants', n:'Riz saut\u00e9 au tofu, l\u00e9gumes croquants', cat:'dejeuner', ing:[{id:'tofu',g:180},{id:'riz-basmati-cuit',g:220},{id:'poivron',g:80},{id:'carotte',g:60},{id:'saucesoja',g:15}], steps:'Faire saut\u00e9r le tofu en d\u00e9s jusqu\u2019\u00e0 dorer. Ajouter les l\u00e9gumes en julienne, saut\u00e9r 5 min. Ajouter le riz et la sauce soja.', t:18},
+{id:'r-assiette-fromages', n:'Assiette de fromages, pain, salade', cat:'dejeuner', ing:[{id:'emmental',g:40},{id:'chevre',g:40},{id:'roquefort',g:30},{id:'pain-complet',g:70},{id:'salade',g:30}], steps:'Disposer les fromages sur une planche avec le pain et la salade.', t:5},
+{id:'r-legumes-soleil-oeuf', n:'Po\u00eal\u00e9e de l\u00e9gumes du soleil, œuf', cat:'dejeuner', ing:[{id:'courgette',g:120},{id:'aubergine',g:120},{id:'poivron',g:100},{id:'oeuf',g:110},{id:'huile-olive',g:10}], steps:'Faire saut\u00e9r les l\u00e9gumes 10-12 min dans l\u2019huile. Ajouter un œuf au plat ou brouill\u00e9 pour servir.', t:18},
+{id:'r-poulet-roquefort', n:'Blanc de poulet, sauce roquefort', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'roquefort',g:50},{id:'cremelegere',g:50},{id:'pates-cuites',g:200}], steps:'Poêler le poulet 8-10 min, r\u00e9server. Faire fondre le roquefort avec la cr\u00e8me \u00e0 feu doux, remettre le poulet. Servir avec les p\u00e2tes.', t:20},
+{id:'r-salade-endives-roquefort-noix', n:'Salade d\u2019endives, roquefort, noix', cat:'dejeuner', ing:[{id:'endive',g:200},{id:'roquefort',g:50},{id:'noix',g:20},{id:'vinaigrette',g:15}], steps:'Couper les endives, ajouter le roquefort \u00e9miett\u00e9, les noix et la vinaigrette.', t:8},
+{id:'r-poulet-cacahuete-satay', n:'Poulet sauce satay (cacahu\u00e8te), riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'beurrecacahuete',g:30},{id:'lait-coco',g:60},{id:'saucesoja',g:10},{id:'riz-basmati-cuit',g:200}], steps:'Poêler le poulet 8-10 min. M\u00e9langer beurre de cacahu\u00e8te, lait de coco et sauce soja \u00e0 feu doux pour la sauce, napper le poulet. Servir sur le riz.', t:18},
+{id:'r-thon-mi-cuit-sesame', n:'Thon mi-cuit au s\u00e9same, riz', cat:'dejeuner', ing:[{id:'thon-cru',g:180},{id:'huile-sesame',g:8},{id:'saucesoja',g:15},{id:'riz-basmati-cuit',g:180}], steps:'Rouler le thon dans des graines de s\u00e9same, saisir 1 min de chaque c\u00f4t\u00e9 \u00e0 feu vif pour un cœur cru. Servir avec le riz et la sauce soja.', t:10},
+{id:'r-poulet-basilic-thai', n:'Poulet au basilic tha\u00ef, riz', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'poivron',g:80},{id:'saucesoja',g:15},{id:'riz-basmati-cuit',g:200}], steps:'Faire sauter le poulet hach\u00e9 ou en morceaux avec le poivron \u00e0 feu vif 8-10 min, d\u00e9glacer \u00e0 la sauce soja. Servir sur le riz.', t:18},
+{id:'r-poulet-champignons-vin', n:'Poulet aux champignons, vin blanc', cat:'dejeuner', ing:[{id:'poulet-cuisse-cru',g:200},{id:'champignons-cuits',g:150},{id:'cremelegere',g:50},{id:'riz-basmati-cuit',g:180}], steps:'Faire dorer le poulet, ajouter les champignons, mijoter \u00e0 couvert 20 min. Lier avec la cr\u00e8me en fin de cuisson. Servir sur le riz.', t:30},
+{id:'r-cabillaud-chorizo', n:'Cabillaud, chorizo, pommes de terre', cat:'dejeuner', ing:[{id:'cabillaud-cru',g:180},{id:'chorizo',g:40},{id:'pdt-cuite',g:200}], steps:'Faire revenir le chorizo en d\u00e9s pour lib\u00e9rer son huile color\u00e9e. Ajouter le cabillaud et les pommes de terre, cuire 10-12 min \u00e0 couvert.', t:20},
+{id:'r-riz-sauce-tomate-thon', n:'Riz, sauce tomate, thon', cat:'dejeuner', ing:[{id:'riz-basmati-cuit',g:220},{id:'thon-boite',g:130},{id:'coulistomate',g:120}], steps:'Chauffer le coulis avec le thon \u00e9miett\u00e9 5 min. Servir sur le riz.', t:10},
+{id:'r-poulet-provencale', n:'Poulet \u00e0 la proven\u00e7ale', cat:'dejeuner', ing:[{id:'poulet-cru',g:160},{id:'tomate',g:120},{id:'aubergine',g:100},{id:'ail',g:8},{id:'riz-basmati-cuit',g:180}], steps:'Faire dorer le poulet avec l\u2019ail, ajouter tomate et aubergine coup\u00e9es, mijoter \u00e0 couvert 20-25 min. Servir sur le riz.', t:35},
+{id:'r-oeufs-cocotte-chevre', n:'Œufs cocotte au ch\u00e8vre', cat:'dejeuner', ing:[{id:'oeuf',g:110},{id:'chevre',g:50},{id:'cremelegere',g:30},{id:'pain-complet',g:50}], steps:'Verser la cr\u00e8me dans des ramequins, casser un œuf, ajouter le ch\u00e8vre \u00e9miett\u00e9. Four 10-12 min \u00e0 200\u00b0C. Servir avec le pain.', t:18},
+{id:'r-salade-poulet-mangue-avocat', n:'Salade poulet, mangue, avocat', cat:'dejeuner', ing:[{id:'poulet-cuit',g:150},{id:'mangue',g:100},{id:'avocat',g:70},{id:'salade',g:50}], steps:'Couper tous les ingr\u00e9dients, m\u00e9langer dans un saladier.', t:10},
+{id:'r-porc-curry-japonais', n:'Porc pan\u00e9 curry japonais, riz', cat:'dejeuner', ing:[{id:'porc-filet',g:170},{id:'chapelure',g:40},{id:'oeuf',g:55},{id:'curry-japonais-roux',g:40},{id:'riz-basmati-cuit',g:200}], steps:'Paner le porc (œuf puis chapelure), cuire \u00e0 la po\u00eale 10-12 min. Chauffer le roux de curry avec de l\u2019eau. Servir le porc tranch\u00e9 sur le riz, nap\u00e9 de curry.', t:25},
 ];
 
 /* ============================= ÉTAT & PERSISTANCE ============================= */
@@ -1064,7 +1414,7 @@ function openIngredientPicker(context){ VIEW.modal={type:'ingredient-picker', co
 function modalIngredientPicker(m){
   const q = (m.search||'').toLowerCase();
   const ings = allIngredients().filter(i=>i.n.toLowerCase().includes(q)).slice(0,40);
-  const items = ings.map(i=>'<div class="ac-item" onclick="pickIngredient(\''+i.id+'\')" style="cursor:pointer;"><div>'+esc(i.n)+'</div><div class="k num">'+r0(i.k)+' kcal \u00b7 '+round(i.p)+'g prot /100g</div></div>').join('') || '<div class="empty">Aucun r\u00e9sultat.</div>';
+  const items = ings.map(i=>'<div class="ac-item" onclick="pickIngredient(\''+i.id+'\')" style="cursor:pointer;"><div>'+esc(i.n)+'</div><div class="k num">'+r0(i.k)+' kcal \u00b7 '+round(i.p)+'g prot /100g'+(i.uw?' \u00b7 \u2248'+i.uw+'g/'+esc(i.ul):'')+'</div></div>').join('') || '<div class="empty">Aucun r\u00e9sultat.</div>';
   return '<div class="sheet-header"><h2 style="font-size:16px;">Choisir un ingr\u00e9dient</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
     + '<div class="field"><input id="ing-search" placeholder="Rechercher\u2026" value="'+esc(m.search||'')+'" oninput="onIngSearch(this.value)"></div>'
     + '<div style="max-height:46vh; overflow-y:auto; border:1px solid var(--line); border-radius:2px;">'+items+'</div>'
@@ -1088,9 +1438,18 @@ function pickIngredient(id){
 }
 function modalLogIngredientQty(m){
   const ing = findIngredient(m.id);
-  const factor = m.qty/100;
+  const hasUnit = !!ing.uw;
+  if(m.mode===undefined) m.mode = 'g';
+  if(m.pieces===undefined) m.pieces = 1;
+  const grams = m.mode==='unit' ? m.pieces*ing.uw : m.qty;
+  const factor = grams/100;
+  const toggle = hasUnit ? '<div class="person-switch" style="margin-bottom:16px;"><button class="'+(m.mode==='g'?'active':'')+'" onclick="setIngQtyMode(\'g\')">Grammes</button><button class="'+(m.mode==='unit'?'active':'')+'" onclick="setIngQtyMode(\'unit\')">Nombre</button></div>' : '';
+  const qtyField = m.mode==='unit'
+    ? '<div class="field"><label>Nombre de '+esc(ing.ul)+'(s)</label><input type="number" step="0.5" value="'+m.pieces+'" onchange="VIEW.modal.pieces=parseFloat(this.value)||0; render();"></div><p style="color:var(--text-dim); font-size:12px; margin-top:-10px;">\u2248 '+ing.uw+' g / '+esc(ing.ul)+' \u2014 soit '+r0(grams)+' g au total</p>'
+    : '<div class="field"><label>Quantit\u00e9 (g)</label><input type="number" value="'+m.qty+'" onchange="VIEW.modal.qty=parseFloat(this.value)||0; render();"></div>';
   return '<div class="sheet-header"><h2 style="font-size:16px;">'+esc(ing.n)+'</h2><button class="back" onclick="closeModal()">Fermer</button></div>'
-    + '<div class="field"><label>Quantit\u00e9 (g)</label><input type="number" value="'+m.qty+'" onchange="VIEW.modal.qty=parseFloat(this.value)||0; render();"></div>'
+    + toggle
+    + qtyField
     + '<div class="macro-preview">'
     + '<div class="m"><div class="v num">'+r0(ing.k*factor)+'</div><div class="l">kcal</div></div>'
     + '<div class="m"><div class="v num">'+round(ing.p*factor)+'</div><div class="l">prot (g)</div></div>'
@@ -1098,8 +1457,9 @@ function modalLogIngredientQty(m){
     + '<div class="m"><div class="v num">'+round(ing.f*factor)+'</div><div class="l">lip (g)</div></div>'
     + '</div>'
     + personPillsField()
-    + '<button class="btn primary full" onclick="logIngredient(\''+m.id+'\', '+m.qty+')">Ajouter au journal</button>';
+    + '<button class="btn primary full" onclick="logIngredient(\''+m.id+'\', '+grams+')">Ajouter au journal</button>';
 }
+function setIngQtyMode(mode){ VIEW.modal.mode = mode; render(); }
 function logIngredient(id, grams){
   const people = VIEW.logFor && VIEW.logFor.length ? VIEW.logFor : [activePerson().id];
   people.forEach(pid=>{
